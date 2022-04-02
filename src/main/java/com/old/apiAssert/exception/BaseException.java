@@ -1,4 +1,4 @@
-package com.old;
+package com.old.apiAssert.exception;
 
 /**
  **/

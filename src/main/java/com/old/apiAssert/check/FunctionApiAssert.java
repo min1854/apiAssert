@@ -1,4 +1,4 @@
-package com.old.check;
+package com.old.apiAssert.check;
 
 import lombok.Data;
 

@@ -1,6 +1,6 @@
-package com.old.check;
+package com.old.apiAssert.check;
 
-import com.old.Holder;
+import com.old.apiAssert.Holder;
 import lombok.Data;
 
 import java.util.Collection;

@@ -1,7 +1,7 @@
-package com.old.check;
+package com.old.apiAssert.check;
 
 
-import com.old.BaseException;
+import com.old.apiAssert.exception.BaseException;
 
 import java.util.Collection;
 

@@ -1,7 +1,9 @@
-package com.old;
+package com.old.apiAssert;
 
-import com.old.api.ApiAssert;
-import com.old.check.*;
+import com.old.apiAssert.api.ApiAssert;
+import com.old.apiAssert.check.*;
+import com.old.apiAssert.exception.ApiAssertException;
+import com.old.apiAssert.exception.BaseException;
 import org.junit.Test;
 
 import java.util.function.Consumer;
@@ -13,11 +15,12 @@ public class ApiAssertTest {
 
     @Test
     public void testTestCodeAssert() {
-        ApiAssert<?> apiAssert = TestCodeAssert.create(VerifyException::new)
-                .isNull(null, "")
-                .isEmpty(null, "")
+        ApiAssert<?> apiAssert = TestCodeAssert.start(ApiAssertException::new)
+                .isNull(new Object(), "")
+                .isEmpty(new Object(), "")
                 .isTrue(false, "")
                 .isFalse(true, "");
+        ((TestCodeAssert) apiAssert).throwRuntime(new RuntimeException());
     }
 
     @Test

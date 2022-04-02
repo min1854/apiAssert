@@ -1,9 +1,7 @@
-package com.old.check;
+package com.old.apiAssert.check;
 
-import com.old.BaseException;
+import com.old.apiAssert.exception.BaseException;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 /**
