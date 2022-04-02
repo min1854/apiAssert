@@ -1,9 +1,7 @@
 package com.old;
 
-import com.old.check.FirstApiAssert;
-import com.old.check.HardCodeApiAssert;
-import com.old.check.RelectionApiAssert;
-import com.old.check.TempApiAssert;
+import com.old.api.ApiAssert;
+import com.old.check.*;
 import org.junit.Test;
 
 import java.util.function.Consumer;
@@ -12,6 +10,15 @@ import java.util.function.Consumer;
  *
  */
 public class ApiAssertTest {
+
+    @Test
+    public void testTestCodeAssert() {
+        ApiAssert<?> apiAssert = TestCodeAssert.create(VerifyException::new)
+                .isNull(null, "")
+                .isEmpty(null, "")
+                .isTrue(false, "")
+                .isFalse(true, "");
+    }
 
     @Test
     public void testApiAssert() {

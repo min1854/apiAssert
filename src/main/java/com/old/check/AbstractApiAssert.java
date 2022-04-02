@@ -1,26 +1,27 @@
 package com.old.check;
 
-import com.old.ApiAssert;
+import com.old.api.ApiAssert;
 
 import java.util.Collection;
 
-public abstract class AbstractApiAssert implements ApiAssert {
+public abstract class AbstractApiAssert<T> implements ApiAssert<T> {
 
 
     @Override
-    public ApiAssert isNull(Object obj, String msg) {
-        judge(obj == null, msg);
+    public ApiAssert isNull(T t, String msg) {
+        judge(t == null, msg);
         return this;
     }
 
 
     @Override
-    public ApiAssert isEmpty(Object obj, String msg) {
-        judge(obj == null, msg);
-        if (obj instanceof Collection) {
-            judge(((Collection<?>) obj).isEmpty(), msg);
-        } else if (obj instanceof String) {
-            judge(((String) obj).isEmpty(), msg);
+    public ApiAssert isEmpty(T t, String msg) {
+        if (t == null) {
+            judge(true, msg);
+        } else if (t instanceof Collection) {
+            judge(((Collection<?>) t).isEmpty(), msg);
+        } else if (t instanceof String) {
+            judge(((String) t).isEmpty(), msg);
         }
         return this;
     }
@@ -37,9 +38,7 @@ public abstract class AbstractApiAssert implements ApiAssert {
         return this;
     }
 
-    protected void judge(boolean condition, String msg) {
-
-    }
+    protected abstract void judge(boolean condition, String msg);
 
 
 }
