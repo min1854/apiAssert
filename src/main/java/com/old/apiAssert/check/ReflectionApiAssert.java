@@ -2,21 +2,14 @@ package com.old.apiAssert.check;
 
 import com.old.apiAssert.api.ApiAssert;
 import com.old.apiAssert.exception.ApiAssertException;
-import com.old.apiAssert.exception.BaseException;
 import lombok.Getter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 不够通用，问题在于 exception 的 msg 只能在构造方法中赋值，无法使用 set 方法
- * <p>
- * 这个足够通用了，但是又感觉有些鸡肋，或是有些过分了
- * <p>
- * 第2个版本
+ * 指定异常的类型，反射创建异常，如果条件成立立即抛出
+ * @author min
  **/
 @Getter
 public class ReflectionApiAssert<E extends RuntimeException> implements ApiAssert<Object> {

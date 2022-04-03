@@ -2,16 +2,15 @@ package com.old.apiAssert.check;
 
 import com.old.apiAssert.Holder;
 import com.old.apiAssert.api.ApiAssert;
-import lombok.Data;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * 第4个版本
+ * 当第一个条件成立就会保存异常信息，不会再替换异常信息，异常由最终方法决定是否抛出，不会自主抛出，由调用者决定
+ * @author min
  */
-@Data
 public class FirstApiAssert implements ApiAssert<Object> {
 
     private String errorMsg;
@@ -71,8 +70,8 @@ public class FirstApiAssert implements ApiAssert<Object> {
      * @param holder
      * @return
      */
-    public FirstApiAssert holder(Holder holder) {
-        holder.setFlag(isSuccess());
+    public FirstApiAssert holder(Holder<Boolean> holder) {
+        holder.setData(isSuccess());
         return this;
     }
 

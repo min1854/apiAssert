@@ -3,14 +3,47 @@ package com.old.apiAssert.api;
 
 import java.util.function.Supplier;
 
+/**
+ * 所有检查器的顶级接口
+ * @author min
+ */
 public interface ApiAssert<T> {
 
+    /**
+     * 传入对象为空，则抛出异常信息
+     * @param obj
+     * @param msg 错误信息
+     * @return
+     * @throws RuntimeException
+     */
     ApiAssert<T> isNull(T obj, String msg) throws RuntimeException;
 
+    /**
+     * 传入对象为空，则抛出异常信息
+     * 包含 String。Collection、数组 如果为空或者是长度为 0 都会抛出异常信息
+     * @param obj
+     * @param msg 错误信息
+     * @return
+     * @throws RuntimeException
+     */
     ApiAssert<T> isEmpty(T obj, String msg) throws RuntimeException;
 
+    /**
+     *  如果条件为真，则抛出异常信息
+     * @param condition 条件
+     * @param msg 错误信息
+     * @return
+     * @throws RuntimeException
+     */
     ApiAssert<T> isTrue(boolean condition, String msg) throws RuntimeException;
 
+    /**
+     *  如果条件为假，则抛出异常信息
+     * @param condition 条件
+     * @param msg 错误信息
+     * @return
+     * @throws RuntimeException
+     */
     ApiAssert<T> isFalse(boolean condition, String msg) throws RuntimeException;
 
     default void throwThrowable(Supplier<Throwable> throwable) throws Throwable {

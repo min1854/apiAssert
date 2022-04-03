@@ -4,7 +4,6 @@ import com.old.apiAssert.api.ApiAssert;
 import com.old.apiAssert.check.*;
 import com.old.apiAssert.entity.TestEntity;
 import com.old.apiAssert.exception.ApiAssertException;
-import com.old.apiAssert.exception.BaseException;
 import com.old.apiAssert.exception.NoArgConstructorException;
 import org.junit.Test;
 
@@ -21,7 +20,7 @@ public class ApiAssertTest {
         System.out.println();
         try {
             FirstApiAssert apiAssert = FirstApiAssert.create();
-            Holder hodler = Holder.holder();
+            Holder<Boolean> hodler = Holder.holder();
             apiAssert.isNull(new Object(), "asdf")
                     .isEmpty("不为空", "asdfadsf")
                     .isNull(new Object(), "空")
@@ -39,7 +38,7 @@ public class ApiAssertTest {
                         System.out.println("当前有无异常：" + flag + "异常信息为：" + errorMsg);
                     })
                     .failThrow(ApiAssertException::new);
-            if (hodler.getFlag()) {
+            if (hodler.getData()) {
                 System.out.println("此时无异常");
             }
             apiAssert.isNull(null, "对象为空");
@@ -62,6 +61,7 @@ public class ApiAssertTest {
         ;
         System.out.println(apiAssert.getClass());
         ((ApiAssert) apiAssert).throwRuntime(new RuntimeException());
+        // apiAssert.isNull("", new Object());
     }
 
 
@@ -108,23 +108,7 @@ public class ApiAssertTest {
 
         System.out.println();
         try {
-            throw new BaseException("");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        System.out.println();
-        try {
-            HardCodeApiAssert.start(new BaseException(""))
-                    .isNull(null, "asdf");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        System.out.println();
-        try {
-            HardCodeApiAssert apiAssert = HardCodeApiAssert.start(new BaseException(""));
-            apiAssert.isNull(null, "asdf");
         } catch (Exception e) {
             e.printStackTrace();
         }

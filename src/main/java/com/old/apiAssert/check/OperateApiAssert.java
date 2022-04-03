@@ -9,12 +9,13 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
- * 第6个版本，另一种思路
+ * 传入对象，可以对对象与对象内部属性进行判断，如果条件成立会立即抛出异常
+ * @author min
  */
 @Data
 public class OperateApiAssert<T> implements ApiAssert<T> {
 
-    private T obj;
+    private final T obj;
 
     private Function<String, RuntimeException> exceptionFunction;
 
@@ -92,6 +93,31 @@ public class OperateApiAssert<T> implements ApiAssert<T> {
         Boolean condition = function.apply(this.obj);
         objectApiAssert.isNull(condition, "校验结果为空");
         return (OperateApiAssert<T>) objectApiAssert.isFalse(function.apply(this.obj), msg);
+    }
+
+
+    /**
+     * 目前感觉这个还是有些不好，暂时不开放
+     * @param msg
+     * @param obj
+     * @return
+     * @throws RuntimeException
+     */
+    private OperateApiAssert<T> isNull(String msg, Object obj) throws RuntimeException {
+        return (OperateApiAssert<T>) objectApiAssert.isNull(obj, msg);
+    }
+
+
+    private OperateApiAssert<T> isEmpty(String msg, Object obj) throws RuntimeException {
+        return (OperateApiAssert<T>) objectApiAssert.isEmpty(obj, msg);
+    }
+
+    private OperateApiAssert<T> isTrue(String msg, boolean condition) throws RuntimeException {
+        return (OperateApiAssert<T>) objectApiAssert.isTrue(condition, msg);
+    }
+
+    private OperateApiAssert<T> isFalse(String msg, boolean condition) throws RuntimeException {
+        return (OperateApiAssert<T>) objectApiAssert.isFalse(condition, msg);
     }
 
 

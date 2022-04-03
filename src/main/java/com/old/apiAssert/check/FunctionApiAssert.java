@@ -7,7 +7,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
- * 模板，经过了测试的模板代码，其他的检查器都类似这种代码进行编写
+ * 异常生成由调用者提供，如果条件成立会立刻抛出指定的异常
+ * @author min
  */
 public class FunctionApiAssert implements ApiAssert<Object> {
 
@@ -25,9 +26,7 @@ public class FunctionApiAssert implements ApiAssert<Object> {
 
             @Override
             protected <S extends ApiAssert<Object>> S self() {
-                {
                     return (S) FunctionApiAssert.this;
-                }
             }
         };
     }

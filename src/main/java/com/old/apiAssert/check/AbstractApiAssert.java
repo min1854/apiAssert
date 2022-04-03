@@ -2,8 +2,15 @@ package com.old.apiAssert.check;
 
 import com.old.apiAssert.api.ApiAssert;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 
+/**
+ * 异常的通用检查类
+ * @author min
+ */
 public abstract class AbstractApiAssert<T> implements ApiAssert<T> {
 
 
@@ -22,6 +29,8 @@ public abstract class AbstractApiAssert<T> implements ApiAssert<T> {
             judge(((Collection<?>) t).isEmpty(), msg);
         } else if (t instanceof String) {
             judge(((String) t).isEmpty(), msg);
+        } else if(t.getClass().isArray()) {
+            judge(Array.getLength(t) == 0, msg);
         }
         return self();
     }
@@ -38,6 +47,11 @@ public abstract class AbstractApiAssert<T> implements ApiAssert<T> {
         return self();
     }
 
+    /**
+     * 判断条件是否成立
+     * @param condition
+     * @param msg
+     */
     protected void judge(boolean condition, String msg) {
         if(condition) {
             established(msg);
