@@ -4,6 +4,7 @@ import com.old.apiAssert.api.ApiAssert;
 import com.old.apiAssert.check.*;
 import com.old.apiAssert.exception.ApiAssertException;
 import com.old.apiAssert.exception.BaseException;
+import com.old.apiAssert.exception.NoArgConstructorException;
 import org.junit.Test;
 
 import java.util.function.Consumer;
@@ -25,13 +26,23 @@ public class ApiAssertTest {
     }
 
     @Test
-    public void testApiAssert() {
+    public void testReflectionApiAssert() {
+        ApiAssert apiAssert = ReflectionApiAssert.create(NoArgConstructorException.class)
+                .isNull(new Object(), "")
+                .isEmpty(new Object(), "")
+                .isTrue(false, "")
+                .isFalse(true, "");
+        System.out.println(apiAssert.getClass());
+
         try {
-            RelectionApiAssert apiAssert = RelectionApiAssert.start(BaseException.class);
-            apiAssert.isFalse(false, "");
-        } catch (Exception e) {
+            apiAssert.isTrue(true, "异常");
+        } catch (RuntimeException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testApiAssert() {
 
         System.out.println();
         try {
@@ -55,15 +66,6 @@ public class ApiAssertTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        System.out.println();
-        try {
-            TempApiAssert apiAssert = TempApiAssert.start();
-            apiAssert.isNull(null, "asdf");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
 
         System.out.println();
         try {
