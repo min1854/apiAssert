@@ -10,7 +10,7 @@ public abstract class AbstractApiAssert<T> implements ApiAssert<T> {
     @Override
     public ApiAssert<T> isNull(T t, String msg) {
         judge(t == null, msg);
-        return this;
+        return self();
     }
 
 
@@ -23,19 +23,19 @@ public abstract class AbstractApiAssert<T> implements ApiAssert<T> {
         } else if (t instanceof String) {
             judge(((String) t).isEmpty(), msg);
         }
-        return this;
+        return self();
     }
 
     @Override
     public ApiAssert<T> isTrue(boolean condition, String msg) {
         judge(condition, msg);
-        return this;
+        return self();
     }
 
     @Override
     public ApiAssert<T> isFalse(boolean condition, String msg) {
         judge(!condition, msg);
-        return this;
+        return self();
     }
 
     protected void judge(boolean condition, String msg) {
@@ -57,5 +57,11 @@ public abstract class AbstractApiAssert<T> implements ApiAssert<T> {
 
     }
 
+    /**
+     * 返回自身
+     * @param <S>
+     * @return
+     */
+    protected abstract <S extends ApiAssert<T>> S self();
 
 }

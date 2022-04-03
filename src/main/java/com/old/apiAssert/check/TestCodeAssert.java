@@ -14,7 +14,7 @@ public class TestCodeAssert implements ApiAssert<Object> {
     private InternalAssert internalAssert;
 
 
-    private static class InternalAssert extends AbstractApiAssert<Object> {
+    private class InternalAssert extends AbstractApiAssert<Object> {
         private Function<String, RuntimeException> function;
 
         public InternalAssert(Function<String, RuntimeException> function) {
@@ -25,11 +25,15 @@ public class TestCodeAssert implements ApiAssert<Object> {
         protected void established(String msg) {
             throw function.apply(msg);
         }
+
+        @Override
+        protected <S extends ApiAssert<Object>> S self() {
+            return (S) TestCodeAssert.this;
+        }
     }
 
 
-
-    private TestCodeAssert(Function<String, RuntimeException> function){
+    private TestCodeAssert(Function<String, RuntimeException> function) {
         internalAssert = new InternalAssert(function);
     }
 
@@ -38,7 +42,7 @@ public class TestCodeAssert implements ApiAssert<Object> {
     }
 
     public static ApiAssert<Object> create(Supplier<RuntimeException> supplier) {
-        return new TestCodeAssert(msg -> supplier.get());
+        return create(msg -> supplier.get());
     }
 
     public static ApiAssert<Object> newInstance(Supplier<RuntimeException> supplier) {

@@ -15,11 +15,12 @@ public class ApiAssertTest {
 
     @Test
     public void testTestCodeAssert() {
-        ApiAssert<?> apiAssert = TestCodeAssert.start(ApiAssertException::new)
+        ApiAssert<Object> apiAssert = TestCodeAssert.newInstance(ApiAssertException::new)
                 .isNull(new Object(), "")
                 .isEmpty(new Object(), "")
                 .isTrue(false, "")
                 .isFalse(true, "");
+        System.out.println(apiAssert.getClass());
         ((TestCodeAssert) apiAssert).throwRuntime(new RuntimeException());
     }
 
