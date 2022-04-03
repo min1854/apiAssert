@@ -1,88 +1,121 @@
 package com.old.apiAssert.check;
 
+import com.old.apiAssert.api.ApiAssert;
 import lombok.Data;
 
 import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * 第6个版本，另一种思路
  */
 @Data
-public class OperateApiAssert<T> {
+public class OperateApiAssert<T> implements ApiAssert<T> {
 
     private T obj;
 
+    private Function<String, RuntimeException> exceptionFunction;
 
-    public static <T> OperateApiAssert start(T obj) {
-        return new OperateApiAssert(obj);
+    private InternalAssert internalAssert;
+
+    private ObjectApiAssert objectApiAssert;
+
+
+    public static <T> OperateApiAssert<T> create(T obj, Function<String, RuntimeException> exceptionFunction) {
+        return new OperateApiAssert<T>(obj, exceptionFunction);
     }
 
-    public OperateApiAssert(T obj) {
+
+    public static <T> OperateApiAssert<T> create(T obj, Supplier<RuntimeException> exceptionSupplier) {
+        return new OperateApiAssert<T>(obj, msg -> exceptionSupplier.get());
+    }
+
+    public static <T> OperateApiAssert<T> newInstance(T obj, Supplier<RuntimeException> exceptionSupplier) {
+        return create(obj, exceptionSupplier);
+    }
+
+    public OperateApiAssert(T obj, Function<String, RuntimeException> exceptionFunction) {
         this.obj = obj;
+        this.exceptionFunction = exceptionFunction;
+        internalAssert = new InternalAssert();
+        objectApiAssert = new ObjectApiAssert() {
+            @Override
+            protected void established(String msg) throws RuntimeException {
+                internalAssert.throwRuntime(exceptionFunction.apply(msg));
+            }
+
+            @Override
+            protected <S extends ApiAssert<Object>> S self() {
+                return (S) OperateApiAssert.this;
+            }
+        };
     }
 
-    public OperateApiAssert isNull(String msg) {
-        return isNull(obj, msg);
-    }
+    private class InternalAssert extends AbstractApiAssert<T> {
 
-    public OperateApiAssert isNull(Object obj, String msg) {
-        throwBaseException(obj == null, msg);
-        return this;
-    }
-
-    public <R> OperateApiAssert isEmpty(Function<T, R> function, String msg) {
-        isEmpty(function.apply(obj), msg);
-        return this;
-    }
-
-    public OperateApiAssert isEmpty(String msg) {
-        isEmpty(obj, msg);
-        return this;
-    }
-
-    /**
-     * @param function
-     * @param msg
-     * @return
-     */
-    public OperateApiAssert process(Function<T, Boolean> function, String msg) {
-        throwBaseException(function.apply(obj), msg);
-        return this;
-    }
-
-    public OperateApiAssert process(Consumer<T> consumer) {
-        consumer.accept(this.obj);
-        return this;
-    }
-
-
-    public OperateApiAssert isEmpty(Object obj, String msg) {
-        throwBaseException(obj == null, msg);
-        if (obj instanceof Collection) {
-            throwBaseException(((Collection<?>) obj).isEmpty(), msg);
-        } else if (obj instanceof String) {
-            throwBaseException(((String) obj).isEmpty(), msg);
+        @Override
+        protected void established(String msg) throws RuntimeException {
+            throw exceptionFunction.apply(msg);
         }
-        return this;
-    }
 
-    public OperateApiAssert isTrue(boolean condition, String msg) {
-        throwBaseException(condition, msg);
-        return this;
-    }
-
-    public OperateApiAssert isFalse(boolean condition, String msg) {
-        throwBaseException(!condition, msg);
-        return this;
-    }
-
-
-    private void throwBaseException(boolean condition, String msg) {
-        if (condition) {
-            //throw exception.apply(msg);
+        @Override
+        protected ApiAssert<T> self() {
+            return (ApiAssert<T>) OperateApiAssert.this;
         }
+    }
+
+    public OperateApiAssert<T> isNull(String msg) {
+        return (OperateApiAssert<T>) internalAssert.isNull(this.obj, msg);
+    }
+
+    public <R> OperateApiAssert<T> isNull(Function<T, R> function, String msg) {
+        return (OperateApiAssert<T>) objectApiAssert.isNull(function.apply(this.obj), msg);
+    }
+
+    public <R> OperateApiAssert<T> isEmpty(Function<T, R> function, String msg) {
+        return (OperateApiAssert<T>) objectApiAssert.isEmpty(function.apply(this.obj), msg);
+    }
+
+    public OperateApiAssert<T> isEmpty(String msg) {
+        return (OperateApiAssert<T>) internalAssert.isEmpty(this.obj, msg);
+    }
+
+    public OperateApiAssert<T> isTrue(Function<T, Boolean> function, String msg) {
+        Boolean condition = function.apply(this.obj);
+        objectApiAssert.isNull(condition, "校验结果为空");
+        return (OperateApiAssert<T>) objectApiAssert.isTrue(condition, msg);
+    }
+
+    public OperateApiAssert<T> isFalse(Function<T, Boolean> function, String msg) {
+        Boolean condition = function.apply(this.obj);
+        objectApiAssert.isNull(condition, "校验结果为空");
+        return (OperateApiAssert<T>) objectApiAssert.isFalse(function.apply(this.obj), msg);
+    }
+
+
+
+
+
+    @Override
+    public OperateApiAssert<T> isNull(T obj, String msg) throws RuntimeException {
+        return (OperateApiAssert<T>) internalAssert.isNull(obj, msg);
+    }
+
+    @Override
+    public OperateApiAssert<T> isEmpty(T obj, String msg) throws RuntimeException {
+        return (OperateApiAssert<T>) internalAssert.isEmpty(obj, msg);
+    }
+
+    @Override
+    public OperateApiAssert<T> isTrue(boolean condition, String msg) throws RuntimeException {
+        return (OperateApiAssert<T>) internalAssert.isTrue(condition, msg);
+    }
+
+    @Override
+    public OperateApiAssert<T> isFalse(boolean condition, String msg) throws RuntimeException {
+        return (OperateApiAssert<T>) internalAssert.isFalse(condition, msg);
     }
 
 }

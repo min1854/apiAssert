@@ -1,7 +1,5 @@
 package com.old.apiAssert.exception;
 
-/**
- **/
 public class BaseException extends RuntimeException{
 
     public String defaultMessage;

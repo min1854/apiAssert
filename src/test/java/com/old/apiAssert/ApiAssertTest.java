@@ -2,6 +2,7 @@ package com.old.apiAssert;
 
 import com.old.apiAssert.api.ApiAssert;
 import com.old.apiAssert.check.*;
+import com.old.apiAssert.entity.TestEntity;
 import com.old.apiAssert.exception.ApiAssertException;
 import com.old.apiAssert.exception.BaseException;
 import com.old.apiAssert.exception.NoArgConstructorException;
@@ -13,6 +14,22 @@ import java.util.function.Consumer;
  *
  */
 public class ApiAssertTest {
+
+    @Test
+    public void testOperateApiAssert() {
+        TestEntity entity = new TestEntity();
+        entity.setId(1);
+        OperateApiAssert<TestEntity> apiAssert = OperateApiAssert.create(entity, NoArgConstructorException::new)
+                .isNull("");
+        apiAssert
+                .isEmpty(TestEntity::getId, "id 为空")
+                .isTrue(TestEntity::getDeleteFlag, "")
+                // .isFalse(TestEntity::getDeleteFlag, "")
+        ;
+        System.out.println(apiAssert.getClass());
+        ((ApiAssert) apiAssert).throwRuntime(new RuntimeException());
+    }
+
 
     @Test
     public void testTestCodeAssert() {
