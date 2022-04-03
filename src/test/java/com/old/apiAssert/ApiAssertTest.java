@@ -57,6 +57,10 @@ public class ApiAssertTest {
         apiAssert
                 .isEmpty(TestEntity::getId, "id 为空")
                 .isTrue(TestEntity::getDeleteFlag, "")
+                .isNull(new Object(), "")
+                .isEmpty(entity, "")
+                .isTrue(false, "")
+                .isFalse(true, "")
         // .isFalse(TestEntity::getDeleteFlag, "")
         ;
         System.out.println(apiAssert.getClass());

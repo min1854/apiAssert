@@ -19,6 +19,16 @@ public interface ApiAssert<T> {
     ApiAssert<T> isNull(T obj, String msg) throws RuntimeException;
 
     /**
+     * 不为空，则抛出异常
+     * @param obj
+     * @param msg 异常信息
+     * @return
+     */
+    default ApiAssert<T> nonNull(T obj, String msg) {
+        return isTrue(obj != null, msg);
+    }
+
+    /**
      * 传入对象为空，则抛出异常信息
      * 包含 String。Collection、数组 如果为空或者是长度为 0 都会抛出异常信息
      * @param obj

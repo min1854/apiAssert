@@ -13,7 +13,7 @@ import java.util.function.Supplier;
  * @author min
  */
 @Data
-public class OperateApiAssert<T> implements ApiAssert<T> {
+public class OperateApiAssert<T> implements ApiAssert<Object> {
 
     private final T obj;
 
@@ -92,46 +92,23 @@ public class OperateApiAssert<T> implements ApiAssert<T> {
     public OperateApiAssert<T> isFalse(Function<T, Boolean> function, String msg) {
         Boolean condition = function.apply(this.obj);
         objectApiAssert.isNull(condition, "校验结果为空");
-        return (OperateApiAssert<T>) objectApiAssert.isFalse(function.apply(this.obj), msg);
-    }
-
-
-    /**
-     * 目前感觉这个还是有些不好，暂时不开放
-     * @param msg
-     * @param obj
-     * @return
-     * @throws RuntimeException
-     */
-    private OperateApiAssert<T> isNull(String msg, Object obj) throws RuntimeException {
-        return (OperateApiAssert<T>) objectApiAssert.isNull(obj, msg);
-    }
-
-
-    private OperateApiAssert<T> isEmpty(String msg, Object obj) throws RuntimeException {
-        return (OperateApiAssert<T>) objectApiAssert.isEmpty(obj, msg);
-    }
-
-    private OperateApiAssert<T> isTrue(String msg, boolean condition) throws RuntimeException {
-        return (OperateApiAssert<T>) objectApiAssert.isTrue(condition, msg);
-    }
-
-    private OperateApiAssert<T> isFalse(String msg, boolean condition) throws RuntimeException {
         return (OperateApiAssert<T>) objectApiAssert.isFalse(condition, msg);
     }
 
 
-
-
-
     @Override
-    public OperateApiAssert<T> isNull(T obj, String msg) throws RuntimeException {
-        return (OperateApiAssert<T>) internalAssert.isNull(obj, msg);
+    public ApiAssert<Object> isNull(Object obj, String msg) throws RuntimeException {
+        return objectApiAssert.isNull(obj, msg);
     }
 
     @Override
-    public OperateApiAssert<T> isEmpty(T obj, String msg) throws RuntimeException {
-        return (OperateApiAssert<T>) internalAssert.isEmpty(obj, msg);
+    public ApiAssert<Object> nonNull(Object obj, String msg) {
+        return objectApiAssert.nonNull(obj, msg);
+    }
+
+    @Override
+    public ApiAssert<Object> isEmpty(Object obj, String msg) throws RuntimeException {
+        return objectApiAssert.isEmpty(obj, msg);
     }
 
     @Override

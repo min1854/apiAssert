@@ -13,13 +13,18 @@ import java.util.Objects;
  */
 public abstract class AbstractApiAssert<T> implements ApiAssert<T> {
 
-
     @Override
     public ApiAssert<T> isNull(T t, String msg) {
         judge(t == null, msg);
         return self();
     }
 
+
+    @Override
+    public ApiAssert<T> nonNull(T t, String msg) {
+        judge(t != null, msg);
+        return self();
+    }
 
     @Override
     public ApiAssert<T> isEmpty(T t, String msg) {
