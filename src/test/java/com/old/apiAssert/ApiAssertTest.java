@@ -66,14 +66,25 @@ public class ApiAssertTest {
 
 
     @Test
-    public void testTestCodeAssert() {
-        ApiAssert<Object> apiAssert = TestCodeAssert.newInstance(ApiAssertException::new)
+    public void testFunctionApiAssert() {
+        ApiAssert<Object> apiAssert = FunctionApiAssert.create(ApiAssertException::new)
                 .isNull(new Object(), "")
                 .isEmpty(new Object(), "")
                 .isTrue(false, "")
                 .isFalse(true, "");
         System.out.println(apiAssert.getClass());
-        ((TestCodeAssert) apiAssert).throwRuntime(new RuntimeException());
+        try {
+            ((FunctionApiAssert) apiAssert).throwRuntime(new RuntimeException());
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            apiAssert.isNull(null, "为空");
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Test

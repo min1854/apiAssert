@@ -1,58 +1,63 @@
 package com.old.apiAssert.check;
 
-import lombok.Data;
 
-import java.util.Collection;
+import com.old.apiAssert.api.ApiAssert;
+
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
- * 这个可以说是我比较满意，或者说最满意的版本，
- * 第5个版本
+ * 模板，经过了测试的模板代码，其他的检查器都类似这种代码进行编写
  */
-@Data
-public class FunctionApiAssert<T extends RuntimeException> {
+public class FunctionApiAssert implements ApiAssert<Object> {
 
-    private Function<String, T> exception;
+    private ApiAssert<Object> apiAssert;
+    private Function<String, RuntimeException> function;
 
-    public static <T extends Throwable> FunctionApiAssert start(Function<String, T> f) {
-        return new FunctionApiAssert(f);
+
+    private FunctionApiAssert(Function<String, RuntimeException> function) {
+        this.function = function;
+        apiAssert = new ObjectApiAssert() {
+            @Override
+            protected void established(String msg) throws RuntimeException {
+                throw function.apply(msg);
+            }
+
+            @Override
+            protected <S extends ApiAssert<Object>> S self() {
+                {
+                    return (S) FunctionApiAssert.this;
+                }
+            }
+        };
     }
 
-    public FunctionApiAssert(Function<String, T> exception) {
-        this.exception = exception;
+    public static ApiAssert<Object> create(Function<String, RuntimeException> function) {
+        return new FunctionApiAssert(function);
     }
 
-    public FunctionApiAssert isNull(Object obj, String msg) {
-        throwBaseException(obj == null, msg);
-        return this;
-    }
-
-
-    public FunctionApiAssert isEmpty(Object obj, String msg) {
-        throwBaseException(obj == null, msg);
-        if (obj instanceof Collection) {
-            throwBaseException(((Collection<?>) obj).isEmpty(), msg);
-        } else if (obj instanceof String) {
-            throwBaseException(((String) obj).isEmpty(), msg);
-        }
-        return this;
-    }
-
-    public FunctionApiAssert isTrue(boolean condition, String msg) {
-        throwBaseException(condition, msg);
-        return this;
-    }
-
-    public FunctionApiAssert isFalse(boolean condition, String msg) {
-        throwBaseException(!condition, msg);
-        return this;
+    public static ApiAssert<Object> newInstance(Supplier<RuntimeException> supplier) {
+        return create(msg -> supplier.get());
     }
 
 
-    private void throwBaseException(boolean condition, String msg) {
-        if (condition) {
-            throw exception.apply(msg);
-        }
+    @Override
+    public ApiAssert<Object> isNull(Object obj, String msg) {
+        return apiAssert.isNull(obj, msg);
     }
 
+    @Override
+    public ApiAssert<Object> isEmpty(Object obj, String msg) {
+        return apiAssert.isEmpty(obj, msg);
+    }
+
+    @Override
+    public ApiAssert<Object> isTrue(boolean condition, String msg) {
+        return apiAssert.isTrue(condition, msg);
+    }
+
+    @Override
+    public ApiAssert<Object> isFalse(boolean condition, String msg) {
+        return apiAssert.isFalse(condition, msg);
+    }
 }
