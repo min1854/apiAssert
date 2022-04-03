@@ -1,9 +1,10 @@
 package com.old.apiAssert.check;
 
 import com.old.apiAssert.Holder;
+import com.old.apiAssert.api.ApiAssert;
 import lombok.Data;
 
-import java.util.Collection;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -11,47 +12,66 @@ import java.util.function.Function;
  * 第4个版本
  */
 @Data
-public class FirstApiAssert {
+public class FirstApiAssert implements ApiAssert<Object> {
 
     private String errorMsg;
 
+    private ApiAssert<Object> apiAssert;
 
-    public static FirstApiAssert start() {
+    public static FirstApiAssert create() {
         return new FirstApiAssert();
     }
 
+    public FirstApiAssert() {
+        apiAssert = new ObjectApiAssert() {
+            @Override
+            protected void established(String msg) throws RuntimeException {
+                if (errorMsg == null) {
+                    errorMsg = msg;
+                }
+            }
 
+            @Override
+            protected <S extends ApiAssert<Object>> S self() {
+                return (S) FirstApiAssert.this;
+            }
+        };
+    }
+
+    @Override
     public FirstApiAssert isNull(Object obj, String msg) {
-        throwBaseException(obj == null, msg);
-        return this;
+        return (FirstApiAssert) apiAssert.isNull(obj, msg);
     }
 
-
+    @Override
     public FirstApiAssert isEmpty(Object obj, String msg) {
-        throwBaseException(obj == null, msg);
-        if (obj instanceof Collection) {
-            throwBaseException(((Collection<?>) obj).isEmpty(), msg);
-        } else if (obj instanceof String) {
-            throwBaseException(((String) obj).isEmpty(), msg);
-        }
-        return this;
+        return (FirstApiAssert) apiAssert.isEmpty(obj, msg);
     }
 
+    @Override
     public FirstApiAssert isTrue(boolean condition, String msg) {
-        throwBaseException(condition, msg);
-        return this;
+        return (FirstApiAssert) apiAssert.isTrue(condition, msg);
     }
 
+    @Override
     public FirstApiAssert isFalse(boolean condition, String msg) {
-        throwBaseException(!condition, msg);
-        return this;
+        return (FirstApiAssert) apiAssert.isFalse(!condition, msg);
     }
 
+    /**
+     * 当前是否是成功的状态
+     * @return
+     */
     public boolean isSuccess() {
         return errorMsg == null;
     }
 
-    public FirstApiAssert hodler(Holder holder) {
+    /**
+     * 持有当前状态
+     * @param holder
+     * @return
+     */
+    public FirstApiAssert holder(Holder holder) {
         holder.setFlag(isSuccess());
         return this;
     }
@@ -64,66 +84,111 @@ public class FirstApiAssert {
      * @param consumer
      * @return
      */
-    public FirstApiAssert isSuccess(Consumer<Boolean> consumer) {
+    @Deprecated
+    private FirstApiAssert isSuccess(Consumer<Boolean> consumer) {
         consumer.accept(isSuccess());
         return this;
     }
 
-    public FirstApiAssert isFail(Consumer<Boolean> consumer) {
+    @Deprecated
+    private FirstApiAssert isFail(Consumer<Boolean> consumer) {
         consumer.accept(isFail());
         return this;
     }
 
+    /**
+     * @param consumer 对于当前状态是否成功，的处理
+     * @return
+     */
     public FirstApiAssert handler(Consumer<Boolean> consumer) {
         consumer.accept(isSuccess());
         return this;
     }
 
 
-    public FirstApiAssert isSuccess(Runnable commmand) {
+    /**
+     * @param consumer 对于当前状态是否成功，的处理
+     * @return
+     */
+    public FirstApiAssert handler(BiConsumer<Boolean, String> consumer) {
+        consumer.accept(isSuccess(), errorMsg);
+        return this;
+    }
+
+
+    /**
+     * 如果是成功的处理，不会异步执行，而是同步，
+     *
+     * @param command
+     * @return
+     */
+    public FirstApiAssert ifSuccess(Runnable command) {
         if (isSuccess()) {
-            commmand.run();
+            command.run();
         }
         return this;
     }
 
-    public FirstApiAssert isFail(Runnable commmand) {
+    /**
+     * 如果是失败的处理，不会异步执行，而是同步，
+     *
+     * @param command
+     * @return
+     */
+    public FirstApiAssert ifFail(Runnable command) {
         if (isFail()) {
-            commmand.run();
+            command.run();
         }
         return this;
     }
 
 
+    /**
+     * 是否是失败的状态
+     *
+     * @return
+     */
     public boolean isFail() {
         return !isSuccess();
     }
 
+    /**
+     * 抛出运行时间异常
+     *
+     * @param e
+     */
     public void throwRunTime(Function<String, RuntimeException> e) {
         throw e.apply(errorMsg);
     }
 
+    /**
+     * 抛出异常
+     *
+     * @param e
+     */
     public void throwThrowable(Function<String, Throwable> e) throws Throwable {
         throw e.apply(errorMsg);
     }
 
+    /**
+     * 如果失败则抛出运行时间异常
+     *
+     * @param e
+     */
     public void failThrow(Function<String, RuntimeException> e) {
         if (isFail()) {
             throw e.apply(errorMsg);
         }
     }
 
+    /**
+     * 如果失败则抛出异常
+     *
+     * @param e
+     */
     public void failThrowable(Function<String, Throwable> e) throws Throwable {
         if (isFail()) {
             throw e.apply(errorMsg);
         }
     }
-
-
-    private void throwBaseException(boolean condition, String msg) {
-        if (condition && this.errorMsg == null) {
-            this.errorMsg = msg;
-        }
-    }
-
 }

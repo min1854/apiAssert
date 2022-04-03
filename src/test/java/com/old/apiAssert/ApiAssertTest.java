@@ -16,6 +16,40 @@ import java.util.function.Consumer;
 public class ApiAssertTest {
 
     @Test
+    public void testFirstApiAssert() {
+
+        System.out.println();
+        try {
+            FirstApiAssert apiAssert = FirstApiAssert.create();
+            Holder hodler = Holder.holder();
+            apiAssert.isNull(new Object(), "asdf")
+                    .isEmpty("不为空", "asdfadsf")
+                    .isNull(new Object(), "空")
+                    .holder(hodler)
+                    .ifFail(() -> {
+                        System.out.println("此时已经失败");
+                    })
+                    .ifSuccess(() ->{
+                        System.out.println("此时仍无异常");
+                    })
+                    .handler(flag -> {
+                        System.out.println("当前是否出现异常：" + flag);
+                    })
+                    .handler( (flag, errorMsg) -> {
+                        System.out.println("当前有无异常：" + flag + "异常信息为：" + errorMsg);
+                    })
+                    .failThrow(ApiAssertException::new);
+            if (hodler.getFlag()) {
+                System.out.println("此时无异常");
+            }
+            apiAssert.isNull(null, "对象为空");
+            apiAssert.failThrow(ApiAssertException::new);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void testOperateApiAssert() {
         TestEntity entity = new TestEntity();
         entity.setId(1);
@@ -24,7 +58,7 @@ public class ApiAssertTest {
         apiAssert
                 .isEmpty(TestEntity::getId, "id 为空")
                 .isTrue(TestEntity::getDeleteFlag, "")
-                // .isFalse(TestEntity::getDeleteFlag, "")
+        // .isFalse(TestEntity::getDeleteFlag, "")
         ;
         System.out.println(apiAssert.getClass());
         ((ApiAssert) apiAssert).throwRuntime(new RuntimeException());
@@ -84,37 +118,6 @@ public class ApiAssertTest {
             e.printStackTrace();
         }
 
-        System.out.println();
-        try {
-            FirstApiAssert apiAssert = FirstApiAssert.start();
-            Holder hodler = Holder.holder();
-            apiAssert.isNull(new Object(), "asdf")
-                    .isFail((flag) -> {
-                        if (flag) {
-                            System.out.println("失败");
-                        } else {
-                            System.out.println("未失败");
-                        }
-                    })
-                    .isSuccess(flag -> {
-                        if (flag) {
-                            System.out.println("成功");
-                        } else {
-                            System.out.println("未成功");
-                        }
-                    }).isEmpty("", "asdfadsf")
-                    .isNull(null, "空")
-                    .hodler(hodler)
-                    .isSuccess(() -> {
-
-                    })
-                    .failThrow(BaseException::new);
-            if (hodler.getFlag()) {
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         Consumer<Void> consumer = new Consumer<Void>() {
             @Override
