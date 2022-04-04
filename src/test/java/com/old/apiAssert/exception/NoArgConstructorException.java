@@ -7,5 +7,5 @@ import lombok.NoArgsConstructor;
  * @author min
  */
 @NoArgsConstructor
-public class NoArgConstructorException extends RuntimeException{
+public class NoArgConstructorException extends ApiAssertException{
 }
