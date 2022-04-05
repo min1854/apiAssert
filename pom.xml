@@ -6,7 +6,11 @@
 
     <groupId>io.github.min1854</groupId>
     <artifactId>apiAssert</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
+    <url>https://github.com/min1854/apiAssert</url>
+    <name>api-assert</name>
+    <description>校验框架</description>
+
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -26,7 +30,7 @@
     </scm>
     <developers>
         <developer>
-            <name>songyz</name>
+            <name>old</name>
             <email>1042039351@qq.com</email>
             <organization>old</organization>
         </developer>
@@ -138,9 +142,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
                     </plugin>
                     <!--Compiler -->
                     <plugin>
@@ -173,7 +174,7 @@
                 <repository>
                     <id>sonatype-nexus-staging</id>
                     <name>Nexus Release Repository</name>
-                    <url>https://s01.oss.sonatype.org/content/repositories/release</url>
+                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
                 </repository>
             </distributionManagement>
         </profile>

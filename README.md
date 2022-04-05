@@ -12,7 +12,6 @@ api-assert 是一个经量级的小小框架，或者说是一个工具类，用
 - com.old.apiAssert.check.ReflectionApiAssert 调用者传入异常类型，检查器当条件成立之后会立刻抛出异常
 
 
-框架的使用方式，可看测试用例
 
 # 用例
 添加 maven 依赖
@@ -42,18 +41,24 @@ public class Demo {
         entity.setId(1);
         OperateApiAssert<TestEntity> apiAssert = OperateApiAssert.create(entity, NoArgConstructorException::new)
                 .isNull("");
-        apiAssert
-                .isEmpty(TestEntity::getId, "id 为空")
-                .isTrue(TestEntity::getDeleteFlag, "")
-                .isNull(new Object(), "")
-                .isEmpty(entity, "")
-                .isTrue(false, "")
-                .isFalse(true, "")
-        ;
+        try {
+            apiAssert
+                    .isEmpty(TestEntity::getId, "id 为空")
+                    .isTrue(TestEntity::getDeleteFlag, "")
+                    .isNull(new Object(), "")
+                    .isEmpty(entity, "")
+                    .isTrue(false, "")
+                    .isFalse(true, "")
+            // .isFalse(TestEntity::getDeleteFlag, "")
+            ;
+        } catch (ApiAssertException e) {
+            e.printStackTrace();
+        }
+
         System.out.println(apiAssert.getClass());
         try {
             ((ApiAssert) apiAssert).throwRuntime(new RuntimeException());
-        } catch (ApiAssertException e) {
+        } catch (RuntimeException e) {
             e.printStackTrace();
         }
     }

@@ -54,18 +54,26 @@ public class ApiAssertTest {
         entity.setId(1);
         OperateApiAssert<TestEntity> apiAssert = OperateApiAssert.create(entity, NoArgConstructorException::new)
                 .isNull("");
-        apiAssert
-                .isEmpty(TestEntity::getId, "id 为空")
-                .isTrue(TestEntity::getDeleteFlag, "")
-                .isNull(new Object(), "")
-                .isEmpty(entity, "")
-                .isTrue(false, "")
-                .isFalse(true, "")
-        // .isFalse(TestEntity::getDeleteFlag, "")
-        ;
+        try {
+            apiAssert
+                    .isEmpty(TestEntity::getId, "id 为空")
+                    .isTrue(TestEntity::getDeleteFlag, "")
+                    .isNull(new Object(), "")
+                    .isEmpty(entity, "")
+                    .isTrue(false, "")
+                    .isFalse(true, "")
+            // .isFalse(TestEntity::getDeleteFlag, "")
+            ;
+        } catch (ApiAssertException e) {
+            e.printStackTrace();
+        }
+
         System.out.println(apiAssert.getClass());
-        ((ApiAssert) apiAssert).throwRuntime(new RuntimeException());
-        // apiAssert.isNull("", new Object());
+        try {
+            ((ApiAssert) apiAssert).throwRuntime(new RuntimeException());
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
     }
 
 
