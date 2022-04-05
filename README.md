@@ -19,7 +19,7 @@ api-assert 是一个经量级的小小框架，或者说是一个工具类，用
 <dependency>
   <groupId>io.github.min1854</groupId>
   <artifactId>apiAssert</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
 </dependency>
 ```
 
