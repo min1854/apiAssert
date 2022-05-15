@@ -10,8 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * 指定异常的类型，反射创建异常，如果条件成立立即抛出
  * @author min
- **/
-@Getter
+ */
 public class ReflectionApiAssert<E extends RuntimeException> implements ApiAssert<Object> {
 
     private Class<E> exception;
@@ -50,6 +49,9 @@ public class ReflectionApiAssert<E extends RuntimeException> implements ApiAsser
         }
     }
 
+    public Class<E> getException() {
+        return exception;
+    }
 
     private Constructor<E> findConstructor(Class<E> eClass) {
         Constructor<E> constructor = null;

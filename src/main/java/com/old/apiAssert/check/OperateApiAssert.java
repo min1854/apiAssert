@@ -12,7 +12,6 @@ import java.util.function.Supplier;
  * 传入对象，可以对对象与对象内部属性进行判断，如果条件成立会立即抛出异常
  * @author min
  */
-@Data
 public class OperateApiAssert<T> implements ApiAssert<Object> {
 
     private final T obj;
@@ -65,6 +64,10 @@ public class OperateApiAssert<T> implements ApiAssert<Object> {
         protected ApiAssert<T> self() {
             return (ApiAssert<T>) OperateApiAssert.this;
         }
+    }
+
+    public T getObj() {
+        return obj;
     }
 
     public OperateApiAssert<T> isNull(String msg) {
