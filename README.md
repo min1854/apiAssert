@@ -35,32 +35,24 @@ import org.junit.Test;
 
 public class Demo {
 
-    @Test
+    @Test(expected = ApiAssertException.class)
     public void testOperateApiAssert() {
         TestEntity entity = new TestEntity();
         entity.setId(1);
-        OperateApiAssert<TestEntity> apiAssert = OperateApiAssert.create(entity, NoArgConstructorException::new)
-                .isNull("");
-        try {
-            apiAssert
-                    .isEmpty(TestEntity::getId, "id 为空")
-                    .isTrue(TestEntity::getDeleteFlag, "")
-                    .isNull(new Object(), "")
-                    .isEmpty(entity, "")
-                    .isTrue(false, "")
-                    .isFalse(true, "")
-            // .isFalse(TestEntity::getDeleteFlag, "")
-            ;
-        } catch (ApiAssertException e) {
-            e.printStackTrace();
-        }
+        OperateApiAssert<TestEntity> apiAssert = OperateApiAssert.create(entity, NoArgConstructorException::new);
+        apiAssert
+                .isEmpty(TestEntity::getId, "id 为空")
+                .isTrue(TestEntity::getDeleteFlag, "当前对象已删除")
+                .isNull(new Object(), "对象为空")
+                .isEmpty(entity, "这是空对象")
+                .isTrue(false, "条件成立")
+                .isFalse(true, "条件不成立")
+        // .isFalse(TestEntity::getDeleteFlag, "")
+        ;
 
         System.out.println(apiAssert.getClass());
-        try {
-            ((ApiAssert) apiAssert).throwRuntime(new RuntimeException());
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        }
+        ((ApiAssert) apiAssert).throwRuntime(new ApiAssertException());
+
     }
 }
 ```
