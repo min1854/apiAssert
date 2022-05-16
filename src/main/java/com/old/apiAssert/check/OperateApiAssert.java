@@ -70,6 +70,10 @@ public class OperateApiAssert<T> implements ApiAssert<Object> {
         return obj;
     }
 
+    public OperateApiAssert<T> nonNull(String msg) {
+        return (OperateApiAssert<T>) internalAssert.nonNull(this.obj, msg);
+    }
+
     public OperateApiAssert<T> isNull(String msg) {
         return (OperateApiAssert<T>) internalAssert.isNull(this.obj, msg);
     }
@@ -100,18 +104,18 @@ public class OperateApiAssert<T> implements ApiAssert<Object> {
 
 
     @Override
-    public ApiAssert<Object> isNull(Object obj, String msg) throws RuntimeException {
-        return objectApiAssert.isNull(obj, msg);
+    public OperateApiAssert<Object> isNull(Object obj, String msg) throws RuntimeException {
+        return (OperateApiAssert<Object>) objectApiAssert.isNull(obj, msg);
     }
 
     @Override
-    public ApiAssert<Object> nonNull(Object obj, String msg) {
-        return objectApiAssert.nonNull(obj, msg);
+    public OperateApiAssert<Object> nonNull(Object obj, String msg) {
+        return (OperateApiAssert<Object>) objectApiAssert.nonNull(obj, msg);
     }
 
     @Override
-    public ApiAssert<Object> isEmpty(Object obj, String msg) throws RuntimeException {
-        return objectApiAssert.isEmpty(obj, msg);
+    public OperateApiAssert<Object> isEmpty(Object obj, String msg) throws RuntimeException {
+        return (OperateApiAssert<Object>) objectApiAssert.isEmpty(obj, msg);
     }
 
     @Override
