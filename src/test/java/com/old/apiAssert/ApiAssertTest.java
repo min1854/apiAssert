@@ -60,7 +60,7 @@ public class ApiAssertTest {
         ;
 
         System.out.println(apiAssert.getClass());
-        ((ApiAssert) apiAssert).throwRuntime(new ApiAssertException());
+        apiAssert.isTrue(true, "条件成立");
 
     }
 

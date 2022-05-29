@@ -33,7 +33,7 @@ public abstract class AbstractApiAssert<T> implements ApiAssert<T> {
         } else if (t instanceof String) {
             judge(((String) t).isEmpty(), msg);
         } else if (t instanceof Map) {
-            judge(((Map)t).isEmpty(), msg);
+            judge(((Map<?, ?>)t).isEmpty(), msg);
         } else if (t.getClass().isArray()) {
             judge(Array.getLength(t) == 0, msg);
         }
