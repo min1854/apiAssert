@@ -30,7 +30,7 @@ public interface ApiAssert<T> {
 
     /**
      * 传入对象为空，则抛出异常信息
-     * 包含 String。Collection、数组 如果为空或者是长度为 0 都会抛出异常信息
+     * 包含 String。Collection、Map、数组 如果为空或者是长度为 0 都会抛出异常信息
      * @param obj
      * @param msg 错误信息
      * @return
