@@ -103,6 +103,11 @@ public class OperateApiAssert<T> implements ApiAssert<Object> {
     }
 
 
+    public OperateApiAssert<T> next(T t) {
+        return new OperateApiAssert<>(t, this.exceptionFunction);
+    }
+
+
     @Override
     public OperateApiAssert<Object> isNull(Object obj, String msg) throws RuntimeException {
         return (OperateApiAssert<Object>) objectApiAssert.isNull(obj, msg);
