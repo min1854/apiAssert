@@ -72,3 +72,8 @@ public class Demo {
 ## 1.0.2 版本
 - OperateApiAssert 增加 next 方法
 - isEmpty 增加 map 类型判断
+
+
+## 1.0.3 版本
+- 去除 next 方法，名字不好听，修改为 when 方法。
+
