@@ -60,8 +60,14 @@ public class ApiAssertTest {
         ;
 
         System.out.println(apiAssert.getClass());
-        apiAssert.isTrue(true, "条件成立");
+        apiAssert.isTrue(false, "条件成立");
 
+        OperateApiAssert<Object> when = apiAssert.when(new Object());
+        when.isNull("该对象是否为空");
+
+        Object obj = when.getObj();
+
+        OperateApiAssert<TestEntity> anAssert = when.when(new TestEntity());
     }
 
 

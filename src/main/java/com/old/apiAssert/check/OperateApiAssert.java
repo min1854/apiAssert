@@ -84,7 +84,7 @@ public class OperateApiAssert<T> implements ApiAssert<Object> {
     }
 
 
-    public OperateApiAssert<T> next(T t) {
+    public <T> OperateApiAssert<T> when(T t) {
         return new OperateApiAssert<T>(t, this.exceptionFunction);
     }
 
