@@ -6,7 +6,7 @@
 
     <groupId>io.github.min1854</groupId>
     <artifactId>apiAssert</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <url>https://github.com/min1854/apiAssert</url>
     <name>api-assert</name>
     <description>校验框架</description>
@@ -42,6 +42,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
 
 
