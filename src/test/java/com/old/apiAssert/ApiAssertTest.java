@@ -32,6 +32,8 @@ public class ApiAssertTest {
                 })
                 .handler(flag -> {
                     System.out.println("当前是否出现异常：" + flag);
+                }).process(()-> {
+                    System.out.println("业务逻辑");
                 })
                 .handler( (flag, errorMsg) -> {
                     System.out.println("当前有无异常：" + flag + "异常信息为：" + errorMsg);
@@ -41,6 +43,13 @@ public class ApiAssertTest {
             System.out.println("此时无异常");
         }
         apiAssert.isNull(null, "对象为空");
+        Object transitionResult = apiAssert.process(() -> {
+            Object o = new Object();
+            System.out.println("返回对象: " + o);
+            return o;
+        });
+        apiAssert.isNull(transitionResult, "校验过程中出现为空的对象");
+        System.out.println("校验结束");
         apiAssert.failThrow(ApiAssertException::new);
     }
 
@@ -48,6 +57,7 @@ public class ApiAssertTest {
     public void testOperateApiAssert() {
         TestEntity entity = new TestEntity();
         entity.setId(1);
+        entity.setDeleteFlag(false);
         OperateApiAssert<TestEntity> apiAssert = OperateApiAssert.create(entity, NoArgConstructorException::new);
         apiAssert
                 .isEmpty(TestEntity::getId, "id 为空")
@@ -55,9 +65,18 @@ public class ApiAssertTest {
                 .isNull(new Object(), "对象为空")
                 .isEmpty(entity, "这是空对象")
                 .isTrue(false, "条件成立")
+                .process(()->{
+                    System.out.println("校验前，业务逻辑");
+                    System.out.println("实体类 id 值：" + entity.getId());
+                })
                 .isFalse(true, "条件不成立")
-        // .isFalse(TestEntity::getDeleteFlag, "")
         ;
+        Object transitionResult = apiAssert.process(() -> {
+            Object o = new Object();
+            System.out.println("返回对象: " + o);
+            return o;
+        });
+        apiAssert.isNull(transitionResult, "校验过程中出现为空的对象");
 
         System.out.println(apiAssert.getClass());
         apiAssert.isTrue(false, "条件成立");
@@ -68,50 +87,53 @@ public class ApiAssertTest {
         Object obj = when.getObj();
 
         OperateApiAssert<TestEntity> anAssert = when.when(new TestEntity());
+        System.out.println("校验结束");
+        anAssert.isNull(TestEntity::getId, "id 不存在");
     }
 
 
 
     @Test(expected = ApiAssertException.class)
     public void testFunctionApiAssert() {
+        Object obj = new Object();
         ApiAssert<Object> apiAssert = FunctionApiAssert.create(ApiAssertException::new)
-                .isNull(new Object(), "当前对象为空")
-                .isEmpty(new Object(), "当前对象为空对象")
+                .isNull(obj, "当前对象为空")
+                .isEmpty(obj, "当前对象为空对象")
                 .isTrue(false, "条件是否成立")
+                .process(()->{
+                    System.out.println("校验对象信息：" + obj);
+                })
                 .isFalse(true, "条件是否不成立");
+        Object transitionResult = apiAssert.process(() -> {
+            Object o = new Object();
+            System.out.println("返回对象: " + o);
+            return o;
+        });
+        apiAssert.isNull(transitionResult, "校验过程中出现为空的对象");
         System.out.println(apiAssert.getClass());
+        System.out.println("校验结束");
         apiAssert.isNull(null, "传入了为空的对象");
     }
 
 
     @Test(expected = ApiAssertException.class)
     public void testReflectionApiAssert() {
-        ApiAssert apiAssert = ReflectionApiAssert.create(NoArgConstructorException.class)
+        ApiAssert<Object> apiAssert = ReflectionApiAssert.create(NoArgConstructorException.class)
                 .isNull(new Object(), "对象为空")
                 .isEmpty(new Object(), "传入了空对象")
                 .isTrue(false, "条件成立，抛出异常")
+                .process(()->{
+                    System.out.println("经过了 null、空、是否为值 三种校验");
+                })
                 .isFalse(true, "条件不成立，抛出异常");
+        Object transitionResult = apiAssert.process(() -> {
+            Object o = new Object();
+            System.out.println("返回对象: " + o);
+            return o;
+        });
+        apiAssert.isNull(transitionResult, "校验过程中出现为空的对象");
         System.out.println(apiAssert.getClass());
+        System.out.println("校验结束");
         apiAssert.isTrue(true, "条件成立抛出异常");
     }
-
-    @Test
-    public void testApiAssert() {
-
-        System.out.println();
-        try {
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        Consumer<Void> consumer = new Consumer<Void>() {
-            @Override
-            public void accept(Void unused) {
-
-            }
-        };
-    }
-
 }

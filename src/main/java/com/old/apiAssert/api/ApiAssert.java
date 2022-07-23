@@ -56,6 +56,22 @@ public interface ApiAssert<T> {
      */
     ApiAssert<T> isFalse(boolean condition, String msg) throws RuntimeException;
 
+    /**
+     * 在校验过程中，需要一个处理过程或者说过度过程，不会异步执行，只会同步执行
+     * @param handler
+     * @return
+     */
+    ApiAssert<T> process(Runnable handler);
+
+    /**
+     * 不会异步执行，作为基础接口使用
+     * @param handler
+     * @return
+     */
+    default <V> V process(Supplier<V> handler) {
+        return handler.get();
+    }
+
     default void throwThrowable(Supplier<Throwable> throwable) throws Throwable {
         throw throwable.get();
     }

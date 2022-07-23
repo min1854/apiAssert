@@ -17,9 +17,6 @@ public class ReflectionApiAssert<E extends RuntimeException> implements ApiAsser
 
     private ApiAssert apiAssert;
 
-    // private static final Map<Class<RuntimeException>, Constructor<RuntimeException>> MAP = new ConcurrentHashMap<>();
-
-
     private ReflectionApiAssert(Class<E> exception) {
         this.exception = exception;
         apiAssert = new ObjectApiAssert() {
@@ -93,6 +90,11 @@ public class ReflectionApiAssert<E extends RuntimeException> implements ApiAsser
     @Override
     public ApiAssert<Object> isFalse(boolean condition, String msg) {
         return apiAssert.isFalse(condition, msg);
+    }
+
+    @Override
+    public ApiAssert<Object> process(Runnable handler) {
+        return apiAssert.process(handler);
     }
 
     private static class CreateFailException extends ApiAssertException {

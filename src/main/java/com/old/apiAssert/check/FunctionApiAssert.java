@@ -59,4 +59,9 @@ public class FunctionApiAssert implements ApiAssert<Object> {
     public ApiAssert<Object> isFalse(boolean condition, String msg) {
         return apiAssert.isFalse(condition, msg);
     }
+
+    @Override
+    public ApiAssert<Object> process(Runnable handler) {
+        return apiAssert.process(handler);
+    }
 }

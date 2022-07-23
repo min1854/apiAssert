@@ -114,4 +114,9 @@ public class OperateApiAssert<T> implements ApiAssert<Object> {
         return (OperateApiAssert<T>) objectApiAssert.isFalse(condition, msg);
     }
 
+    @Override
+    public OperateApiAssert<T> process(Runnable handler) {
+        return (OperateApiAssert<T>) objectApiAssert.process(handler);
+    }
+
 }

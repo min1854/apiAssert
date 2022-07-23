@@ -57,6 +57,10 @@ public class FirstApiAssert implements ApiAssert<Object> {
         return (FirstApiAssert) apiAssert.isFalse(!condition, msg);
     }
 
+    @Override
+    public FirstApiAssert process(Runnable handler) {
+        return (FirstApiAssert) apiAssert.process(handler);
+    }
     /**
      * 当前是否是成功的状态
      * @return

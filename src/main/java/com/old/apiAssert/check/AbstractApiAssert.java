@@ -52,6 +52,12 @@ public abstract class AbstractApiAssert<T> implements ApiAssert<T> {
         return self();
     }
 
+    @Override
+    public ApiAssert<T> process(Runnable handler) {
+        handler.run();
+        return self();
+    }
+
     /**
      * 判断条件是否成立
      * @param condition
