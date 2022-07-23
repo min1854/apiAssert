@@ -47,7 +47,6 @@ public class Demo {
                 .isEmpty(entity, "这是空对象")
                 .isTrue(false, "条件成立")
                 .isFalse(true, "条件不成立")
-        // .isFalse(TestEntity::getDeleteFlag, "")
         ;
 
         System.out.println(apiAssert.getClass());

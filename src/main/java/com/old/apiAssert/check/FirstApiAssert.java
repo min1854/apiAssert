@@ -79,26 +79,6 @@ public class FirstApiAssert implements ApiAssert<Object> {
         return this;
     }
 
-
-    /**
-     * isSuccess 和 fail 不是这样的，应该是先判断状态，状态对才这样，
-     * 再加一个 handler 方法，参数是 Consumer<Boolean> consumer 这样才对
-     *
-     * @param consumer
-     * @return
-     */
-    @Deprecated
-    private FirstApiAssert isSuccess(Consumer<Boolean> consumer) {
-        consumer.accept(isSuccess());
-        return this;
-    }
-
-    @Deprecated
-    private FirstApiAssert isFail(Consumer<Boolean> consumer) {
-        consumer.accept(isFail());
-        return this;
-    }
-
     /**
      * @param consumer 对于当前状态是否成功，的处理
      * @return

@@ -1,13 +1,12 @@
 package com.old.apiAssert;
 
 import com.old.apiAssert.api.ApiAssert;
-import com.old.apiAssert.check.*;
-import com.old.apiAssert.entity.TestEntity;
+import com.old.apiAssert.check.FirstApiAssert;
+import com.old.apiAssert.check.FunctionApiAssert;
+import com.old.apiAssert.check.ReflectionApiAssert;
 import com.old.apiAssert.exception.ApiAssertException;
 import com.old.apiAssert.exception.NoArgConstructorException;
 import org.junit.Test;
-
-import java.util.function.Consumer;
 
 /**
  *
@@ -52,46 +51,6 @@ public class ApiAssertTest {
         System.out.println("校验结束");
         apiAssert.failThrow(ApiAssertException::new);
     }
-
-    @Test(expected = ApiAssertException.class)
-    public void testOperateApiAssert() {
-        TestEntity entity = new TestEntity();
-        entity.setId(1);
-        entity.setDeleteFlag(false);
-        OperateApiAssert<TestEntity> apiAssert = OperateApiAssert.create(entity, NoArgConstructorException::new);
-        apiAssert
-                .isEmpty(TestEntity::getId, "id 为空")
-                .isTrue(TestEntity::getDeleteFlag, "当前对象已删除")
-                .isNull(new Object(), "对象为空")
-                .isEmpty(entity, "这是空对象")
-                .isTrue(false, "条件成立")
-                .process(()->{
-                    System.out.println("校验前，业务逻辑");
-                    System.out.println("实体类 id 值：" + entity.getId());
-                })
-                .isFalse(true, "条件不成立")
-        ;
-        Object transitionResult = apiAssert.process(() -> {
-            Object o = new Object();
-            System.out.println("返回对象: " + o);
-            return o;
-        });
-        apiAssert.isNull(transitionResult, "校验过程中出现为空的对象");
-
-        System.out.println(apiAssert.getClass());
-        apiAssert.isTrue(false, "条件成立");
-
-        OperateApiAssert<Object> when = apiAssert.when(new Object());
-        when.isNull("该对象是否为空");
-
-        Object obj = when.getObj();
-
-        OperateApiAssert<TestEntity> anAssert = when.when(new TestEntity());
-        System.out.println("校验结束");
-        anAssert.isNull(TestEntity::getId, "id 不存在");
-    }
-
-
 
     @Test(expected = ApiAssertException.class)
     public void testFunctionApiAssert() {

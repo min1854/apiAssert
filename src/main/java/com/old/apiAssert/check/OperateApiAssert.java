@@ -2,6 +2,7 @@ package com.old.apiAssert.check;
 
 import com.old.apiAssert.api.ApiAssert;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -84,10 +85,26 @@ public class OperateApiAssert<T> implements ApiAssert<Object> {
     }
 
 
+    /**
+     * 名字有误，用这个{@link OperateApiAssert#then(Object)} 后续版本会删除
+     * @param t
+     * @return
+     * @param <T>
+     */
+    @Deprecated
     public <T> OperateApiAssert<T> when(T t) {
         return new OperateApiAssert<T>(t, this.exceptionFunction);
     }
 
+
+    public <T> OperateApiAssert<T> then(T t) {
+        return new OperateApiAssert<T>(t, this.exceptionFunction);
+    }
+
+
+    public <R> OperateApiAssert<R> then(Function<T, R> function) {
+        return new OperateApiAssert<R>(function.apply(this.obj), this.exceptionFunction);
+    }
 
     @Override
     public OperateApiAssert<Object> isNull(Object obj, String msg) throws RuntimeException {
@@ -117,6 +134,11 @@ public class OperateApiAssert<T> implements ApiAssert<Object> {
     @Override
     public OperateApiAssert<T> process(Runnable handler) {
         return (OperateApiAssert<T>) objectApiAssert.process(handler);
+    }
+
+    public OperateApiAssert<T> process(Consumer<T> consumer) {
+        consumer.accept(this.obj);
+        return (OperateApiAssert<T>) objectApiAssert.self();
     }
 
 }
