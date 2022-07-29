@@ -16,6 +16,27 @@ public class OperateApiAssertTests {
 
 
     @Test(expected = ApiAssertException.class)
+    public void testCheckObjGenErrorMsg() {
+        OperateApiAssert<TestEntity> apiAssert = createAssert();
+        OperateApiAssert<Object> then = apiAssert
+                .nonNull(TestEntity::getName, "名称不为空")
+                .nonNull(TestEntity::getName, TestEntity::getName)
+                .isNull(TestEntity::getId, TestEntity::toString)
+                .isTrue(TestEntity::getDeleteFlag, TestEntity::getName)
+                .isFalse(testEntity -> {
+                    return !testEntity.getDeleteFlag();
+                }, TestEntity::getName)
+                .isEmpty(TestEntity::getId, TestEntity::getName)
+                .then(() -> {
+                    System.out.println("新增错误对象生成信息方法");
+                    return new Object();
+                });
+        then.isNull(Object::toString,Object::toString);
+        then.throwRuntime(new NoArgConstructorException("最终抛出"));
+    }
+
+
+    @Test(expected = ApiAssertException.class)
     public void testOperateApiAssert() {
         OperateApiAssert<TestEntity> apiAssert = createAssert();
 

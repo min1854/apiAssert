@@ -24,6 +24,14 @@ public class OperateApiAssert<T> implements ApiAssert<Object> {
     }
 
 
+    /**
+     * 与 {@link OperateApiAssert#newInstance(Object, Supplier)} 重复，后续删除
+     * @param obj
+     * @param exceptionSupplier
+     * @return
+     * @param <T>
+     */
+    @Deprecated
     public static <T> OperateApiAssert<T> create(T obj, Supplier<RuntimeException> exceptionSupplier) {
         return new OperateApiAssert<T>(obj, msg -> exceptionSupplier.get());
     }
@@ -56,12 +64,24 @@ public class OperateApiAssert<T> implements ApiAssert<Object> {
         return (OperateApiAssert<T>) objectApiAssert.nonNull(this.obj, msg);
     }
 
+    public <R> OperateApiAssert<T> nonNull(Function<T, R> function, String msg) {
+        return (OperateApiAssert<T>) objectApiAssert.nonNull(function.apply(this.obj), msg);
+    }
+
+    public <R> OperateApiAssert<T> nonNull(Function<T, R> function, Function<T, String> msg) {
+        return (OperateApiAssert<T>) objectApiAssert.nonNull(function.apply(this.obj), msg.apply(this.obj));
+    }
+
     public OperateApiAssert<T> isNull(String msg) {
         return (OperateApiAssert<T>) objectApiAssert.isNull(this.obj, msg);
     }
 
     public <R> OperateApiAssert<T> isNull(Function<T, R> function, String msg) {
         return (OperateApiAssert<T>) objectApiAssert.isNull(function.apply(this.obj), msg);
+    }
+
+    public <R> OperateApiAssert<T> isNull(Function<T, R> function, Function<T, String> msg) {
+        return (OperateApiAssert<T>) objectApiAssert.isNull(function.apply(this.obj), msg.apply(this.obj));
     }
 
     public <R> OperateApiAssert<T> isEmpty(Function<T, R> function, String msg) {
@@ -72,16 +92,32 @@ public class OperateApiAssert<T> implements ApiAssert<Object> {
         return (OperateApiAssert<T>) objectApiAssert.isEmpty(this.obj, msg);
     }
 
+    public <R> OperateApiAssert<T> isEmpty(Function<T, R> function, Function<T, String> msg) {
+        return (OperateApiAssert<T>) objectApiAssert.isEmpty(function.apply(this.obj), msg.apply(this.obj));
+    }
+
     public OperateApiAssert<T> isTrue(Function<T, Boolean> function, String msg) {
         Boolean condition = function.apply(this.obj);
         objectApiAssert.isNull(condition, "校验结果为空");
         return (OperateApiAssert<T>) objectApiAssert.isTrue(condition, msg);
     }
 
+    public OperateApiAssert<T> isTrue(Function<T, Boolean> function, Function<T, String> msg) {
+        Boolean condition = function.apply(this.obj);
+        objectApiAssert.isNull(condition, "校验结果为空");
+        return (OperateApiAssert<T>) objectApiAssert.isTrue(condition, msg.apply(this.obj));
+    }
+
     public OperateApiAssert<T> isFalse(Function<T, Boolean> function, String msg) {
         Boolean condition = function.apply(this.obj);
         objectApiAssert.isNull(condition, "校验结果为空");
         return (OperateApiAssert<T>) objectApiAssert.isFalse(condition, msg);
+    }
+
+    public OperateApiAssert<T> isFalse(Function<T, Boolean> function, Function<T, String> msg) {
+        Boolean condition = function.apply(this.obj);
+        objectApiAssert.isNull(condition, "校验结果为空");
+        return (OperateApiAssert<T>) objectApiAssert.isFalse(condition, msg.apply(this.obj));
     }
 
 
@@ -101,6 +137,9 @@ public class OperateApiAssert<T> implements ApiAssert<Object> {
         return new OperateApiAssert<T>(t, this.exceptionFunction);
     }
 
+    public <T> OperateApiAssert<T> then(Supplier<T> t) {
+        return new OperateApiAssert<T>(t.get(), this.exceptionFunction);
+    }
 
     public <R> OperateApiAssert<R> then(Function<T, R> function) {
         return new OperateApiAssert<R>(function.apply(this.obj), this.exceptionFunction);

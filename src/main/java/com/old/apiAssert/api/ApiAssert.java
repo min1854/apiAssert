@@ -64,7 +64,7 @@ public interface ApiAssert<T> {
     ApiAssert<T> process(Runnable handler);
 
     /**
-     * 不会异步执行，作为基础接口使用
+     * 与 {@link ApiAssert#process(Runnable)} 方法的作用相同
      * @param handler
      * @return
      */
