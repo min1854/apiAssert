@@ -129,3 +129,9 @@ public class Demo {
 - 增加`process`方法，用以编码时非校验过程
 - FirstApiAssert 删除废弃方法
 - OperateApiAssert 使用 then 代替 when 方法，并新增可以操作被校验对象的 process 方法。
+
+## 1.0.5 版本
+- 增加废除方法
+- 放开校验器的构造方法权限
+- OperateApiAssert 增加 Supplier 的 then 方法
+- OperateApiAssert 增加获取校验对象返回错误信息的相关方法
