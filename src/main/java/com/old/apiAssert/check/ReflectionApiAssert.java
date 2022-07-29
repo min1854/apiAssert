@@ -17,7 +17,7 @@ public class ReflectionApiAssert<E extends RuntimeException> implements ApiAsser
 
     private ApiAssert apiAssert;
 
-    private ReflectionApiAssert(Class<E> exception) {
+    public ReflectionApiAssert(Class<E> exception) {
         this.exception = exception;
         apiAssert = new ObjectApiAssert() {
             @Override

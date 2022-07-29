@@ -16,7 +16,7 @@ public class FunctionApiAssert implements ApiAssert<Object> {
     private Function<String, RuntimeException> function;
 
 
-    private FunctionApiAssert(Function<String, RuntimeException> function) {
+    public FunctionApiAssert(Function<String, RuntimeException> function) {
         this.function = function;
         apiAssert = new ObjectApiAssert() {
             @Override
