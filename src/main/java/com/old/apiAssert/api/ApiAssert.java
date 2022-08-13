@@ -7,7 +7,7 @@ import java.util.function.Supplier;
  * 所有检查器的顶级接口
  * @author min
  */
-public interface ApiAssert<T> {
+public interface ApiAssert<T, S extends ApiAssert<T, S>> {
 
     /**
      * 传入对象为空，则抛出异常信息
@@ -16,7 +16,7 @@ public interface ApiAssert<T> {
      * @return
      * @throws RuntimeException
      */
-    ApiAssert<T> isNull(T obj, String msg) throws RuntimeException;
+    S isNull(T obj, String msg) throws RuntimeException;
 
     /**
      * 不为空，则抛出异常
@@ -24,7 +24,7 @@ public interface ApiAssert<T> {
      * @param msg 异常信息
      * @return
      */
-    default ApiAssert<T> nonNull(T obj, String msg) {
+    default S nonNull(T obj, String msg) {
         return isTrue(obj != null, msg);
     }
 
@@ -36,7 +36,7 @@ public interface ApiAssert<T> {
      * @return
      * @throws RuntimeException
      */
-    ApiAssert<T> isEmpty(T obj, String msg) throws RuntimeException;
+    S isEmpty(T obj, String msg) throws RuntimeException;
 
     /**
      *  如果条件为真，则抛出异常信息
@@ -45,7 +45,7 @@ public interface ApiAssert<T> {
      * @return
      * @throws RuntimeException
      */
-    ApiAssert<T> isTrue(boolean condition, String msg) throws RuntimeException;
+    S isTrue(boolean condition, String msg) throws RuntimeException;
 
     /**
      *  如果条件为假，则抛出异常信息
@@ -54,14 +54,14 @@ public interface ApiAssert<T> {
      * @return
      * @throws RuntimeException
      */
-    ApiAssert<T> isFalse(boolean condition, String msg) throws RuntimeException;
+    S isFalse(boolean condition, String msg) throws RuntimeException;
 
     /**
      * 在校验过程中，需要一个处理过程或者说过度过程，不会异步执行，只会同步执行
      * @param handler
      * @return
      */
-    ApiAssert<T> process(Runnable handler);
+    S process(Runnable handler);
 
     /**
      * 与 {@link ApiAssert#process(Runnable)} 方法的作用相同
@@ -71,6 +71,9 @@ public interface ApiAssert<T> {
     default <V> V process(Supplier<V> handler) {
         return handler.get();
     }
+
+
+    S self();
 
     default void throwThrowable(Supplier<Throwable> throwable) throws Throwable {
         throw throwable.get();

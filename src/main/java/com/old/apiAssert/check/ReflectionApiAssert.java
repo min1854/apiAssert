@@ -2,34 +2,22 @@ package com.old.apiAssert.check;
 
 import com.old.apiAssert.api.ApiAssert;
 import com.old.apiAssert.exception.ApiAssertException;
-import lombok.Getter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 /**
  * 指定异常的类型，反射创建异常，如果条件成立立即抛出
+ *
  * @author min
  */
-public class ReflectionApiAssert<E extends RuntimeException> implements ApiAssert<Object> {
+public class ReflectionApiAssert<E extends RuntimeException> extends ObjectApiAssert<ReflectionApiAssert<E>> {
 
     private Class<E> exception;
 
-    private ApiAssert apiAssert;
 
     public ReflectionApiAssert(Class<E> exception) {
         this.exception = exception;
-        apiAssert = new ObjectApiAssert() {
-            @Override
-            protected void established(String msg) throws RuntimeException {
-                throw createException(msg);
-            }
-
-            @Override
-            protected <S extends ApiAssert<Object>> S self() {
-                return (S) ReflectionApiAssert.this;
-            }
-        };
     }
 
 
@@ -45,6 +33,17 @@ public class ReflectionApiAssert<E extends RuntimeException> implements ApiAsser
             throw new CreateFailException(msg, e);
         }
     }
+
+    @Override
+    public ReflectionApiAssert<E> self() {
+        return this;
+    }
+
+    @Override
+    protected void established(String msg) throws RuntimeException {
+        throw createException(msg);
+    }
+
 
     public Class<E> getException() {
         return exception;
@@ -67,34 +66,8 @@ public class ReflectionApiAssert<E extends RuntimeException> implements ApiAsser
         }
     }
 
-    public static <E extends RuntimeException> ApiAssert<Object> create(Class<E> exception) {
+    public static <E extends RuntimeException> ApiAssert<Object, ReflectionApiAssert<E>> create(Class<E> exception) {
         return new ReflectionApiAssert<E>(exception);
-    }
-
-    @Override
-    public ApiAssert<Object> isNull(Object obj, String msg) {
-        return apiAssert.isNull(obj, msg);
-    }
-
-
-    @Override
-    public ApiAssert<Object> isEmpty(Object obj, String msg) {
-        return apiAssert.isEmpty(obj, msg);
-    }
-
-    @Override
-    public ApiAssert<Object> isTrue(boolean condition, String msg) {
-        return apiAssert.isTrue(condition, msg);
-    }
-
-    @Override
-    public ApiAssert<Object> isFalse(boolean condition, String msg) {
-        return apiAssert.isFalse(condition, msg);
-    }
-
-    @Override
-    public ApiAssert<Object> process(Runnable handler) {
-        return apiAssert.process(handler);
     }
 
     private static class CreateFailException extends ApiAssertException {

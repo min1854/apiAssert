@@ -104,34 +104,5 @@ public class Demo {
 }
 ```
 
-# 版本更新
-
-## 1.0 版本
-第一个版本，
-
-
-## 1.0.1 版本
-- OperateApiAssert 增加 notNull 方法
-- 取消 Data 注解，去除无用的 get 方法
-- 整理 maven 依赖
-
-
-## 1.0.2 版本
-- OperateApiAssert 增加 next 方法
-- isEmpty 增加 map 类型判断
-
-
-## 1.0.3 版本
-- 去除 next 方法，名字不好听，修改为 when 方法。
-
-
-## 1.0.4 版本
-- 增加`process`方法，用以编码时非校验过程
-- FirstApiAssert 删除废弃方法
-- OperateApiAssert 使用 then 代替 when 方法，并新增可以操作被校验对象的 process 方法。
-
-## 1.0.5 版本
-- 增加废除方法
-- 放开校验器的构造方法权限
-- OperateApiAssert 增加 Supplier 的 then 方法
-- OperateApiAssert 增加获取校验对象返回错误信息的相关方法
+# 2.0 版本分支，
+会在保存 v1 版本中的功能，但将代码重构，v1 使用复合的方式，在 v2 中会改为继承，在 v1 中发现复合的方式，不适合链式，或是说我的理解与代码架构设计有问题，导致扩展性变差。

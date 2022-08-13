@@ -9,60 +9,36 @@ import java.util.function.Function;
 
 /**
  * 当第一个条件成立就会保存异常信息，不会再替换异常信息，异常由最终方法决定是否抛出，不会自主抛出，由调用者决定
+ *
  * @author min
  */
-public class FirstApiAssert implements ApiAssert<Object> {
+public class FirstApiAssert extends ObjectApiAssert<FirstApiAssert> {
 
     private String errorMsg;
 
-    private ApiAssert<Object> apiAssert;
 
-    public static FirstApiAssert create() {
+    public static ApiAssert<Object, FirstApiAssert> create() {
         return new FirstApiAssert();
     }
 
     public FirstApiAssert() {
-        apiAssert = new ObjectApiAssert() {
-            @Override
-            protected void established(String msg) throws RuntimeException {
-                if (errorMsg == null) {
-                    errorMsg = msg;
-                }
-            }
-
-            @Override
-            protected <S extends ApiAssert<Object>> S self() {
-                return (S) FirstApiAssert.this;
-            }
-        };
     }
 
     @Override
-    public FirstApiAssert isNull(Object obj, String msg) {
-        return (FirstApiAssert) apiAssert.isNull(obj, msg);
+    protected void established(String msg) throws RuntimeException {
+        if (errorMsg == null) {
+            errorMsg = msg;
+        }
     }
 
     @Override
-    public FirstApiAssert isEmpty(Object obj, String msg) {
-        return (FirstApiAssert) apiAssert.isEmpty(obj, msg);
+    public FirstApiAssert self() {
+        return this;
     }
 
-    @Override
-    public FirstApiAssert isTrue(boolean condition, String msg) {
-        return (FirstApiAssert) apiAssert.isTrue(condition, msg);
-    }
-
-    @Override
-    public FirstApiAssert isFalse(boolean condition, String msg) {
-        return (FirstApiAssert) apiAssert.isFalse(!condition, msg);
-    }
-
-    @Override
-    public FirstApiAssert process(Runnable handler) {
-        return (FirstApiAssert) apiAssert.process(handler);
-    }
     /**
      * 当前是否是成功的状态
+     *
      * @return
      */
     public boolean isSuccess() {
@@ -71,6 +47,7 @@ public class FirstApiAssert implements ApiAssert<Object> {
 
     /**
      * 持有当前状态
+     *
      * @param holder
      * @return
      */

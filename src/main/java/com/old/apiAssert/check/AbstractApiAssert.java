@@ -9,23 +9,23 @@ import java.util.Map;
  * 异常的通用检查类
  * @author min
  */
-public abstract class AbstractApiAssert<T> implements ApiAssert<T> {
+public abstract class AbstractApiAssert<T, S extends ApiAssert<T, S>> implements ApiAssert<T, S> {
 
     @Override
-    public ApiAssert<T> isNull(T t, String msg) {
+    public S isNull(T t, String msg) {
         judge(t == null, msg);
         return self();
     }
 
 
     @Override
-    public ApiAssert<T> nonNull(T t, String msg) {
+    public S nonNull(T t, String msg) {
         judge(t != null, msg);
         return self();
     }
 
     @Override
-    public ApiAssert<T> isEmpty(T t, String msg) {
+    public S isEmpty(T t, String msg) {
         if (t == null) {
             judge(true, msg);
         } else if (t instanceof Collection) {
@@ -41,19 +41,19 @@ public abstract class AbstractApiAssert<T> implements ApiAssert<T> {
     }
 
     @Override
-    public ApiAssert<T> isTrue(boolean condition, String msg) {
+    public S isTrue(boolean condition, String msg) {
         judge(condition, msg);
         return self();
     }
 
     @Override
-    public ApiAssert<T> isFalse(boolean condition, String msg) {
+    public S isFalse(boolean condition, String msg) {
         judge(!condition, msg);
         return self();
     }
 
     @Override
-    public ApiAssert<T> process(Runnable handler) {
+    public S process(Runnable handler) {
         handler.run();
         return self();
     }
@@ -81,12 +81,5 @@ public abstract class AbstractApiAssert<T> implements ApiAssert<T> {
     protected void invalid() {
 
     }
-
-    /**
-     * 返回自身
-     * @param <S>
-     * @return
-     */
-    protected abstract <S extends ApiAssert<T>> S self();
 
 }
