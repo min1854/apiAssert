@@ -66,7 +66,7 @@ public class ReflectionApiAssert<E extends RuntimeException> extends ObjectApiAs
         }
     }
 
-    public static <E extends RuntimeException> ApiAssert<Object, ReflectionApiAssert<E>> create(Class<E> exception) {
+    public static <E extends RuntimeException> ApiAssert<Object, ReflectionApiAssert<E>, String> create(Class<E> exception) {
         return new ReflectionApiAssert<E>(exception);
     }
 

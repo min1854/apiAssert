@@ -15,7 +15,7 @@ public class FirstApiAssertTest {
     public void testFirstApiAssert() {
 
         System.out.println();
-        ApiAssert<Object, FirstApiAssert> apiAssert = FirstApiAssert.create();
+        ApiAssert<Object, FirstApiAssert, String> apiAssert = FirstApiAssert.create();
         Holder<Boolean> hodler = Holder.holder();
         apiAssert.isNull(new Object(), "对象为空")
                 .isEmpty("不为空", "对象不存在")

@@ -9,7 +9,7 @@ import java.util.Map;
  * 异常的通用检查类
  * @author min
  */
-public abstract class AbstractApiAssert<T, S extends ApiAssert<T, S>> implements ApiAssert<T, S> {
+public abstract class AbstractApiAssert<T, S extends ApiAssert<T, S, String>> implements ApiAssert<T, S, String> {
 
     @Override
     public S isNull(T t, String msg) {
@@ -73,10 +73,10 @@ public abstract class AbstractApiAssert<T, S extends ApiAssert<T, S>> implements
 
     /**
      * 条件成立处理方法 由子类实现
-     * @param msg
+     * @param message
      * @throws RuntimeException
      */
-    protected abstract void established(String msg) throws RuntimeException;
+    protected abstract void established(String message) throws RuntimeException;
 
     protected void invalid() {
 
