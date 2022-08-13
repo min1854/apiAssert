@@ -9,7 +9,7 @@ import java.util.function.Supplier;
  *
  * @author min
  */
-public class FunctionApiAssert extends ObjectApiAssert<FunctionApiAssert> {
+public class FunctionApiAssert extends ObjectStringApiAssert<FunctionApiAssert> {
 
     private Function<String, RuntimeException> function;
 

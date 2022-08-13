@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author min
  */
-public class ReflectionApiAssert<E extends RuntimeException> extends ObjectApiAssert<ReflectionApiAssert<E>> {
+public class ReflectionApiAssert<E extends RuntimeException> extends ObjectStringApiAssert<ReflectionApiAssert<E>> {
 
     private Class<E> exception;
 

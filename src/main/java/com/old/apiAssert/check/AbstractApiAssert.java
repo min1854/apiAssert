@@ -5,50 +5,52 @@ import com.old.apiAssert.api.ApiAssert;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
+
 /**
  * 异常的通用检查类
+ *
  * @author min
  */
-public abstract class AbstractApiAssert<T, S extends ApiAssert<T, S, String>> implements ApiAssert<T, S, String> {
+public abstract class AbstractApiAssert<T, S extends ApiAssert<T, S, M>, M> implements ApiAssert<T, S, M> {
 
     @Override
-    public S isNull(T t, String msg) {
-        judge(t == null, msg);
+    public S isNull(T t, M message) {
+        judge(t == null, message);
         return self();
     }
 
 
     @Override
-    public S nonNull(T t, String msg) {
-        judge(t != null, msg);
+    public S nonNull(T t, M message) {
+        judge(t != null, message);
         return self();
     }
 
     @Override
-    public S isEmpty(T t, String msg) {
+    public S isEmpty(T t, M message) {
         if (t == null) {
-            judge(true, msg);
+            judge(true, message);
         } else if (t instanceof Collection) {
-            judge(((Collection<?>) t).isEmpty(), msg);
+            judge(((Collection<?>) t).isEmpty(), message);
         } else if (t instanceof String) {
-            judge(((String) t).isEmpty(), msg);
+            judge(((String) t).isEmpty(), message);
         } else if (t instanceof Map) {
-            judge(((Map<?, ?>)t).isEmpty(), msg);
+            judge(((Map<?, ?>) t).isEmpty(), message);
         } else if (t.getClass().isArray()) {
-            judge(Array.getLength(t) == 0, msg);
+            judge(Array.getLength(t) == 0, message);
         }
         return self();
     }
 
     @Override
-    public S isTrue(boolean condition, String msg) {
-        judge(condition, msg);
+    public S isTrue(boolean condition, M message) {
+        judge(condition, message);
         return self();
     }
 
     @Override
-    public S isFalse(boolean condition, String msg) {
-        judge(!condition, msg);
+    public S isFalse(boolean condition, M message) {
+        judge(!condition, message);
         return self();
     }
 
@@ -60,12 +62,13 @@ public abstract class AbstractApiAssert<T, S extends ApiAssert<T, S, String>> im
 
     /**
      * 判断条件是否成立
+     *
      * @param condition
-     * @param msg
+     * @param message
      */
-    protected void judge(boolean condition, String msg) {
-        if(condition) {
-            established(msg);
+    protected void judge(boolean condition, M message) {
+        if (condition) {
+            established(message);
         } else {
             invalid();
         }
@@ -73,10 +76,11 @@ public abstract class AbstractApiAssert<T, S extends ApiAssert<T, S, String>> im
 
     /**
      * 条件成立处理方法 由子类实现
+     *
      * @param message
      * @throws RuntimeException
      */
-    protected abstract void established(String message) throws RuntimeException;
+    protected abstract void established(M message) throws RuntimeException;
 
     protected void invalid() {
 

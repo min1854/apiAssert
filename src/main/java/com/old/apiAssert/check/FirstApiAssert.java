@@ -12,7 +12,7 @@ import java.util.function.Function;
  *
  * @author min
  */
-public class FirstApiAssert extends ObjectApiAssert<FirstApiAssert> {
+public class FirstApiAssert extends ObjectStringApiAssert<FirstApiAssert> {
 
     private String errorMsg;
 

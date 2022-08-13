@@ -4,8 +4,12 @@ package com.old.apiAssert.api;
 import java.util.function.Supplier;
 
 /**
+ *
  * 所有检查器的顶级接口
  * @author min
+ * @param <T> 检验的类型
+ * @param <S> 实现类
+ * @param <M> 消息类型
  */
 public interface ApiAssert<T, S extends ApiAssert<T, S, M>, M> {
 

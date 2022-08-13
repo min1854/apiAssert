@@ -9,7 +9,7 @@ import java.util.function.Supplier;
  *
  * @author min
  */
-public class OperateApiAssert<T> extends ObjectApiAssert<OperateApiAssert<T>> {
+public class OperateApiAssert<T> extends ObjectStringApiAssert<OperateApiAssert<T>> {
 
     private final T obj;
 
