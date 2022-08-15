@@ -4,13 +4,11 @@ import com.old.apiAssert.api.ApiAssert;
 import com.old.apiAssert.check.AbstractApiAssert;
 import com.old.apiAssert.check.OperateApiAssert;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 /**
  * 内部类的泛型要么全部都是泛型，要么全部都是指定类型
+ *
  * @param <T>
  * @param <S>
  * @param <M>
@@ -114,24 +112,39 @@ public abstract class AbstractOperationApiAssert<T, S extends AbstractOperationA
     }
 
 
-    public <T> S then(T t) {
-        return null;
+    public <ThenR, ThenS extends ApiAssert<ThenR, ThenS, M>> ThenS then(ThenR t) {
+        return of(t, this.exceptionGenerator);
     }
 
-    public <T> S then(Supplier<T> supplier) {
+    public <ThenR, ThenS extends ApiAssert<ThenR, ThenS, M>> ThenS then(ThenR t, Function<M, RuntimeException> exceptionGenerator) {
+        return of(t, exceptionGenerator);
+    }
+
+    public <ThenR, ThenS extends ApiAssert<ThenR, ThenS, M>> ThenS then(Supplier<ThenR> supplier) {
         return of(supplier.get(), exceptionGenerator);
     }
 
-    public <T> S then(Supplier<T> supplier, Function<M, RuntimeException> exceptionGenerator) {
+    public <ThenR, ThenS extends ApiAssert<ThenR, ThenS, M>> ThenS then(Supplier<ThenR> supplier, Function<M, RuntimeException> exceptionGenerator) {
         return of(supplier.get(), exceptionGenerator);
     }
 
-    public <R> S then(Function<T, R> function) {
+    public <ThenR, ThenS extends ApiAssert<ThenR, ThenS, M>> ThenS then(Function<T, ThenR> function) {
         return of(function.apply(this.obj), exceptionGenerator);
     }
 
-    public <R> S then(Function<T, R> function, Function<M, RuntimeException> exceptionGenerator) {
+    public <ThenR, ThenS extends ApiAssert<ThenR, ThenS, ThenM>, ThenM> ThenS
+    then(Function<T, ThenR> function, Function<ThenM, RuntimeException> exceptionGenerator) {
         return of(function.apply(this.obj), exceptionGenerator);
+    }
+
+    public <ThenR, ThenS> ThenS then(BiFunction<T, ApiAssert<T, S, M>, ThenR> function) {
+        return of(function.apply(this.obj, this), this.exceptionGenerator);
+    }
+
+
+    public <ThenR, ThenS extends ApiAssert<ThenR, ThenS, ThenM>, ThenM> ThenS then(BiFunction<T, ApiAssert<T, S, M>, ThenR> function,
+                                                                                   Function<ThenM, RuntimeException> exceptionGenerator) {
+        return of(function.apply(this.obj, this), exceptionGenerator);
     }
 
     public S process(Consumer<T> consumer) {
@@ -145,8 +158,5 @@ public abstract class AbstractOperationApiAssert<T, S extends AbstractOperationA
     }
 
 
-
-    protected <T> S of(T t, Function<M, RuntimeException> exceptionGenerator) {
-        return null;
-    }
+    protected abstract <T, S extends ApiAssert<T, S, M>, M> S of(T t, Function<M, RuntimeException> exceptionGenerator);
 }
