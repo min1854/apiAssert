@@ -7,6 +7,6 @@ public abstract class ObjectExceptionGenerator<M> extends AbstractApiAssert<Obje
 
     @Override
     public ObjectExceptionGenerator<M> self() {
-        throw new ApiAssertException("不支持的操作");
+        return null;
     }
 }

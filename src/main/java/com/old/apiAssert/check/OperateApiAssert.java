@@ -1,9 +1,8 @@
 package com.old.apiAssert.check;
 
-import com.old.apiAssert.api.ApiAssert;
+import com.old.apiAssert.api.OptionalApiAssert;
 import com.old.apiAssert.check.operation.AbstractOperationApiAssert;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -12,24 +11,19 @@ import java.util.function.Supplier;
  *
  * @author min
  */
-public class OperateApiAssert<T> extends AbstractOperationApiAssert<T, OperateApiAssert<T>, String> {
+public class OperateApiAssert<ELEMENT> extends AbstractOperationApiAssert<ELEMENT, OperateApiAssert<ELEMENT>, String> {
 
 
-    public OperateApiAssert(T obj, Function<String, RuntimeException> exceptionGenerator) {
+    public OperateApiAssert(ELEMENT obj, Function<String, RuntimeException> exceptionGenerator) {
         super(obj, exceptionGenerator);
     }
 
-    @Override
-    protected <T, S extends ApiAssert<T, S, String>> S of(T t, Function<String, RuntimeException> exceptionGenerator) {
-        return null;
-    }
-
-    public static <T> OperateApiAssert<T> create(T obj, Function<String, RuntimeException> exceptionFunction) {
-        return new OperateApiAssert<T>(obj, exceptionFunction);
+    public static <ELEMENT> OperateApiAssert<ELEMENT> create(ELEMENT obj, Function<String, RuntimeException> exceptionFunction) {
+        return new OperateApiAssert<ELEMENT>(obj, exceptionFunction);
     }
 
 
-    public static <T> OperateApiAssert<T> newInstance(T obj, Supplier<RuntimeException> exceptionSupplier) {
+    public static <ELEMENT> OperateApiAssert<ELEMENT> newInstance(ELEMENT obj, Supplier<RuntimeException> exceptionSupplier) {
         return create(obj, msg -> {
             throw exceptionSupplier.get();
         });
@@ -37,12 +31,28 @@ public class OperateApiAssert<T> extends AbstractOperationApiAssert<T, OperateAp
 
 
     @Override
-    public OperateApiAssert<T> self() {
+    public OperateApiAssert<ELEMENT> self() {
         return this;
     }
 
-    @Override
-    protected void established(String message) throws RuntimeException {
-
+    // @Override
+    protected <ELEMENT, SELF extends AbstractOperationApiAssert<ELEMENT, SELF, String>> OperateApiAssert<ELEMENT> of(ELEMENT ELEMENT) {
+        return new OperateApiAssert<ELEMENT>(ELEMENT, exceptionGenerator);
     }
+
+    // @Override
+    protected void established(String message) throws RuntimeException {
+        throw exceptionGenerator.apply(message);
+    }
+
+    @Override
+    public <ThenR, SELF extends OptionalApiAssert<ThenR, SELF, String>> SELF then(Function<ELEMENT, ThenR> function) {
+        return null;
+    }
+
+
+   /* @Override
+    public  <ELEMENT,  SELF extends AbstractOperationApiAssert<ELEMENT, OperateApiAssert<ELEMENT>, SELF, String>> SELF of(ELEMENT element) {
+        return new OperateApiAssert(element, this.exceptionGenerator);
+    }*/
 }
