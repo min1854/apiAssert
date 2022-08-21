@@ -31,19 +31,23 @@ public interface OptionalApiAssert<ELEMENT, SELF extends OptionalApiAssert<ELEME
 
     public SELF isFalse(Function<ELEMENT, Boolean> function, Function<ELEMENT, MESSAGE> message);
 
-    
-    
-    
-    
 
-    public <THENRESULT, SELF extends OptionalApiAssert<THENRESULT, SELF, MESSAGE>> SELF then(THENRESULT ELEMENT);
+    public <THENRESULT, MESSAGE, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(THENRESULT thenResult);
 
-    public <THENRESULT, SELF extends OptionalApiAssert<THENRESULT, SELF, MESSAGE>> SELF then(Supplier<THENRESULT> supplier);
+    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(Supplier<THENRESULT> thenResult);
 
-    public <THENRESULT, SELF extends OptionalApiAssert<THENRESULT, SELF, MESSAGE>> SELF then(Function<ELEMENT, THENRESULT> function);
+    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(Function<ELEMENT, THENRESULT> thenResult);
 
-    public <THENRESULT, ThenS extends OptionalApiAssert<THENRESULT, ThenS, MESSAGE>> ThenS then(
-            BiFunction<ELEMENT, OptionalApiAssert<ELEMENT, SELF, MESSAGE>, THENRESULT> function);
+    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(
+            BiFunction<ELEMENT, OptionalApiAssert<ELEMENT, SELF, MESSAGE>, THENRESULT> thenResult);
+
+    public default <T> T process(Supplier<T> supplier) {
+        return supplier.get();
+    }
+
+    public default void process(Runnable execute) {
+        execute.run();
+    }
 
     public SELF process(Consumer<ELEMENT> consumer);
 

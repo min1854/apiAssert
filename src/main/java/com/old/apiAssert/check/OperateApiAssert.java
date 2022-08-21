@@ -35,24 +35,9 @@ public class OperateApiAssert<ELEMENT> extends AbstractOperationApiAssert<ELEMEN
         return this;
     }
 
-    // @Override
-    protected <ELEMENT, SELF extends AbstractOperationApiAssert<ELEMENT, SELF, String>> OperateApiAssert<ELEMENT> of(ELEMENT ELEMENT) {
-        return new OperateApiAssert<ELEMENT>(ELEMENT, exceptionGenerator);
-    }
-
-    // @Override
-    protected void established(String message) throws RuntimeException {
-        throw exceptionGenerator.apply(message);
-    }
-
     @Override
-    public <ThenR, SELF extends OptionalApiAssert<ThenR, SELF, String>> SELF then(Function<ELEMENT, ThenR> function) {
-        return null;
+    protected <THENRESULT, THENSELF extends OptionalApiAssert<ELEMENT, THENSELF, String>> THENSELF of(THENRESULT thenResult) {
+        return (THENSELF) new OperateApiAssert<THENRESULT>(thenResult, this.exceptionGenerator);
     }
 
-
-   /* @Override
-    public  <ELEMENT,  SELF extends AbstractOperationApiAssert<ELEMENT, OperateApiAssert<ELEMENT>, SELF, String>> SELF of(ELEMENT element) {
-        return new OperateApiAssert(element, this.exceptionGenerator);
-    }*/
 }

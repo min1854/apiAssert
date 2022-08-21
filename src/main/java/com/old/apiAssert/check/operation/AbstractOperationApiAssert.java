@@ -155,27 +155,27 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
 
 
     @Override
-    public <THENRESULT, SELF extends OptionalApiAssert<THENRESULT, SELF, MESSAGE>> SELF then(THENRESULT ELEMENT) {
-        return of(ELEMENT);
+    public <THENRESULT, MESSAGE, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(THENRESULT thenResult){
+        return (THENSELF) of(thenResult);
     }
 
 
     @Override
-    public <THENRESULT, SELF extends OptionalApiAssert<THENRESULT, SELF, MESSAGE>> SELF then(Supplier<THENRESULT> supplier) {
-        return of(supplier.get());
+    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(Supplier<THENRESULT> supplier) {
+        return (THENSELF) of(supplier.get());
     }
 
 
     @Override
-    public <THENRESULT, SELF extends OptionalApiAssert<THENRESULT, SELF, MESSAGE>> SELF then(Function<ELEMENT, THENRESULT> function) {
-        return of(function.apply(this.obj));
+    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(Function<ELEMENT, THENRESULT> function) {
+        return (THENSELF) of(function.apply(this.obj));
     }
 
 
     @Override
-    public <THENRESULT, ThenS extends OptionalApiAssert<THENRESULT, ThenS, MESSAGE>> ThenS then(
+    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(
             BiFunction<ELEMENT, OptionalApiAssert<ELEMENT, SELF, MESSAGE>, THENRESULT> function) {
-        return of(function.apply(this.obj, self()));
+        return(THENSELF) of(function.apply(this.obj, self()));
     }
 
 
@@ -200,5 +200,5 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
      * @return
      */
     // protected abstract <ELEMENT,  SELF extends AbstractOperationApiAssert<ELEMENT, SELF, MESSAGE>> SELF of(ELEMENT ELEMENT);
-    protected abstract <ELEMENT, SELF extends OptionalApiAssert<ELEMENT, SELF, MESSAGE>> SELF of(ELEMENT ELEMENT);
+    protected abstract <THENRESULT, THENSELF extends OptionalApiAssert<ELEMENT, THENSELF, MESSAGE>> THENSELF of(THENRESULT thenResult);
 }
