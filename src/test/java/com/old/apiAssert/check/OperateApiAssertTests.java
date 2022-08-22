@@ -17,12 +17,14 @@ public class OperateApiAssertTests {
 
     @Test(expected = ApiAssertException.class)
     public void testBi() {
-        createAssert().then((testEntity, apiAssert) -> {
-            apiAssert.isNull(new Object(), "为空");
-            return null;
-        });
-    }
+        OperateApiAssert<Object> apiAssert = createAssert()
+                .then((testEntity, standardApiAssert) -> {
+                    standardApiAssert.isNull(new Object(), "为空");
+                    return new Object();
+                });
 
+        // THENSELF then = apiAssert.then(() -> new TestEntity());
+    }
 
 
     @Test(expected = ApiAssertException.class)
@@ -41,36 +43,36 @@ public class OperateApiAssertTests {
                     System.out.println("新增错误对象生成信息方法");
                     return new Object();
                 });
-        then.isNull(Object::toString,Object::toString);
+        then.isNull(Object::toString, Object::toString);
         then.throwRuntime(new NoArgConstructorException("最终抛出"));
 
     }
 
 
-    // @Test(expected = ApiAssertException.class)
-    // public void testOperateApiAssert() {
-    //     OperateApiAssert<TestEntity> apiAssert = createAssert();
-    //
-    //     apiAssert
-    //             .isEmpty(TestEntity::getId, "id 为空")
-    //             .isTrue(TestEntity::getDeleteFlag, "当前对象已删除")
-    //             .isNull(new Object(), "对象为空")
-    //             .isEmpty(apiAssert.getObj(), "这是空对象")
-    //             .isTrue(false, "条件成立")
-    //             .isFalse(true, "条件不成立")
-    //     ;
-    //
-    //
-    //     System.out.println(apiAssert.getClass());
-    //     apiAssert.isTrue(true, "条件成立");
-    //
-    // }
+    @Test(expected = ApiAssertException.class)
+    public void testOperateApiAssert() {
+        OperateApiAssert<TestEntity> apiAssert = createAssert();
+
+        apiAssert
+                .isEmpty(TestEntity::getId, "id 为空")
+                .isTrue(TestEntity::getDeleteFlag, "当前对象已删除")
+                .isNull(new Object(), "对象为空")
+                .isEmpty(apiAssert.getObj(), "这是空对象")
+                .isTrue(false, "条件成立")
+                .isFalse(true, "条件不成立")
+        ;
+
+
+        System.out.println(apiAssert.getClass());
+        apiAssert.isTrue(true, "条件成立");
+
+    }
 
     @Test
     public void process() {
         OperateApiAssert<TestEntity> apiAssert = createAssert();
 
-        apiAssert.process(()->{
+        apiAssert.process(() -> {
                     System.out.println("校验前，业务逻辑");
                     System.out.println("实体类 id 值：" + apiAssert.getObj().getId());
                 })
@@ -83,7 +85,7 @@ public class OperateApiAssertTests {
             System.out.println("返回对象: " + o);
             return o;
         });
-        // apiAssert.isNull(transitionResult, "校验过程中出现为空的对象");
+        apiAssert.isNull(transitionResult, "校验过程中出现为空的对象");
     }
 
     @Test
@@ -93,7 +95,7 @@ public class OperateApiAssertTests {
         then.isNull("该对象是否为空");
 
         Object obj = then.getObj();
-        // then.isFalse(obj.equals(base), "两者不相同");
+        then.isFalse(obj.equals(base), "两者不相同");
 
         OperateApiAssert<TestEntity> anAssert = then.then(new TestEntity());
 
@@ -102,10 +104,8 @@ public class OperateApiAssertTests {
 
 
         OperateApiAssert<Integer> idAssert = anAssert.then(TestEntity::getId);
-        idAssert.isTrue(id -> false,"条件为真");
+        idAssert.isTrue(id -> false, "条件为真");
     }
-
-
 
 
 }

@@ -5,6 +5,7 @@ import com.old.apiAssert.api.StandardApiAssert;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * 异常的通用检查类

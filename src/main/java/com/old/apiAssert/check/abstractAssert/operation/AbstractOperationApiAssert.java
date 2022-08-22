@@ -2,166 +2,125 @@ package com.old.apiAssert.check.abstractAssert.operation;
 
 import com.old.apiAssert.api.OptionalApiAssert;
 import com.old.apiAssert.api.StandardApiAssert;
+import com.old.apiAssert.check.abstractAssert.AbstractObjectApiAssert;
 
 import java.util.function.*;
 
-/**
- * 内部类的泛型要么全部都是泛型，要么全部都是指定类型
- *
- * @param <ELEMENT>
- * @param <S>
- * @param <MESSAGE>
- */
 public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractOperationApiAssert<ELEMENT, SELF, MESSAGE>, MESSAGE>
-        implements OptionalApiAssert<ELEMENT, SELF, MESSAGE> {
+        extends AbstractObjectApiAssert<SELF, MESSAGE> implements OptionalApiAssert<ELEMENT, SELF, MESSAGE> {
 
-
-    protected final ELEMENT obj;
+    protected ELEMENT obj;
 
     protected Function<MESSAGE, RuntimeException> exceptionGenerator;
-
-    private Function<MESSAGE, String> messageConverter;
-
-
-    private ObjectExceptionGenerator<MESSAGE> apiAssert = new ObjectExceptionGenerator<MESSAGE>() {
-        @Override
-        protected void established(MESSAGE message) throws RuntimeException {
-            throw exceptionGenerator.apply(message);
-        }
-
-    };
-
 
     public AbstractOperationApiAssert(ELEMENT obj, Function<MESSAGE, RuntimeException> exceptionGenerator) {
         this.obj = obj;
         this.exceptionGenerator = exceptionGenerator;
     }
 
+
     public ELEMENT getObj() {
         return obj;
     }
 
-    public Function<MESSAGE, RuntimeException> getExceptionGenerator() {
-        return exceptionGenerator;
+    @Override
+    protected void established(MESSAGE message) throws RuntimeException {
+        throw exceptionGenerator.apply(message);
     }
-
-    public ObjectExceptionGenerator<MESSAGE> getApiAssert() {
-        return apiAssert;
-    }
-
-    public SELF setExceptionGenerator(Function<MESSAGE, RuntimeException> exceptionGenerator) {
-        this.exceptionGenerator = exceptionGenerator;
-        return self();
-    }
-
-    public String convertMessage(MESSAGE message) {
-        return messageConverter.apply(message);
-    }
-
 
     @Override
     public SELF nonNull(MESSAGE message) {
-        apiAssert.nonNull(this.obj, message);
-        return self();
+        return super.nonNull(this.obj, message);
     }
 
     @Override
     public <R> SELF nonNull(Function<ELEMENT, R> function, MESSAGE message) {
-        apiAssert.nonNull(function.apply(this.obj), message);
-        return self();
+        return super.nonNull(function.apply(this.obj), message);
     }
 
     @Override
     public <R> SELF nonNull(Function<ELEMENT, R> function, Function<ELEMENT, MESSAGE> message) {
-        apiAssert.nonNull(function.apply(this.obj), message.apply(this.obj));
-        return self();
+        return super.nonNull(function.apply(this.obj), message.apply(this.obj));
     }
 
     @Override
     public SELF isNull(MESSAGE message) {
-        apiAssert.isNull(this.obj, message);
-        return self();
+        return super.nonNull(this.obj, message);
     }
 
     @Override
     public <R> SELF isNull(Function<ELEMENT, R> function, MESSAGE message) {
-        apiAssert.isNull(function.apply(this.obj), message);
-        return self();
+        return super.isNull(function.apply(this.obj), message);
     }
 
     @Override
     public <R> SELF isNull(Function<ELEMENT, R> function, Function<ELEMENT, MESSAGE> message) {
-        apiAssert.isNull(function.apply(this.obj), message.apply(this.obj));
-        return self();
+        return super.isNull(function.apply(this.obj), message.apply(this.obj));
     }
 
     @Override
     public <R> SELF isEmpty(Function<ELEMENT, R> function, MESSAGE message) {
-        apiAssert.isEmpty(function.apply(this.obj), message);
-        return self();
+        return super.isEmpty(function.apply(this.obj), message);
     }
 
     @Override
     public SELF isEmpty(MESSAGE message) {
-        apiAssert.isEmpty(this.obj, message);
-        return self();
+        return super.isEmpty(this.obj, message);
     }
 
     @Override
     public <R> SELF isEmpty(Function<ELEMENT, R> function, Function<ELEMENT, MESSAGE> message) {
-        apiAssert.isEmpty(function.apply(this.obj), message.apply(this.obj));
-        return self();
+        return super.isEmpty(function.apply(this.obj), message.apply(this.obj));
     }
 
     @Override
     public SELF isTrue(Function<ELEMENT, Boolean> function, MESSAGE message) {
-        apiAssert.isTrue(function.apply(this.obj), message);
-        return self();
+        Boolean actual = function.apply(this.obj);
+        super.isNull(actual, message);
+        return super.isTrue(actual, message);
     }
 
     @Override
-    public SELF isTrue(Function<ELEMENT, Boolean> function, Function<ELEMENT, MESSAGE> message) {
-        apiAssert.isTrue(function.apply(this.obj), message.apply(this.obj));
-        return self();
+    public SELF isTrue(Function<ELEMENT, Boolean> function, Function<ELEMENT, MESSAGE> messageCreate) {
+        Boolean actual = function.apply(this.obj);
+        MESSAGE message = messageCreate.apply(this.obj);
+        super.isNull(actual, message);
+        return super.isTrue(actual, message);
     }
 
     @Override
     public SELF isFalse(Function<ELEMENT, Boolean> function, MESSAGE message) {
-        apiAssert.isFalse(function.apply(this.obj), message);
-        return self();
+        Boolean actual = function.apply(this.obj);
+        super.isNull(actual, message);
+        return super.isFalse(actual, message);
     }
 
     @Override
-    public SELF isFalse(Function<ELEMENT, Boolean> function, Function<ELEMENT, MESSAGE> message) {
-        apiAssert.isFalse(function.apply(this.obj), message.apply(this.obj));
-        return self();
+    public SELF isFalse(Function<ELEMENT, Boolean> function, Function<ELEMENT, MESSAGE> messageCreate) {
+        Boolean actual = function.apply(this.obj);
+        MESSAGE message = messageCreate.apply(this.obj);
+        super.isNull(actual, message);
+        return super.isFalse(actual, message);
     }
 
+    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(Supplier<THENRESULT> thenResult) {
+        return (THENSELF) of(thenResult.get());
+    }
+
+    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(Function<ELEMENT, THENRESULT> thenResult) {
+        return (THENSELF) of(thenResult.apply(this.obj));
+    }
+
+    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF
+    then(BiFunction<ELEMENT, StandardApiAssert<Object, ?, MESSAGE>, THENRESULT> thenResult) {
+        return (THENSELF) of(thenResult.apply(this.obj, this));
+    }
 
     @Override
-    public <THENRESULT, MESSAGE, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(THENRESULT thenResult){
+    public <THENRESULT, MESSAGE, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF
+    then(THENRESULT thenResult) {
         return (THENSELF) of(thenResult);
     }
-
-
-    @Override
-    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(Supplier<THENRESULT> supplier) {
-        return (THENSELF) of(supplier.get());
-    }
-
-
-    @Override
-    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(Function<ELEMENT, THENRESULT> function) {
-        return (THENSELF) of(function.apply(this.obj));
-    }
-
-
-    @Override
-    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(
-            BiFunction<ELEMENT, ObjectExceptionGenerator<MESSAGE>, THENRESULT> function) {
-        return(THENSELF) of(function.apply(this.obj, this.apiAssert));
-    }
-
 
     @Override
     public SELF process(Consumer<ELEMENT> consumer) {
@@ -169,19 +128,18 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
         return self();
     }
 
-
     @Override
-    public SELF process(BiConsumer<ELEMENT, ObjectExceptionGenerator<MESSAGE>> consumer) {
-        consumer.accept(this.obj, getApiAssert());
+    public SELF process(BiConsumer<ELEMENT, StandardApiAssert<Object, ?, MESSAGE>> consumer) {
+        consumer.accept(this.obj, this);
         return self();
     }
 
     /**
      * 这里的 s 是否应该是新的，应该是新的，因为 泛型，无法 泛型《泛型》，所以需要返回新的 s，不然默认
      *
-     * @param ELEMENT
+     * @param THENRESULT
      * @return
      */
     // protected abstract <ELEMENT,  SELF extends AbstractOperationApiAssert<ELEMENT, SELF, MESSAGE>> SELF of(ELEMENT ELEMENT);
-    protected abstract <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF of(THENRESULT thenResult);
+    protected abstract <THENRESULT, THENSELF extends AbstractOperationApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF of(THENRESULT thenResult);
 }

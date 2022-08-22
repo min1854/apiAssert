@@ -1,6 +1,5 @@
 package com.old.apiAssert.check;
 
-import com.old.apiAssert.api.OptionalApiAssert;
 import com.old.apiAssert.check.abstractAssert.operation.AbstractOperationApiAssert;
 
 import java.util.function.Function;
@@ -22,13 +21,11 @@ public class OperateApiAssert<ELEMENT> extends AbstractOperationApiAssert<ELEMEN
         return new OperateApiAssert<ELEMENT>(obj, exceptionFunction);
     }
 
-
     public static <ELEMENT> OperateApiAssert<ELEMENT> newInstance(ELEMENT obj, Supplier<RuntimeException> exceptionSupplier) {
         return create(obj, msg -> {
             throw exceptionSupplier.get();
         });
     }
-
 
     @Override
     public OperateApiAssert<ELEMENT> self() {
@@ -36,7 +33,7 @@ public class OperateApiAssert<ELEMENT> extends AbstractOperationApiAssert<ELEMEN
     }
 
     @Override
-    protected <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, String>> THENSELF of(THENRESULT thenResult) {
+    protected <THENRESULT, THENSELF extends AbstractOperationApiAssert<THENRESULT, THENSELF, String>> THENSELF of(THENRESULT thenResult) {
         return (THENSELF) new OperateApiAssert<THENRESULT>(thenResult, this.exceptionGenerator);
     }
 
