@@ -1,7 +1,7 @@
 package com.old.apiAssert.check;
 
 import com.old.apiAssert.Holder;
-import com.old.apiAssert.api.ApiAssert;
+import com.old.apiAssert.api.StandardApiAssert;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -12,12 +12,12 @@ import java.util.function.Function;
  *
  * @author min
  */
-public class FirstApiAssert extends ObjectStringApiAssert<FirstApiAssert> {
+public class FirstApiAssert extends DefaultApiAssert<FirstApiAssert> {
 
     private String errorMsg;
 
 
-    public static ApiAssert<Object, FirstApiAssert, String> create() {
+    public static StandardApiAssert<Object, FirstApiAssert, String> create() {
         return new FirstApiAssert();
     }
 

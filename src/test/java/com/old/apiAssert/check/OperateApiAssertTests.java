@@ -16,6 +16,16 @@ public class OperateApiAssertTests {
 
 
     @Test(expected = ApiAssertException.class)
+    public void testBi() {
+        createAssert().then((testEntity, apiAssert) -> {
+            apiAssert.isNull(new Object(), "为空");
+            return null;
+        });
+    }
+
+
+
+    @Test(expected = ApiAssertException.class)
     public void testCheckObjGenErrorMsg() {
         OperateApiAssert<TestEntity> apiAssert = createAssert();
         OperateApiAssert<Object> then = apiAssert
@@ -32,7 +42,7 @@ public class OperateApiAssertTests {
                     return new Object();
                 });
         then.isNull(Object::toString,Object::toString);
-        // then.throwRuntime(new NoArgConstructorException("最终抛出"));
+        then.throwRuntime(new NoArgConstructorException("最终抛出"));
 
     }
 
@@ -64,9 +74,9 @@ public class OperateApiAssertTests {
                     System.out.println("校验前，业务逻辑");
                     System.out.println("实体类 id 值：" + apiAssert.getObj().getId());
                 })
-                // .process(testEntity -> {
-                //     System.out.println("实体信息：" + testEntity);
-                // })
+                .process(testEntity -> {
+                    System.out.println("实体信息：" + testEntity);
+                })
         ;
         Object transitionResult = apiAssert.process(() -> {
             Object o = new Object();

@@ -1,7 +1,6 @@
-package com.old.apiAssert.check.operation;
+package com.old.apiAssert.check.abstractAssert.operation;
 
-import com.old.apiAssert.check.AbstractApiAssert;
-import com.old.apiAssert.exception.ApiAssertException;
+import com.old.apiAssert.check.abstractAssert.AbstractApiAssert;
 
 public abstract class ObjectExceptionGenerator<M> extends AbstractApiAssert<Object, ObjectExceptionGenerator<M>, M> {
 

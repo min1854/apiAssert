@@ -1,6 +1,7 @@
-package com.old.apiAssert.check.operation;
+package com.old.apiAssert.check.abstractAssert.operation;
 
 import com.old.apiAssert.api.OptionalApiAssert;
+import com.old.apiAssert.api.StandardApiAssert;
 
 import java.util.function.*;
 
@@ -34,27 +35,6 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
     public AbstractOperationApiAssert(ELEMENT obj, Function<MESSAGE, RuntimeException> exceptionGenerator) {
         this.obj = obj;
         this.exceptionGenerator = exceptionGenerator;
-        /*new AbstractOperationApiAssert<ELEMENT, APIASSERTOBJECT, S, MESSAGE>(obj, exceptionGenerator){
-
-            @Override
-            protected <ELEMENT,  S extends AbstractOperationApiAssert<ELEMENT, APIASSERTOBJECT, S, MESSAGE>> S of(ELEMENT ELEMENT) {
-                return AbstractOperationApiAssert.this.of(ELEMENT);
-            }
-
-            @Override
-            protected void established(MESSAGE message) throws RuntimeException {
-                exceptionGenerator.apply(message);
-            }
-
-            @Override
-            public S self() {
-                return AbstractOperationApiAssert.this.self();
-            }
-        };*/
-    }
-
-    public SELF self() {
-        return null;
     }
 
     public ELEMENT getObj() {
@@ -63,6 +43,10 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
 
     public Function<MESSAGE, RuntimeException> getExceptionGenerator() {
         return exceptionGenerator;
+    }
+
+    public ObjectExceptionGenerator<MESSAGE> getApiAssert() {
+        return apiAssert;
     }
 
     public SELF setExceptionGenerator(Function<MESSAGE, RuntimeException> exceptionGenerator) {
@@ -174,8 +158,8 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
 
     @Override
     public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(
-            BiFunction<ELEMENT, OptionalApiAssert<ELEMENT, SELF, MESSAGE>, THENRESULT> function) {
-        return(THENSELF) of(function.apply(this.obj, self()));
+            BiFunction<ELEMENT, ObjectExceptionGenerator<MESSAGE>, THENRESULT> function) {
+        return(THENSELF) of(function.apply(this.obj, this.apiAssert));
     }
 
 
@@ -187,8 +171,8 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
 
 
     @Override
-    public SELF process(BiConsumer<ELEMENT, OptionalApiAssert<ELEMENT, SELF, MESSAGE>> consumer) {
-        consumer.accept(this.obj, self());
+    public SELF process(BiConsumer<ELEMENT, ObjectExceptionGenerator<MESSAGE>> consumer) {
+        consumer.accept(this.obj, getApiAssert());
         return self();
     }
 
@@ -196,9 +180,8 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
      * 这里的 s 是否应该是新的，应该是新的，因为 泛型，无法 泛型《泛型》，所以需要返回新的 s，不然默认
      *
      * @param ELEMENT
-     * @param <ELEMENT>
      * @return
      */
     // protected abstract <ELEMENT,  SELF extends AbstractOperationApiAssert<ELEMENT, SELF, MESSAGE>> SELF of(ELEMENT ELEMENT);
-    protected abstract <THENRESULT, THENSELF extends OptionalApiAssert<ELEMENT, THENSELF, MESSAGE>> THENSELF of(THENRESULT thenResult);
+    protected abstract <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF of(THENRESULT thenResult);
 }

@@ -1,6 +1,6 @@
 package com.old.apiAssert.check;
 
-import com.old.apiAssert.api.ApiAssert;
+import com.old.apiAssert.api.StandardApiAssert;
 import com.old.apiAssert.exception.ApiAssertException;
 
 import java.lang.reflect.Constructor;
@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author min
  */
-public class ReflectionApiAssert<E extends RuntimeException> extends ObjectStringApiAssert<ReflectionApiAssert<E>> {
+public class ReflectionApiAssert<E extends RuntimeException> extends DefaultApiAssert<ReflectionApiAssert<E>> {
 
     private Class<E> exception;
 
@@ -66,7 +66,7 @@ public class ReflectionApiAssert<E extends RuntimeException> extends ObjectStrin
         }
     }
 
-    public static <E extends RuntimeException> ApiAssert<Object, ReflectionApiAssert<E>, String> create(Class<E> exception) {
+    public static <E extends RuntimeException> StandardApiAssert<Object, ReflectionApiAssert<E>, String> create(Class<E> exception) {
         return new ReflectionApiAssert<E>(exception);
     }
 

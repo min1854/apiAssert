@@ -1,6 +1,6 @@
-package com.old.apiAssert.check;
+package com.old.apiAssert.check.abstractAssert;
 
-import com.old.apiAssert.api.ApiAssert;
+import com.old.apiAssert.api.StandardApiAssert;
 
 import java.lang.reflect.Array;
 import java.util.Collection;
@@ -11,7 +11,7 @@ import java.util.Map;
  *
  * @author min
  */
-public abstract class AbstractApiAssert<T, S extends ApiAssert<T, S, M>, M> implements ApiAssert<T, S, M> {
+public abstract class AbstractApiAssert<T, S extends AbstractApiAssert<T, S, M>, M> implements StandardApiAssert<T, S, M> {
 
     @Override
     public S isNull(T t, M message) {
@@ -51,12 +51,6 @@ public abstract class AbstractApiAssert<T, S extends ApiAssert<T, S, M>, M> impl
     @Override
     public S isFalse(boolean condition, M message) {
         judge(!condition, message);
-        return self();
-    }
-
-    @Override
-    public S process(Runnable handler) {
-        handler.run();
         return self();
     }
 

@@ -1,7 +1,7 @@
 package com.old.apiAssert.check;
 
 import com.old.apiAssert.Holder;
-import com.old.apiAssert.api.ApiAssert;
+import com.old.apiAssert.api.StandardApiAssert;
 import com.old.apiAssert.exception.ApiAssertException;
 import org.junit.Test;
 
@@ -15,7 +15,7 @@ public class FirstApiAssertTest {
     public void testFirstApiAssert() {
 
         System.out.println();
-        ApiAssert<Object, FirstApiAssert, String> apiAssert = FirstApiAssert.create();
+        StandardApiAssert<Object, FirstApiAssert, String> apiAssert = FirstApiAssert.create();
         Holder<Boolean> hodler = Holder.holder();
         apiAssert.isNull(new Object(), "对象为空")
                 .isEmpty("不为空", "对象不存在")

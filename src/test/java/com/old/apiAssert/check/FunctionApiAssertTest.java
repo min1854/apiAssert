@@ -1,6 +1,6 @@
 package com.old.apiAssert.check;// package com.old.apiAssert;
 
-import com.old.apiAssert.api.ApiAssert;
+import com.old.apiAssert.api.StandardApiAssert;
 import com.old.apiAssert.exception.ApiAssertException;
 import org.junit.Test;
 
@@ -13,7 +13,8 @@ public class FunctionApiAssertTest {
     @Test(expected = ApiAssertException.class)
     public void testFunctionApiAssert() {
         Object obj = new Object();
-        ApiAssert<Object, FunctionApiAssert, String> apiAssert = FunctionApiAssert.create(ApiAssertException::new)
+        StandardApiAssert<Object, FunctionApiAssert, String> apiAssert =
+                FunctionApiAssert.create(ApiAssertException::new)
                 .isNull(obj, "当前对象为空")
                 .isEmpty(obj, "当前对象为空对象")
                 .isTrue(false, "条件是否成立")

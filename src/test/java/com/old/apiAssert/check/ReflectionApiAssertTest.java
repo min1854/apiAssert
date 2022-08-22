@@ -1,9 +1,11 @@
 package com.old.apiAssert.check;// package com.old.apiAssert;
 
-import com.old.apiAssert.api.ApiAssert;
+import com.old.apiAssert.api.StandardApiAssert;
 import com.old.apiAssert.exception.ApiAssertException;
 import com.old.apiAssert.exception.NoArgConstructorException;
 import org.junit.Test;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  *
@@ -13,7 +15,8 @@ public class ReflectionApiAssertTest {
 
     @Test(expected = ApiAssertException.class)
     public void testReflectionApiAssert() {
-        ApiAssert<Object, ReflectionApiAssert<NoArgConstructorException>, String> apiAssert = ReflectionApiAssert.create(NoArgConstructorException.class)
+        StandardApiAssert<Object, ReflectionApiAssert<NoArgConstructorException>, String> apiAssert =
+                ReflectionApiAssert.create(NoArgConstructorException.class)
                 .isNull(new Object(), "对象为空")
                 .isEmpty(new Object(), "传入了空对象")
                 .isTrue(false, "条件成立，抛出异常")

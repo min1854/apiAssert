@@ -1,9 +1,10 @@
 package com.old.apiAssert.api;
 
+import com.old.apiAssert.check.abstractAssert.operation.ObjectExceptionGenerator;
+
 import java.util.function.*;
 
-public interface OptionalApiAssert<ELEMENT, SELF extends OptionalApiAssert<ELEMENT, SELF, MESSAGE>, MESSAGE> {
-
+public interface OptionalApiAssert<ELEMENT, SELF extends OptionalApiAssert<ELEMENT, SELF, MESSAGE>, MESSAGE> extends ApiAssert<SELF> {
 
     public SELF nonNull(MESSAGE message);
 
@@ -31,7 +32,6 @@ public interface OptionalApiAssert<ELEMENT, SELF extends OptionalApiAssert<ELEME
 
     public SELF isFalse(Function<ELEMENT, Boolean> function, Function<ELEMENT, MESSAGE> message);
 
-
     public <THENRESULT, MESSAGE, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(THENRESULT thenResult);
 
     public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(Supplier<THENRESULT> thenResult);
@@ -39,17 +39,9 @@ public interface OptionalApiAssert<ELEMENT, SELF extends OptionalApiAssert<ELEME
     public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(Function<ELEMENT, THENRESULT> thenResult);
 
     public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(
-            BiFunction<ELEMENT, OptionalApiAssert<ELEMENT, SELF, MESSAGE>, THENRESULT> thenResult);
-
-    public default <T> T process(Supplier<T> supplier) {
-        return supplier.get();
-    }
-
-    public default void process(Runnable execute) {
-        execute.run();
-    }
+            BiFunction<ELEMENT, ObjectExceptionGenerator<MESSAGE>, THENRESULT> thenResult);
 
     public SELF process(Consumer<ELEMENT> consumer);
 
-    public SELF process(BiConsumer<ELEMENT, OptionalApiAssert<ELEMENT, SELF, MESSAGE>> consumer);
+    public SELF process(BiConsumer<ELEMENT, ObjectExceptionGenerator<MESSAGE>> consumer);
 }
