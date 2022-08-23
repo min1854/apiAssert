@@ -23,7 +23,7 @@ public class OperateApiAssertTests {
                     return new Object();
                 });
 
-        // THENSELF then = apiAssert.then(() -> new TestEntity());
+        OperateApiAssert<TestEntity> then = apiAssert.then(() -> new TestEntity());
     }
 
 

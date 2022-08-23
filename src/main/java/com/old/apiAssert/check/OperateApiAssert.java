@@ -1,7 +1,9 @@
 package com.old.apiAssert.check;
 
+import com.old.apiAssert.api.StandardApiAssert;
 import com.old.apiAssert.check.abstractAssert.operation.AbstractOperationApiAssert;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -32,9 +34,31 @@ public class OperateApiAssert<ELEMENT> extends AbstractOperationApiAssert<ELEMEN
         return this;
     }
 
-    @Override
     protected <THENRESULT, THENSELF extends AbstractOperationApiAssert<THENRESULT, THENSELF, String>> THENSELF of(THENRESULT thenResult) {
         return (THENSELF) new OperateApiAssert<THENRESULT>(thenResult, this.exceptionGenerator);
     }
 
+    /*public <THENRESULT, MESSAGE, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> OperateApiAssert<THENRESULT> then(THENRESULT thenResult) {
+        return new OperateApiAssert<THENRESULT>(thenResult, this.exceptionGenerator);
+    }*/
+
+    public <ELEMENT> OperateApiAssert<ELEMENT> then(ELEMENT element) {
+        return new OperateApiAssert<>(element, this.exceptionGenerator);
+    }
+
+    public <ELEMENT> OperateApiAssert<ELEMENT> then(Supplier<ELEMENT> element) {
+        return new OperateApiAssert<>(element.get(), this.exceptionGenerator);
+    }
+
+    public <RESULT> OperateApiAssert<RESULT> then(Function<ELEMENT, RESULT> element) {
+        return new OperateApiAssert<>(element.apply(this.obj), this.exceptionGenerator);
+    }
+
+    public <RESULT> OperateApiAssert<RESULT> process(Function<StandardApiAssert<Object, ?, String>, RESULT> element) {
+        return new OperateApiAssert<>(element.apply(this), this.exceptionGenerator);
+    }
+
+    public <RESULT> OperateApiAssert<RESULT> then(BiFunction<ELEMENT, StandardApiAssert<Object, ?, String>, RESULT> element) {
+        return new OperateApiAssert<>(element.apply(this.obj, this), this.exceptionGenerator);
+    }
 }

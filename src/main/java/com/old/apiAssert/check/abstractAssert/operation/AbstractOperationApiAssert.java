@@ -103,25 +103,6 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
         return super.isFalse(actual, message);
     }
 
-    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(Supplier<THENRESULT> thenResult) {
-        return (THENSELF) of(thenResult.get());
-    }
-
-    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(Function<ELEMENT, THENRESULT> thenResult) {
-        return (THENSELF) of(thenResult.apply(this.obj));
-    }
-
-    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF
-    then(BiFunction<ELEMENT, StandardApiAssert<Object, ?, MESSAGE>, THENRESULT> thenResult) {
-        return (THENSELF) of(thenResult.apply(this.obj, this));
-    }
-
-    @Override
-    public <THENRESULT, MESSAGE, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF
-    then(THENRESULT thenResult) {
-        return (THENSELF) of(thenResult);
-    }
-
     @Override
     public SELF process(Consumer<ELEMENT> consumer) {
         consumer.accept(this.obj);

@@ -30,17 +30,17 @@ public interface OptionalApiAssert<ELEMENT, SELF extends OptionalApiAssert<ELEME
 
     public SELF isFalse(Function<ELEMENT, Boolean> function, Function<ELEMENT, MESSAGE> message);
 
-    public <THENRESULT, MESSAGE, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF
-    then(THENRESULT thenResult);
-
-    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF
-    then(Supplier<THENRESULT> thenResult);
-
-    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF
-    then(Function<ELEMENT, THENRESULT> thenResult);
-
-    public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(
-            BiFunction<ELEMENT, StandardApiAssert<Object, ?, MESSAGE>, THENRESULT> thenResult);
+    // public <THENRESULT, MESSAGE, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF
+    // then(THENRESULT thenResult);
+    //
+    // public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF
+    // then(Supplier<THENRESULT> thenResult);
+    //
+    // public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF
+    // then(Function<ELEMENT, THENRESULT> thenResult);
+    //
+    // public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(
+    //         BiFunction<ELEMENT, StandardApiAssert<Object, ?, MESSAGE>, THENRESULT> thenResult);
 
     public SELF process(Consumer<ELEMENT> consumer);
 
