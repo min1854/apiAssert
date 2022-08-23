@@ -7,7 +7,7 @@ import com.old.apiAssert.check.abstractAssert.AbstractObjectApiAssert;
 import java.util.function.*;
 
 public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractOperationApiAssert<ELEMENT, SELF, MESSAGE>, MESSAGE>
-        extends AbstractObjectApiAssert<SELF, MESSAGE> implements OptionalApiAssert<ELEMENT, SELF, MESSAGE> {
+        extends AbstractObjectApiAssert<SELF, MESSAGE> implements OptionalApiAssert<ELEMENT, SELF, MESSAGE, Object> {
 
     protected ELEMENT obj;
 
@@ -110,7 +110,7 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
     }
 
     @Override
-    public SELF process(BiConsumer<ELEMENT, StandardApiAssert<Object, ?, MESSAGE>> consumer) {
+    public SELF process(BiConsumer<ELEMENT, StandardApiAssert<java.lang.Object, SELF, MESSAGE>> consumer) {
         consumer.accept(this.obj, this);
         return self();
     }
@@ -122,5 +122,5 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
      * @return
      */
     // protected abstract <ELEMENT,  SELF extends AbstractOperationApiAssert<ELEMENT, SELF, MESSAGE>> SELF of(ELEMENT ELEMENT);
-    protected abstract <THENRESULT, THENSELF extends AbstractOperationApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF of(THENRESULT thenResult);
+    // protected abstract <THENRESULT, THENSELF extends AbstractOperationApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF of(THENRESULT thenResult);
 }

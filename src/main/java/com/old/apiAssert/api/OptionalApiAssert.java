@@ -2,7 +2,7 @@ package com.old.apiAssert.api;
 
 import java.util.function.*;
 
-public interface OptionalApiAssert<ELEMENT, SELF extends OptionalApiAssert<ELEMENT, SELF, MESSAGE>, MESSAGE> extends ApiAssert<SELF> {
+public interface OptionalApiAssert<ELEMENT, SELF extends OptionalApiAssert<ELEMENT, SELF, MESSAGE, ACTUAL>, MESSAGE, ACTUAL> extends StandardApiAssert<ACTUAL, SELF, MESSAGE> {
 
     public SELF nonNull(MESSAGE message);
 
@@ -44,5 +44,5 @@ public interface OptionalApiAssert<ELEMENT, SELF extends OptionalApiAssert<ELEME
 
     public SELF process(Consumer<ELEMENT> consumer);
 
-    public SELF process(BiConsumer<ELEMENT, StandardApiAssert<Object, ?, MESSAGE>> consumer);
+    public SELF process(BiConsumer<ELEMENT, StandardApiAssert<ACTUAL, SELF, MESSAGE>> consumer);
 }
