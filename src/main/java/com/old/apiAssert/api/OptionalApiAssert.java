@@ -2,7 +2,8 @@ package com.old.apiAssert.api;
 
 import java.util.function.*;
 
-public interface OptionalApiAssert<ELEMENT, SELF extends OptionalApiAssert<ELEMENT, SELF, MESSAGE, ACTUAL>, MESSAGE, ACTUAL> extends StandardApiAssert<ACTUAL, SELF, MESSAGE> {
+public interface OptionalApiAssert<ELEMENT, SELF extends OptionalApiAssert<ELEMENT, SELF, MESSAGE, ACTUAL>, MESSAGE, ACTUAL>
+        extends StandardApiAssert<ACTUAL, SELF, MESSAGE> {
 
     public SELF nonNull(MESSAGE message);
 
@@ -30,17 +31,13 @@ public interface OptionalApiAssert<ELEMENT, SELF extends OptionalApiAssert<ELEME
 
     public SELF isFalse(Function<ELEMENT, Boolean> function, Function<ELEMENT, MESSAGE> message);
 
-    // public <THENRESULT, MESSAGE, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF
-    // then(THENRESULT thenResult);
-    //
-    // public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF
-    // then(Supplier<THENRESULT> thenResult);
-    //
-    // public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF
-    // then(Function<ELEMENT, THENRESULT> thenResult);
-    //
-    // public <THENRESULT, THENSELF extends OptionalApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF then(
-    //         BiFunction<ELEMENT, StandardApiAssert<Object, ?, MESSAGE>, THENRESULT> thenResult);
+    public <ELEMENT> OptionalApiAssert<ELEMENT, ?, MESSAGE, ACTUAL> then(ELEMENT element);
+
+    public <ELEMENT> OptionalApiAssert<ELEMENT, ?, MESSAGE, ACTUAL> then(Supplier<ELEMENT> element);
+
+    public <RESULT> OptionalApiAssert<RESULT, ?, MESSAGE, ACTUAL> then(Function<ELEMENT, RESULT> element);
+
+    public <RESULT> OptionalApiAssert<RESULT, ?, MESSAGE, ACTUAL> then(BiFunction<ELEMENT, StandardApiAssert<ACTUAL, SELF, MESSAGE>, RESULT> element);
 
     public SELF process(Consumer<ELEMENT> consumer);
 

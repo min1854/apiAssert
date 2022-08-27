@@ -96,6 +96,7 @@ public class OperateApiAssertTests {
     public void then() {
         Object base = new Object();
         OperateApiAssert<Object> then = createAssert().then(base);
+
         then.isNull("该对象是否为空");
 
         Object obj = then.getObj();

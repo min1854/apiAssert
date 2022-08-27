@@ -4,7 +4,9 @@ import com.old.apiAssert.api.OptionalApiAssert;
 import com.old.apiAssert.api.StandardApiAssert;
 import com.old.apiAssert.check.abstractAssert.AbstractObjectApiAssert;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractOperationApiAssert<ELEMENT, SELF, MESSAGE>, MESSAGE>
         extends AbstractObjectApiAssert<SELF, MESSAGE> implements OptionalApiAssert<ELEMENT, SELF, MESSAGE, Object> {
@@ -45,7 +47,7 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
 
     @Override
     public SELF isNull(MESSAGE message) {
-        return super.nonNull(this.obj, message);
+        return super.isNull(this.obj, message);
     }
 
     @Override
@@ -115,6 +117,13 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
         return self();
     }
 
+
+
+    /*@Override
+    public <ELEMENT> AbstractOperationApiAssert<ELEMENT, ?, MESSAGE> then(ELEMENT element) {
+        return of(element, this.exceptionGenerator);
+    }*/
+
     /**
      * 这里的 s 是否应该是新的，应该是新的，因为 泛型，无法 泛型《泛型》，所以需要返回新的 s，不然默认
      *
@@ -123,4 +132,5 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
      */
     // protected abstract <ELEMENT,  SELF extends AbstractOperationApiAssert<ELEMENT, SELF, MESSAGE>> SELF of(ELEMENT ELEMENT);
     // protected abstract <THENRESULT, THENSELF extends AbstractOperationApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF of(THENRESULT thenResult);
+    // public abstract  <ELEMENT> AbstractOperationApiAssert<ELEMENT, ?, MESSAGE> of(ELEMENT element, Function<MESSAGE, RuntimeException> exceptionGenerator);
 }
