@@ -15,7 +15,7 @@ public class ReflectionApiAssertTest {
 
     @Test(expected = ApiAssertException.class)
     public void testReflectionApiAssert() {
-        StandardApiAssert<Object, ReflectionApiAssert<NoArgConstructorException>, String> apiAssert =
+        ReflectionApiAssert<NoArgConstructorException> apiAssert =
                 ReflectionApiAssert.create(NoArgConstructorException.class)
                 .isNull(new Object(), "对象为空")
                 .isEmpty(new Object(), "传入了空对象")

@@ -1,7 +1,7 @@
 package com.old.apiAssert.check;
 
 import com.old.apiAssert.api.StandardApiAssert;
-import com.old.apiAssert.check.abstractAssert.operation.AbstractOperationApiAssert;
+import com.old.apiAssert.check.abstractAssert.AbstractOperationApiAssert;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;

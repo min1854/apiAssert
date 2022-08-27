@@ -20,7 +20,7 @@ public class FunctionApiAssert extends DefaultApiAssert<FunctionApiAssert> {
         this.function = function;
     }
 
-    public static StandardApiAssert<Object, FunctionApiAssert, String> create(Function<String, RuntimeException> function) {
+    public static FunctionApiAssert create(Function<String, RuntimeException> function) {
         return new FunctionApiAssert(function);
     }
 

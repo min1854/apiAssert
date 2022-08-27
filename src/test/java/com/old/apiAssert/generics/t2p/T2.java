@@ -1,4 +1,4 @@
-package com.old.apiAssert.t2p;
+package com.old.apiAssert.generics.t2p;
 
 import java.util.TreeSet;
 

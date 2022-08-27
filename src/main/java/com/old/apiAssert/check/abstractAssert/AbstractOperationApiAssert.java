@@ -1,8 +1,7 @@
-package com.old.apiAssert.check.abstractAssert.operation;
+package com.old.apiAssert.check.abstractAssert;
 
 import com.old.apiAssert.api.OptionalApiAssert;
 import com.old.apiAssert.api.StandardApiAssert;
-import com.old.apiAssert.check.abstractAssert.AbstractObjectApiAssert;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -117,20 +116,4 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
         return self();
     }
 
-
-
-    /*@Override
-    public <ELEMENT> AbstractOperationApiAssert<ELEMENT, ?, MESSAGE> then(ELEMENT element) {
-        return of(element, this.exceptionGenerator);
-    }*/
-
-    /**
-     * 这里的 s 是否应该是新的，应该是新的，因为 泛型，无法 泛型《泛型》，所以需要返回新的 s，不然默认
-     *
-     * @param THENRESULT
-     * @return
-     */
-    // protected abstract <ELEMENT,  SELF extends AbstractOperationApiAssert<ELEMENT, SELF, MESSAGE>> SELF of(ELEMENT ELEMENT);
-    // protected abstract <THENRESULT, THENSELF extends AbstractOperationApiAssert<THENRESULT, THENSELF, MESSAGE>> THENSELF of(THENRESULT thenResult);
-    // public abstract  <ELEMENT> AbstractOperationApiAssert<ELEMENT, ?, MESSAGE> of(ELEMENT element, Function<MESSAGE, RuntimeException> exceptionGenerator);
 }

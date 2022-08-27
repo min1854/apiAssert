@@ -23,7 +23,8 @@ public class OperateApiAssertTests {
                     return new Object();
                 });
 
-        OperateApiAssert<TestEntity> then = apiAssert.then(() -> new TestEntity());
+        OperateApiAssert<TestEntity> then = apiAssert.then(TestEntity::new);
+        then.isNull(TestEntity::getId, "新创建的实体 id 为空");
     }
 
 

@@ -13,7 +13,7 @@ public class FunctionApiAssertTest {
     @Test(expected = ApiAssertException.class)
     public void testFunctionApiAssert() {
         Object obj = new Object();
-        StandardApiAssert<Object, FunctionApiAssert, String> apiAssert =
+        FunctionApiAssert apiAssert =
                 FunctionApiAssert.create(ApiAssertException::new)
                 .isNull(obj, "当前对象为空")
                 .isEmpty(obj, "当前对象为空对象")

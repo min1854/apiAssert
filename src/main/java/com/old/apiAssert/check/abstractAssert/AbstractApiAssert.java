@@ -12,23 +12,23 @@ import java.util.function.Function;
  *
  * @author min
  */
-public abstract class AbstractApiAssert<T, S extends AbstractApiAssert<T, S, M>, M> implements StandardApiAssert<T, S, M> {
+public abstract class AbstractApiAssert<T, SELF extends AbstractApiAssert<T, SELF, M>, M> implements StandardApiAssert<T, SELF, M> {
 
     @Override
-    public S isNull(T t, M message) {
+    public SELF isNull(T t, M message) {
         judge(t == null, message);
         return self();
     }
 
 
     @Override
-    public S nonNull(T t, M message) {
+    public SELF nonNull(T t, M message) {
         judge(t != null, message);
         return self();
     }
 
     @Override
-    public S isEmpty(T t, M message) {
+    public SELF isEmpty(T t, M message) {
         if (t == null) {
             judge(true, message);
         } else if (t instanceof Collection) {
@@ -44,13 +44,13 @@ public abstract class AbstractApiAssert<T, S extends AbstractApiAssert<T, S, M>,
     }
 
     @Override
-    public S isTrue(boolean condition, M message) {
+    public SELF isTrue(boolean condition, M message) {
         judge(condition, message);
         return self();
     }
 
     @Override
-    public S isFalse(boolean condition, M message) {
+    public SELF isFalse(boolean condition, M message) {
         judge(!condition, message);
         return self();
     }
@@ -65,7 +65,7 @@ public abstract class AbstractApiAssert<T, S extends AbstractApiAssert<T, S, M>,
         if (condition) {
             established(message);
         } else {
-            invalid();
+            invalid(message);
         }
     }
 
@@ -77,7 +77,7 @@ public abstract class AbstractApiAssert<T, S extends AbstractApiAssert<T, S, M>,
      */
     protected abstract void established(M message) throws RuntimeException;
 
-    protected void invalid() {
+    protected void invalid(M message) {
 
     }
 

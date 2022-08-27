@@ -17,7 +17,7 @@ public class FirstApiAssert extends DefaultApiAssert<FirstApiAssert> {
     private String errorMsg;
 
 
-    public static StandardApiAssert<Object, FirstApiAssert, String> create() {
+    public static FirstApiAssert create() {
         return new FirstApiAssert();
     }
 

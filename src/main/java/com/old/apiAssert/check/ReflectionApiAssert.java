@@ -1,6 +1,5 @@
 package com.old.apiAssert.check;
 
-import com.old.apiAssert.api.StandardApiAssert;
 import com.old.apiAssert.exception.ApiAssertException;
 
 import java.lang.reflect.Constructor;
@@ -66,7 +65,7 @@ public class ReflectionApiAssert<E extends RuntimeException> extends DefaultApiA
         }
     }
 
-    public static <E extends RuntimeException> StandardApiAssert<Object, ReflectionApiAssert<E>, String> create(Class<E> exception) {
+    public static <E extends RuntimeException> ReflectionApiAssert<E> create(Class<E> exception) {
         return new ReflectionApiAssert<E>(exception);
     }
 
