@@ -1,8 +1,6 @@
 package com.old.apiAssert.check;
 
 
-import com.old.apiAssert.api.StandardApiAssert;
-
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -24,7 +22,7 @@ public class FunctionApiAssert extends DefaultApiAssert<FunctionApiAssert> {
         return new FunctionApiAssert(function);
     }
 
-    public static StandardApiAssert<Object, FunctionApiAssert, String> newInstance(Supplier<RuntimeException> supplier) {
+    public static FunctionApiAssert newInstance(Supplier<RuntimeException> supplier) {
         return create(msg -> supplier.get());
     }
 

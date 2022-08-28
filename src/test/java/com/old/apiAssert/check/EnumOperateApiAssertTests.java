@@ -37,6 +37,14 @@ public class EnumOperateApiAssertTests {
         then.isNull(TestEntity::getId, NULL_PARAM);
     }
 
+    @Test
+    public void testSet() {
+        System.out.println(createAssert().setExceptionGenerator(EnumMessageException::new)
+                .setExceptionGenerator(assertEnum -> {
+                    return new EnumMessageException(assertEnum);
+                }).isNull(NULL_PARAM).self());
+    }
+
 
     @Test(expected = ApiAssertException.class)
     public void testCheckObjGenErrorMsg() {

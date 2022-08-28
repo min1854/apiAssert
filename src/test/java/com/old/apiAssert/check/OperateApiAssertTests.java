@@ -113,5 +113,11 @@ public class OperateApiAssertTests {
         idAssert.isTrue(id -> false, "条件为真");
     }
 
-
+    @Test
+    public void testSet() {
+        System.out.println(createAssert().setExceptionGenerator(NoArgConstructorException::new)
+                .setExceptionGenerator(message -> {
+                    return new NoArgConstructorException(message);
+                }).isNull("出现空对象").self());
+    }
 }
