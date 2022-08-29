@@ -19,10 +19,6 @@ public class EnumOperateApiAssert<ELEMENT, MESSAGE extends Enum<?>> extends Abst
         super(obj, exceptionGenerator);
     }
 
-    protected <THENRESULT, THENSELF extends AbstractOperationApiAssert<THENRESULT, THENSELF, String>> THENSELF of(THENRESULT thenResult) {
-        return null;
-    }
-
     public static <ELEMENT, MESSAGE extends Enum<?>> EnumOperateApiAssert<ELEMENT, MESSAGE> create(ELEMENT obj, Function<MESSAGE, RuntimeException> exceptionFunction) {
         return new EnumOperateApiAssert<ELEMENT, MESSAGE>(obj, exceptionFunction);
     }
@@ -36,6 +32,10 @@ public class EnumOperateApiAssert<ELEMENT, MESSAGE extends Enum<?>> extends Abst
     @Override
     public EnumOperateApiAssert<ELEMENT, MESSAGE> self() {
         return this;
+    }
+
+    public <MESSAGE extends Enum<?>> EnumOperateApiAssert<ELEMENT, MESSAGE> replace(Function<MESSAGE, RuntimeException> exceptionGenerator) {
+        return new EnumOperateApiAssert<>(this.obj, exceptionGenerator);
     }
 
     public <ELEMENT> EnumOperateApiAssert<ELEMENT, MESSAGE> then(ELEMENT element) {

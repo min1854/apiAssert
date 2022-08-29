@@ -19,11 +19,6 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
         this.exceptionGenerator = exceptionGenerator;
     }
 
-    public SELF setExceptionGenerator(Function<MESSAGE, RuntimeException> exceptionGenerator) {
-        this.exceptionGenerator = exceptionGenerator;
-        return self();
-    }
-
 
     public ELEMENT getObj() {
         return obj;
