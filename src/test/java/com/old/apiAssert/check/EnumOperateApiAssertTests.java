@@ -2,7 +2,9 @@ package com.old.apiAssert.check;
 
 import com.old.apiAssert.entity.TestEntity;
 import com.old.apiAssert.enums.AssertEnum;
+import com.old.apiAssert.enums.EntityEnum;
 import com.old.apiAssert.exception.ApiAssertException;
+import com.old.apiAssert.exception.EntityException;
 import com.old.apiAssert.exception.EnumMessageException;
 import com.old.apiAssert.exception.NoArgConstructorException;
 import org.junit.Test;
@@ -10,6 +12,7 @@ import org.junit.Test;
 import java.util.function.Supplier;
 
 import static com.old.apiAssert.enums.AssertEnum.*;
+import static com.old.apiAssert.enums.EntityEnum.NULL_OBJ;
 
 public class EnumOperateApiAssertTests {
 
@@ -39,10 +42,11 @@ public class EnumOperateApiAssertTests {
 
     @Test
     public void testSet() {
-        System.out.println(createAssert().setExceptionGenerator(EnumMessageException::new)
-                .setExceptionGenerator(assertEnum -> {
-                    return new EnumMessageException(assertEnum);
-                }).isNull(NULL_PARAM).self());
+        EnumOperateApiAssert<TestEntity, EntityEnum> anAssert = createAssert().replace(EnumMessageException::new)
+                .replace((EntityEnum entityEnum) -> {
+                    return new EntityException(entityEnum);
+                }).isNull(NULL_OBJ);
+        System.out.println(anAssert.self());
     }
 
 

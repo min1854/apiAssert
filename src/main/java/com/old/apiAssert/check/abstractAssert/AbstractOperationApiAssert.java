@@ -2,11 +2,13 @@ package com.old.apiAssert.check.abstractAssert;
 
 import com.old.apiAssert.api.OptionalApiAssert;
 import com.old.apiAssert.api.StandardApiAssert;
+import lombok.Getter;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+@Getter
 public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractOperationApiAssert<ELEMENT, SELF, MESSAGE>, MESSAGE>
         extends AbstractObjectApiAssert<SELF, MESSAGE> implements OptionalApiAssert<ELEMENT, SELF, MESSAGE, Object> {
 
@@ -19,9 +21,9 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
         this.exceptionGenerator = exceptionGenerator;
     }
 
-
-    public ELEMENT getObj() {
-        return obj;
+    public SELF setExceptionGenerator(Function<MESSAGE, RuntimeException> exceptionGenerator) {
+        this.exceptionGenerator = exceptionGenerator;
+        return self();
     }
 
     @Override

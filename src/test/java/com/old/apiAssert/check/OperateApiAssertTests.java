@@ -115,9 +115,17 @@ public class OperateApiAssertTests {
 
     @Test
     public void testSet() {
-        System.out.println(createAssert().setExceptionGenerator(NoArgConstructorException::new)
-                .setExceptionGenerator(message -> {
+        OperateApiAssert<TestEntity> apiAssert = createAssert();
+        System.out.println(apiAssert.getExceptionGenerator());
+
+
+        apiAssert = apiAssert.setExceptionGenerator(NoArgConstructorException::new);
+        System.out.println(apiAssert.getExceptionGenerator());
+
+
+        apiAssert = apiAssert.setExceptionGenerator(message -> {
                     return new NoArgConstructorException(message);
-                }).isNull("出现空对象").self());
+                }).isNull("出现空对象");
+        System.out.println(apiAssert.getExceptionGenerator());
     }
 }
