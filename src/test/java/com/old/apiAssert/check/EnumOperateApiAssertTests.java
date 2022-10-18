@@ -74,7 +74,7 @@ public class EnumOperateApiAssertTests {
     }
 
 
-    @Test(expected = ApiAssertException.class)
+    @Test
     public void testOperateApiAssert() {
         EnumOperateApiAssert<TestEntity, AssertEnum> apiAssert = createAssert();
 
@@ -89,7 +89,6 @@ public class EnumOperateApiAssertTests {
 
 
         System.out.println(apiAssert.getClass());
-        apiAssert.isTrue(true, CONDITION_IS_TRUE);
 
     }
 

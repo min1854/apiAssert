@@ -11,7 +11,7 @@ import org.junit.Test;
 public class EnumFunctionApiAssertTest {
 
 
-    @Test(expected = ApiAssertException.class)
+    @Test
     public void testFunctionApiAssert() {
         Object obj = new Object();
         EnumFunctionApiAssert<AssertEnum> apiAssert =
@@ -31,7 +31,6 @@ public class EnumFunctionApiAssertTest {
         apiAssert.isNull(transitionResult, AssertEnum.NULL_PARAM);
         System.out.println(apiAssert.getClass());
         System.out.println("校验结束");
-        apiAssert.isNull(null, AssertEnum.NULL_PARAM);
     }
 
 
