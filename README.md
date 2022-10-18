@@ -10,18 +10,19 @@ api-assert 是一个经量级的小小框架，或者说是一个工具类，用
 - com.old.apiAssert.check.FunctionApiAssert 由调用者提供异常对象，当条件成立时会立刻抛出异常
 - com.old.apiAssert.check.OperateApiAssert 与 Optional 类的思想类似，用于提供对一个对象的校验与对象内部属性的校验，支持 Lambda，并支持 FunctionApiAssert 检查器的功能。
 - com.old.apiAssert.check.ReflectionApiAssert 调用者传入异常类型，检查器当条件成立之后会立刻抛出异常
+- com.old.apiAssert.check.EnumFunctionApiAssert 与 FunctionApiAssert 功能相同，其消息内容为 Enum 类型
+- com.old.apiAssert.check.EnumOperateApiAssert 与 OperateApiAssert 功能相同，其消息内容为 Enum 类型
 
 
 
-# 用例
-添加 maven 依赖
-```xml
-<dependency>
-  <groupId>io.github.min1854</groupId>
-  <artifactId>apiAssert</artifactId>
-  <version>2.0.0</version>
-</dependency>
-```
+## 简单介绍
+在日常使用中，常用的是`OperateApiAssert`与`FunctionApiAssert`，`FunctionApiAssert` 可以作为常量使用，指定一个异常，声明一个常量进行使用，避免重复创建对象的浪费。
+
+`OperateApiAssert` 支持`FunctionApiAssert`的功能，并提供与 mybatis-plus 的 lambdaWrapper 使用类似的方式，可以直接获取元素的内部属性进行判断。
+
+`EnumFunctionApiAssert`、`EnumOperateApiAssert`与原有检查器相同，但其消息类型为枚举类型。
+
+
 
 
 # 注意
@@ -37,7 +38,36 @@ api-assert 是一个经量级的小小框架，或者说是一个工具类，用
 - 新增枚举校验器 EnumOperationApiAssert、EnumFunctionApiAssert
 - OperationApiAssert 增加 校验对象、标准校验器的 then 方法
 
-# 使用
+
+# 用例
+添加 maven 依赖
+```xml
+<dependency>
+  <groupId>io.github.min1854</groupId>
+  <artifactId>apiAssert</artifactId>
+  <version>2.0.0</version>
+</dependency>
+```
+
+
+
+## 使用
+
+
+
+![使用试便](https://img-blog.csdnimg.cn/cca04af30f1b4f31a6c21bb7b610c8a4.jpeg)
+
+
+
+
+
+
+
+
+
+
+
+
 ```java
 public class Demo {
 
@@ -62,7 +92,7 @@ public class Demo {
     }
 
 
-    @Test(expected = ApiAssertException.class)
+    @Test
     public void testCheckObjGenErrorMsg() {
         OperateApiAssert<TestEntity> apiAssert = createAssert();
         OperateApiAssert<Object> then = apiAssert
@@ -79,12 +109,10 @@ public class Demo {
                     return new Object();
                 });
         then.isNull(Object::toString, Object::toString);
-        then.throwRuntime(new NoArgConstructorException("最终抛出"));
-
     }
 
 
-    @Test(expected = ApiAssertException.class)
+    @Test
     public void testOperateApiAssert() {
         OperateApiAssert<TestEntity> apiAssert = createAssert();
 
@@ -99,7 +127,6 @@ public class Demo {
 
 
         System.out.println(apiAssert.getClass());
-        apiAssert.isTrue(true, "条件成立");
 
     }
 
