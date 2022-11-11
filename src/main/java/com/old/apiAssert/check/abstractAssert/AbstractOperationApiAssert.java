@@ -2,6 +2,7 @@ package com.old.apiAssert.check.abstractAssert;
 
 import com.old.apiAssert.api.OptionalApiAssert;
 import com.old.apiAssert.api.StandardApiAssert;
+import com.old.apiAssert.check.FunctionApiAssert;
 import lombok.Getter;
 
 import java.util.function.BiConsumer;
@@ -9,10 +10,11 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 @Getter
-public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractOperationApiAssert<ELEMENT, SELF, MESSAGE>, MESSAGE>
-        extends AbstractObjectApiAssert<SELF, MESSAGE> implements OptionalApiAssert<ELEMENT, SELF, MESSAGE, Object> {
+public abstract class AbstractOperationApiAssert<ELEMENT extends ACTUAL, SELF extends AbstractOperationApiAssert<ELEMENT, SELF, MESSAGE, ACTUAL>, MESSAGE, ACTUAL>
+        extends AbstractApiAssert<ACTUAL, SELF, MESSAGE> implements OptionalApiAssert<ELEMENT, SELF, MESSAGE, ACTUAL> {
 
     protected ELEMENT obj;
+
 
     protected Function<MESSAGE, RuntimeException> exceptionGenerator;
 
@@ -37,12 +39,12 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
     }
 
     @Override
-    public <R> SELF nonNull(Function<ELEMENT, R> function, MESSAGE message) {
+    public <R extends ACTUAL> SELF nonNull(Function<ELEMENT, R> function, MESSAGE message) {
         return super.nonNull(function.apply(this.obj), message);
     }
 
     @Override
-    public <R> SELF nonNull(Function<ELEMENT, R> function, Function<ELEMENT, MESSAGE> message) {
+    public <R extends ACTUAL> SELF nonNull(Function<ELEMENT, R> function, Function<ELEMENT, MESSAGE> message) {
         return super.nonNull(function.apply(this.obj), message.apply(this.obj));
     }
 
@@ -52,17 +54,17 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
     }
 
     @Override
-    public <R> SELF isNull(Function<ELEMENT, R> function, MESSAGE message) {
+    public <R extends ACTUAL> SELF isNull(Function<ELEMENT, R> function, MESSAGE message) {
         return super.isNull(function.apply(this.obj), message);
     }
 
     @Override
-    public <R> SELF isNull(Function<ELEMENT, R> function, Function<ELEMENT, MESSAGE> message) {
+    public <R extends ACTUAL> SELF isNull(Function<ELEMENT, R> function, Function<ELEMENT, MESSAGE> message) {
         return super.isNull(function.apply(this.obj), message.apply(this.obj));
     }
 
     @Override
-    public <R> SELF isEmpty(Function<ELEMENT, R> function, MESSAGE message) {
+    public <R extends ACTUAL> SELF isEmpty(Function<ELEMENT, R> function, MESSAGE message) {
         return super.isEmpty(function.apply(this.obj), message);
     }
 
@@ -72,14 +74,13 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
     }
 
     @Override
-    public <R> SELF isEmpty(Function<ELEMENT, R> function, Function<ELEMENT, MESSAGE> message) {
+    public <R extends ACTUAL> SELF isEmpty(Function<ELEMENT, R> function, Function<ELEMENT, MESSAGE> message) {
         return super.isEmpty(function.apply(this.obj), message.apply(this.obj));
     }
 
     @Override
     public SELF isTrue(Function<ELEMENT, Boolean> function, MESSAGE message) {
         Boolean actual = function.apply(this.obj);
-        super.isNull(actual, message);
         return super.isTrue(actual, message);
     }
 
@@ -87,14 +88,12 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
     public SELF isTrue(Function<ELEMENT, Boolean> function, Function<ELEMENT, MESSAGE> messageCreate) {
         Boolean actual = function.apply(this.obj);
         MESSAGE message = messageCreate.apply(this.obj);
-        super.isNull(actual, message);
         return super.isTrue(actual, message);
     }
 
     @Override
     public SELF isFalse(Function<ELEMENT, Boolean> function, MESSAGE message) {
         Boolean actual = function.apply(this.obj);
-        super.isNull(actual, message);
         return super.isFalse(actual, message);
     }
 
@@ -102,7 +101,6 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
     public SELF isFalse(Function<ELEMENT, Boolean> function, Function<ELEMENT, MESSAGE> messageCreate) {
         Boolean actual = function.apply(this.obj);
         MESSAGE message = messageCreate.apply(this.obj);
-        super.isNull(actual, message);
         return super.isFalse(actual, message);
     }
 
@@ -113,7 +111,7 @@ public abstract class AbstractOperationApiAssert<ELEMENT, SELF extends AbstractO
     }
 
     @Override
-    public SELF process(BiConsumer<ELEMENT, StandardApiAssert<java.lang.Object, SELF, MESSAGE>> consumer) {
+    public SELF process(BiConsumer<ELEMENT, StandardApiAssert<ACTUAL, SELF, MESSAGE>> consumer) {
         consumer.accept(this.obj, this);
         return self();
     }

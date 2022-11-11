@@ -12,7 +12,8 @@ import java.util.function.Supplier;
  *
  * @author min
  */
-public class EnumOperateApiAssert<ELEMENT, MESSAGE extends Enum<?>> extends AbstractOperationApiAssert<ELEMENT, EnumOperateApiAssert<ELEMENT, MESSAGE>, MESSAGE> {
+public class EnumOperateApiAssert<ELEMENT, MESSAGE extends Enum<?>>
+        extends AbstractOperationApiAssert<ELEMENT, EnumOperateApiAssert<ELEMENT, MESSAGE>, MESSAGE, Object> {
 
 
     public EnumOperateApiAssert(ELEMENT obj, Function<MESSAGE, RuntimeException> exceptionGenerator) {

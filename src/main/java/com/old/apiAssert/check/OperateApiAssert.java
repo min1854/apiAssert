@@ -12,14 +12,14 @@ import java.util.function.Supplier;
  *
  * @author min
  */
-public class OperateApiAssert<ELEMENT> extends AbstractOperationApiAssert<ELEMENT, OperateApiAssert<ELEMENT>, String> {
+public class OperateApiAssert<ELEMENT> extends AbstractOperationApiAssert<ELEMENT, OperateApiAssert<ELEMENT>, String, Object> {
 
 
     public OperateApiAssert(ELEMENT obj, Function<String, RuntimeException> exceptionGenerator) {
         super(obj, exceptionGenerator);
     }
 
-    protected <THENRESULT, THENSELF extends AbstractOperationApiAssert<THENRESULT, THENSELF, String>> THENSELF of(THENRESULT thenResult) {
+    protected <THENRESULT, THENSELF extends AbstractOperationApiAssert<THENRESULT, THENSELF, String, Object>> THENSELF of(THENRESULT thenResult) {
         return null;
     }
 
