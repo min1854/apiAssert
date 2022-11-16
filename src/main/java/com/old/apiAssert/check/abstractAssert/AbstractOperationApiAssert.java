@@ -101,6 +101,10 @@ public abstract class AbstractOperationApiAssert<ELEMENT extends ACTUAL, SELF ex
     @Override
     public SELF isFalse(Function<ELEMENT, Boolean> function, MESSAGE message) {
         Boolean actual = function.apply(this.obj);
+        if (actual == null) {
+            this.established(message);
+            return self();
+        }
         return super.isFalse(actual, message);
     }
 
@@ -108,6 +112,10 @@ public abstract class AbstractOperationApiAssert<ELEMENT extends ACTUAL, SELF ex
     public SELF isFalse(Function<ELEMENT, Boolean> function, Function<ELEMENT, MESSAGE> messageCreate) {
         Boolean actual = function.apply(this.obj);
         MESSAGE message = messageCreate.apply(this.obj);
+        if (actual == null) {
+            this.established(message);
+            return self();
+        }
         return super.isFalse(actual, message);
     }
 
