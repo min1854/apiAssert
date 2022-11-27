@@ -2,6 +2,7 @@ package com.old.apiAssert.check.abstractAssert;
 
 import com.old.apiAssert.api.OptionalApiAssert;
 import com.old.apiAssert.api.StandardApiAssert;
+import com.old.apiAssert.exception.ApiAssertException;
 import lombok.Getter;
 
 import java.util.function.BiConsumer;
@@ -81,8 +82,7 @@ public abstract class AbstractOperationApiAssert<ELEMENT extends ACTUAL, SELF ex
     public SELF isTrue(Function<ELEMENT, Boolean> function, MESSAGE message) {
         Boolean actual = function.apply(this.obj);
         if (actual == null) {
-            this.established(message);
-            return self();
+            throw new ApiAssertException("返回结果不能为空");
         }
         return super.isTrue(actual, message);
     }
@@ -90,20 +90,17 @@ public abstract class AbstractOperationApiAssert<ELEMENT extends ACTUAL, SELF ex
     @Override
     public SELF isTrue(Function<ELEMENT, Boolean> function, Function<ELEMENT, MESSAGE> messageCreate) {
         Boolean actual = function.apply(this.obj);
-        MESSAGE message = messageCreate.apply(this.obj);
         if (actual == null) {
-            this.established(message);
-            return self();
+            throw new ApiAssertException("返回结果不能为空");
         }
-        return super.isTrue(actual, message);
+        return super.isTrue(actual, messageCreate.apply(this.obj));
     }
 
     @Override
     public SELF isFalse(Function<ELEMENT, Boolean> function, MESSAGE message) {
         Boolean actual = function.apply(this.obj);
         if (actual == null) {
-            this.established(message);
-            return self();
+            throw new ApiAssertException("返回结果不能为空");
         }
         return super.isFalse(actual, message);
     }
@@ -111,12 +108,10 @@ public abstract class AbstractOperationApiAssert<ELEMENT extends ACTUAL, SELF ex
     @Override
     public SELF isFalse(Function<ELEMENT, Boolean> function, Function<ELEMENT, MESSAGE> messageCreate) {
         Boolean actual = function.apply(this.obj);
-        MESSAGE message = messageCreate.apply(this.obj);
         if (actual == null) {
-            this.established(message);
-            return self();
+            throw new ApiAssertException("返回结果不能为空");
         }
-        return super.isFalse(actual, message);
+        return super.isFalse(actual, messageCreate.apply(this.obj));
     }
 
     @Override
