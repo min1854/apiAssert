@@ -126,13 +126,4 @@ public abstract class AbstractOperationApiAssert<ELEMENT extends ACTUAL, SELF ex
         return self();
     }
 
-    /**
-     * 默认空实现
-     * @param message
-     * @return
-     */
-    public SELF handler(MESSAGE message) {
-        return self();
-    }
-
 }
