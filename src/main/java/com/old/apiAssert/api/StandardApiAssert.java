@@ -82,4 +82,13 @@ public interface StandardApiAssert<ACTUAL, SELF extends StandardApiAssert<ACTUAL
         return self();
     }
 
+    /**
+     * 默认空实现
+     * @param message
+     * @return
+     */
+    default public SELF handler(MESSAGE message) {
+        return self();
+    }
+
 }
