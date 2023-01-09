@@ -42,6 +42,10 @@ api-assert 是一个经量级的小小框架，或者说是一个工具类，用
 - OperationApiAssert 增加 handler 默认方法，默认为空实现，需要使用者重写实现真正逻辑
 - AbstractOperationApiAssert 将原有返回空值触发异常，修改为抛出 ApiAssertException
 
+## 2.0.2
+- handler 默认方法，提升至 StandardApiAssert
+- AbstractOperationApiAssert 将原有返回空值触发异常，修改为抛出 ApiAssertException
+
 
 # 用例
 添加 maven 依赖
@@ -49,7 +53,7 @@ api-assert 是一个经量级的小小框架，或者说是一个工具类，用
 <dependency>
   <groupId>io.github.min1854</groupId>
   <artifactId>apiAssert</artifactId>
-  <version>2.0.1</version>
+  <version>2.0.2</version>
 </dependency>
 ```
 
@@ -59,7 +63,7 @@ api-assert 是一个经量级的小小框架，或者说是一个工具类，用
 
 
 
-![使用试便](https://img-blog.csdnimg.cn/cca04af30f1b4f31a6c21bb7b610c8a4.jpeg)
+![使用试例](https://img-blog.csdnimg.cn/cca04af30f1b4f31a6c21bb7b610c8a4.jpeg)
 
 
 
