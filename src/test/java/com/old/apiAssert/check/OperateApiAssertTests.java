@@ -14,6 +14,11 @@ public class OperateApiAssertTests {
         return OperateApiAssert.create(entity, NoArgConstructorException::new);
     }
 
+    @Test
+    public void handler() {
+        createAssert().handler("123");
+    }
+
 
     @Test(expected = ApiAssertException.class)
     public void testThen() {

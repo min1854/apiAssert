@@ -42,4 +42,6 @@ public interface OptionalApiAssert<ELEMENT extends ACTUAL, SELF extends Optional
     public SELF process(Consumer<ELEMENT> consumer);
 
     public SELF process(BiConsumer<ELEMENT, StandardApiAssert<ACTUAL, SELF, MESSAGE>> consumer);
+
+    public SELF handler(MESSAGE message);
 }
