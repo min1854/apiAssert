@@ -38,6 +38,10 @@ api-assert 是一个经量级的小小框架，或者说是一个工具类，用
 - 新增枚举校验器 EnumOperationApiAssert、EnumFunctionApiAssert
 - OperationApiAssert 增加 校验对象、标准校验器的 then 方法
 
+## 2.0.1
+- OperationApiAssert 增加 handler 默认方法，默认为空实现，需要使用者重写实现真正逻辑
+- AbstractOperationApiAssert 将原有返回空值触发异常，修改为抛出 ApiAssertException
+
 
 # 用例
 添加 maven 依赖
@@ -45,7 +49,7 @@ api-assert 是一个经量级的小小框架，或者说是一个工具类，用
 <dependency>
   <groupId>io.github.min1854</groupId>
   <artifactId>apiAssert</artifactId>
-  <version>2.0.0</version>
+  <version>2.0.1</version>
 </dependency>
 ```
 
