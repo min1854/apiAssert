@@ -1,8 +1,7 @@
 package com.old.apiAssert.check;
 
-import com.old.apiAssert.Holder;
-import com.old.apiAssert.api.StandardApiAssert;
 import com.old.apiAssert.exception.ApiAssertException;
+import com.old.apiAssert.tuple.Holder;
 import org.junit.Test;
 
 /**

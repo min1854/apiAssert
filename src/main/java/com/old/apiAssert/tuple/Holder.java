@@ -1,4 +1,4 @@
-package com.old.apiAssert;
+package com.old.apiAssert.tuple;
 
 import lombok.Data;
 
