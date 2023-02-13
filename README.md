@@ -32,6 +32,9 @@ api-assert 是一个轻量级的框架，用于提供在日常开发中，经常
 
 # 版本
 
+## 2.0.3
+该版本最大的更新是，重新调整了原有元组类，并新增了新的元组类。
+
 ## 2.0.2
 - handler 默认方法，提升至 StandardApiAssert
 - AbstractOperationApiAssert 将原有返回空值触发异常，修改为抛出 ApiAssertException
