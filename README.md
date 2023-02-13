@@ -14,7 +14,7 @@ api-assert 是一个轻量级的框架，用于提供在日常开发中，经常
 - com.old.apiAssert.check.EnumOperateApiAssert 与 OperateApiAssert 功能相同，其消息内容为 Enum 类型
 
 
-接口断言的目标是将业务代码执行流程抽象为一个 assert 对象，通过对代码执行流程的划分实现，保证代码质量的下限，并且提高维护性。
+接口断言的目标是将业务代码执行流程抽象为一个 assert 对象，通过对代码执行流程的划分实现，保证代码质量的下限，提高维护性。
 
 ## 简单介绍
 在日常使用中，常用的是`OperateApiAssert`与`FunctionApiAssert`，`FunctionApiAssert` 可以作为常量使用，指定一个异常，声明一个常量进行使用，避免重复创建对象的浪费。
@@ -32,6 +32,16 @@ api-assert 是一个轻量级的框架，用于提供在日常开发中，经常
 
 # 版本
 
+## 2.0.2
+- handler 默认方法，提升至 StandardApiAssert
+- AbstractOperationApiAssert 将原有返回空值触发异常，修改为抛出 ApiAssertException
+
+
+## 2.0.1
+- OperationApiAssert 增加 handler 默认方法，默认为空实现，需要使用者重写实现真正逻辑
+- AbstractOperationApiAssert 将原有返回空值触发异常，修改为抛出 ApiAssertException
+
+
 ## 2.0.0
 因 2.0 版本将框架进行了重构，所以版本号使用新的大版本号。2.0.0 相比之前的版本，扩展性更高，重复代码更少。并且提供了 Enum 作为消息内容的校验器。
 
@@ -39,13 +49,7 @@ api-assert 是一个轻量级的框架，用于提供在日常开发中，经常
 - 新增枚举校验器 EnumOperationApiAssert、EnumFunctionApiAssert
 - OperationApiAssert 增加 校验对象、标准校验器的 then 方法
 
-## 2.0.1
-- OperationApiAssert 增加 handler 默认方法，默认为空实现，需要使用者重写实现真正逻辑
-- AbstractOperationApiAssert 将原有返回空值触发异常，修改为抛出 ApiAssertException
 
-## 2.0.2
-- handler 默认方法，提升至 StandardApiAssert
-- AbstractOperationApiAssert 将原有返回空值触发异常，修改为抛出 ApiAssertException
 
 
 # 用例
