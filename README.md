@@ -32,6 +32,9 @@ api-assert 是一个轻量级的框架，用于提供在日常开发中，经常
 
 # 版本
 
+## 2.0.4 
+更改了包名，将包名更改为 group id 
+
 ## 2.0.3
 该版本最大的更新是，重新调整了原有元组类，并新增了新的元组类。
 
@@ -61,7 +64,7 @@ api-assert 是一个轻量级的框架，用于提供在日常开发中，经常
 <dependency>
   <groupId>io.github.min1854</groupId>
   <artifactId>apiAssert</artifactId>
-  <version>2.0.2</version>
+  <version>2.0.4</version>
 </dependency>
 ```
 
