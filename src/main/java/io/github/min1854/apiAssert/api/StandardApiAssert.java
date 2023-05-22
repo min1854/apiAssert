@@ -1,6 +1,7 @@
 package io.github.min1854.apiAssert.api;
 
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public interface StandardApiAssert<ACTUAL, SELF extends StandardApiAssert<ACTUAL, SELF, MESSAGE>, MESSAGE> extends ApiAssert<SELF> {
@@ -88,6 +89,13 @@ public interface StandardApiAssert<ACTUAL, SELF extends StandardApiAssert<ACTUAL
      * @return
      */
     default public SELF handler(MESSAGE message) {
+        return self();
+    }
+
+    default public SELF suppose(boolean condition, Consumer<StandardApiAssert<ACTUAL, SELF, MESSAGE>> consumer) {
+        if (condition) {
+            consumer.accept(self());
+        }
         return self();
     }
 
