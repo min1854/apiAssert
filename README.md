@@ -6,12 +6,12 @@
 
 api-assert 是一个轻量级的框架，用于提供在日常开发中，经常需要一些条件判断，如果条件成立需要抛出异常编写的重复，api-assert 提供了链式校验的方式，目前提供了几种检查器：
 
-- com.old.apiAssert.check.FirstApiAssert 第一检查器，检查器可以提供链式编程，并且当第一个条件成立之后就不会再替换异常信息，并由调用者最终决定是否抛出异常
-- com.old.apiAssert.check.FunctionApiAssert 由调用者提供异常对象，当条件成立时会立刻抛出异常
-- com.old.apiAssert.check.OperateApiAssert 与 Optional 类的思想类似，用于提供对一个对象的校验与对象内部属性的校验，支持 Lambda，并支持 FunctionApiAssert 检查器的功能。
-- com.old.apiAssert.check.ReflectionApiAssert 调用者传入异常类型，检查器当条件成立之后会立刻抛出异常
-- com.old.apiAssert.check.EnumFunctionApiAssert 与 FunctionApiAssert 功能相同，其消息内容为 Enum 类型
-- com.old.apiAssert.check.EnumOperateApiAssert 与 OperateApiAssert 功能相同，其消息内容为 Enum 类型
+- io.github.min1854.apiAssert.check.FirstApiAssert 第一检查器，检查器可以提供链式编程，并且当第一个条件成立之后就不会再替换异常信息，并由调用者最终决定是否抛出异常
+- io.github.min1854.apiAssert.check.FunctionApiAssert 由调用者提供异常对象，当条件成立时会立刻抛出异常
+- io.github.min1854.apiAssert.check.OperateApiAssert 与 Optional 类的思想类似，用于提供对一个对象的校验与对象内部属性的校验，支持 Lambda，并支持 FunctionApiAssert 检查器的功能。
+- io.github.min1854.apiAssert.check.ReflectionApiAssert 调用者传入异常类型，检查器当条件成立之后会立刻抛出异常，区别在于，他是反射式的创建异常对象
+- io.github.min1854.apiAssert.check.EnumFunctionApiAssert 与 FunctionApiAssert 功能相同，其消息内容为 Enum 类型
+- io.github.min1854.apiAssert.check.EnumOperateApiAssert 与 OperateApiAssert 功能相同，其消息内容为 Enum 类型
 
 
 接口断言的目标是将业务代码执行流程抽象为一个 assert 对象，通过对代码执行流程的划分实现，保证代码质量的下限，提高维护性。
@@ -74,7 +74,7 @@ api-assert 是一个轻量级的框架，用于提供在日常开发中，经常
 
 
 
-![使用试例](https://img-blog.csdnimg.cn/cca04af30f1b4f31a6c21bb7b610c8a4.jpeg)
+![使用试例](./img/使用实例.jpeg)
 
 
 
