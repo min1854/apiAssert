@@ -4,6 +4,7 @@ import io.github.min1854.apiAssert.exception.ApiAssertException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.function.Supplier;
 
 /**
  * 指定异常的类型，反射创建异常，如果条件成立立即抛出
@@ -39,8 +40,8 @@ public class ReflectionApiAssert<E extends RuntimeException> extends DefaultApiA
     }
 
     @Override
-    protected void established(String msg) throws RuntimeException {
-        throw createException(msg);
+    protected void established(Supplier<String> msg) throws RuntimeException {
+        throw createException(msg.get());
     }
 
 

@@ -32,7 +32,7 @@ public class FunctionApiAssert extends DefaultApiAssert<FunctionApiAssert> {
     }
 
     @Override
-    protected void established(String msg) throws RuntimeException {
-        throw function.apply(msg);
+    protected void established(Supplier<String> msg) throws RuntimeException {
+        throw function.apply(msg.get());
     }
 }

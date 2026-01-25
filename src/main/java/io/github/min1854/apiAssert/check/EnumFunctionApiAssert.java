@@ -34,7 +34,7 @@ public class EnumFunctionApiAssert<MESSAGE extends Enum<?>> extends AbstractObje
     }
 
     @Override
-    protected void established(MESSAGE message) throws RuntimeException {
-        throw exceptionGeneration.apply(message);
+    protected void established(Supplier<MESSAGE> message) throws RuntimeException {
+        throw exceptionGeneration.apply(message.get());
     }
 }
