@@ -14,12 +14,11 @@ public interface StandardApiAssert<ACTUAL, SELF extends StandardApiAssert<ACTUAL
      * @return
      * @throws RuntimeException
      */
-    SELF isNull(ACTUAL obj, MESSAGE message) throws RuntimeException;
-
-    default SELF isNull(ACTUAL obj, Supplier<MESSAGE> message) throws RuntimeException {
-        isNull(obj, message.get());
-        return self();
+    default SELF isNull(ACTUAL obj, MESSAGE message) throws RuntimeException {
+        return isNull(obj, () -> message);
     }
+
+     SELF isNull(ACTUAL obj, Supplier<MESSAGE> message) throws RuntimeException;
 
     /**
      * 不为空，则抛出异常
@@ -29,13 +28,10 @@ public interface StandardApiAssert<ACTUAL, SELF extends StandardApiAssert<ACTUAL
      * @return
      */
     default SELF nonNull(ACTUAL obj, MESSAGE message) {
-        return isTrue(obj != null, message);
+        return nonNull(obj,() -> message);
     }
 
-    default SELF nonNull(ACTUAL obj, Supplier<MESSAGE> message) throws RuntimeException {
-        nonNull(obj, message.get());
-        return self();
-    }
+    SELF nonNull(ACTUAL obj, Supplier<MESSAGE> message) throws RuntimeException;
 
     /**
      * 传入对象为空，则抛出异常信息
@@ -46,12 +42,11 @@ public interface StandardApiAssert<ACTUAL, SELF extends StandardApiAssert<ACTUAL
      * @return
      * @throws RuntimeException
      */
-    SELF isEmpty(ACTUAL obj, MESSAGE message) throws RuntimeException;
-
-    default SELF isEmpty(ACTUAL obj, Supplier<MESSAGE> message) throws RuntimeException {
-        isEmpty(obj, message.get());
-        return self();
+    default SELF isEmpty(ACTUAL obj, MESSAGE message) throws RuntimeException {
+        return isEmpty(obj, () -> message);
     }
+
+    SELF isEmpty(ACTUAL obj, Supplier<MESSAGE> message) throws RuntimeException;
 
     /**
      * 如果条件为真，则抛出异常信息
@@ -61,12 +56,11 @@ public interface StandardApiAssert<ACTUAL, SELF extends StandardApiAssert<ACTUAL
      * @return
      * @throws RuntimeException
      */
-    SELF isTrue(boolean condition, MESSAGE message) throws RuntimeException;
-
-    default SELF isTrue(boolean condition, Supplier<MESSAGE> message) throws RuntimeException {
-        isTrue(condition, message.get());
-        return self();
+    default SELF isTrue(boolean condition, MESSAGE message) throws RuntimeException {
+        return isTrue(condition, () -> message);
     }
+
+    SELF isTrue(boolean condition, Supplier<MESSAGE> message) throws RuntimeException;
 
     /**
      * 如果条件为假，则抛出异常信息
@@ -76,12 +70,11 @@ public interface StandardApiAssert<ACTUAL, SELF extends StandardApiAssert<ACTUAL
      * @return
      * @throws RuntimeException
      */
-    SELF isFalse(boolean condition, MESSAGE message) throws RuntimeException;
-
-    default SELF isFalse(boolean condition, Supplier<MESSAGE> message) throws RuntimeException {
-        isFalse(condition, message.get());
-        return self();
+    default SELF isFalse(boolean condition, MESSAGE message) throws RuntimeException {
+        return isFalse(condition, () -> message);
     }
+
+    SELF isFalse(boolean condition, Supplier<MESSAGE> message) throws RuntimeException;
 
     /**
      * 默认空实现
