@@ -8,6 +8,7 @@ import lombok.Getter;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 @Getter
 public abstract class AbstractOperationApiAssert<ELEMENT extends ACTUAL, SELF extends AbstractOperationApiAssert<ELEMENT, SELF, MESSAGE, ACTUAL>, MESSAGE, ACTUAL>
@@ -29,8 +30,8 @@ public abstract class AbstractOperationApiAssert<ELEMENT extends ACTUAL, SELF ex
     }
 
     @Override
-    protected void established(MESSAGE message) throws RuntimeException {
-        throw exceptionGenerator.apply(message);
+    protected void established(Supplier<MESSAGE> message) throws RuntimeException {
+        throw exceptionGenerator.apply(message.get());
     }
 
     @Override

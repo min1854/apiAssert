@@ -5,6 +5,7 @@ import io.github.min1854.apiAssert.api.StandardApiAssert;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * 异常的通用检查类
@@ -14,20 +15,19 @@ import java.util.Map;
 public abstract class AbstractApiAssert<T, SELF extends AbstractApiAssert<T, SELF, M>, M> implements StandardApiAssert<T, SELF, M> {
 
     @Override
-    public SELF isNull(T t, M message) {
-        judge(t == null, message);
-        return self();
-    }
-
-
-    @Override
-    public SELF nonNull(T t, M message) {
-        judge(t != null, message);
+    public SELF nonNull(T obj, Supplier<M> message) throws RuntimeException {
+        judge(obj != null, message);
         return self();
     }
 
     @Override
-    public SELF isEmpty(T t, M message) {
+    public SELF isNull(T obj, Supplier<M> message) throws RuntimeException {
+        judge(obj == null, message);
+        return self();
+    }
+
+    @Override
+    public SELF isEmpty(T t, Supplier<M> message) {
         if (t == null) {
             judge(true, message);
         } else if (t instanceof Collection) {
@@ -43,13 +43,13 @@ public abstract class AbstractApiAssert<T, SELF extends AbstractApiAssert<T, SEL
     }
 
     @Override
-    public SELF isTrue(boolean condition, M message) {
+    public SELF isTrue(boolean condition, Supplier<M> message) {
         judge(condition, message);
         return self();
     }
 
     @Override
-    public SELF isFalse(boolean condition, M message) {
+    public SELF isFalse(boolean condition, Supplier<M> message) {
         judge(!condition, message);
         return self();
     }
@@ -60,7 +60,7 @@ public abstract class AbstractApiAssert<T, SELF extends AbstractApiAssert<T, SEL
      * @param condition
      * @param message
      */
-    protected void judge(boolean condition, M message) {
+    protected void judge(boolean condition, Supplier<M> message) {
         if (condition) {
             established(message);
         } else {
@@ -74,9 +74,9 @@ public abstract class AbstractApiAssert<T, SELF extends AbstractApiAssert<T, SEL
      * @param message
      * @throws RuntimeException
      */
-    protected abstract void established(M message) throws RuntimeException;
+    protected abstract void established(Supplier<M> message) throws RuntimeException;
 
-    protected void invalid(M message) {
+    protected void invalid(Supplier<M> message) {
 
     }
 
