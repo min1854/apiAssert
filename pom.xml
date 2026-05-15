@@ -30,9 +30,9 @@
     </scm>
     <developers>
         <developer>
-            <name>old</name>
+            <name>min1854</name>
             <email>1042039351@qq.com</email>
-            <organization>old</organization>
+            <organization>min1854</organization>
         </developer>
     </developers>
 
@@ -162,11 +162,14 @@
                             <showWarnings>false</showWarnings>
                         </configuration>
                     </plugin>
-                    <!--Release -->
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-release-plugin</artifactId>
-                        <version>2.5.1</version>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.9.0</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
