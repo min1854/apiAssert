@@ -14,7 +14,7 @@ api-assert 是一个轻量级的框架，用于提供在日常开发中，经常
 - io.github.min1854.apiAssert.check.EnumOperateApiAssert 与 OperateApiAssert 功能相同，其消息内容为 Enum 类型
 
 
-接口断言的目标是将业务代码执行流程抽象为一个 assert 对象，通过对代码执行流程的划分实现，保证代码质量的下限，提高维护性。
+接口断言的目标是将**业务代码执行流程抽象为一个assert对象**，通过对代码执行流程的划分实现，保证代码质量的下限，提高维护性。
 
 ## 简单介绍
 在日常使用中，常用的是`OperateApiAssert`与`FunctionApiAssert`，`FunctionApiAssert` 可以作为常量使用，指定一个异常，声明一个常量进行使用，避免重复创建对象的浪费。
@@ -31,6 +31,9 @@ api-assert 是一个轻量级的框架，用于提供在日常开发中，经常
 
 
 # 版本
+
+## 2.0.5
+将所有的 message 都只有条件成立后才会执行获取 message，不再是原有的在条件判断前就立刻获取 message
 
 ## 2.0.4 
 更改了包名，将包名更改为 group id 
