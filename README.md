@@ -67,7 +67,7 @@ api-assert 是一个轻量级的框架，用于提供在日常开发中，经常
 <dependency>
   <groupId>io.github.min1854</groupId>
   <artifactId>apiAssert</artifactId>
-  <version>2.0.4</version>
+  <version>2.0.5</version>
 </dependency>
 ```
 
