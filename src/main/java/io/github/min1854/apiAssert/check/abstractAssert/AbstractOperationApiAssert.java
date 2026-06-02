@@ -122,8 +122,8 @@ public abstract class AbstractOperationApiAssert<ELEMENT extends ACTUAL, SELF ex
     }
 
     @Override
-    public SELF process(BiConsumer<ELEMENT, StandardApiAssert<ACTUAL, SELF, MESSAGE>> consumer) {
-        consumer.accept(this.obj, this);
+    public SELF process(BiConsumer<ELEMENT, SELF> consumer) {
+        consumer.accept(this.obj, self());
         return self();
     }
 

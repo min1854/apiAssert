@@ -1,6 +1,5 @@
 package io.github.min1854.apiAssert.check;
 
-import io.github.min1854.apiAssert.api.StandardApiAssert;
 import io.github.min1854.apiAssert.check.abstractAssert.AbstractOperationApiAssert;
 
 import java.util.function.BiFunction;
@@ -51,7 +50,7 @@ public class EnumOperateApiAssert<ELEMENT, MESSAGE extends Enum<?>>
         return new EnumOperateApiAssert<>(element.apply(this.obj), this.exceptionGenerator);
     }
 
-    public <RESULT> EnumOperateApiAssert<RESULT, MESSAGE> then(BiFunction<ELEMENT, StandardApiAssert<Object, EnumOperateApiAssert<ELEMENT, MESSAGE>, MESSAGE>, RESULT> element) {
+    public <RESULT> EnumOperateApiAssert<RESULT, MESSAGE> then(BiFunction<ELEMENT, EnumOperateApiAssert<ELEMENT, MESSAGE>, RESULT> element) {
         return new EnumOperateApiAssert<>(element.apply(this.obj, this), this.exceptionGenerator);
     }
 }

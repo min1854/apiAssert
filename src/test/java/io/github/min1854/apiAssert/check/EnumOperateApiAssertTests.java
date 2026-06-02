@@ -100,9 +100,9 @@ public class EnumOperateApiAssertTests {
                 .process(testEntity -> {
                     System.out.println("实体信息：" + testEntity);
                 })
-                .process((testEntity, standardApiAssert) -> {
-                    standardApiAssert.isNull(new Object(), AssertEnum.NULL_PARAM);
-                    standardApiAssert.isEmpty(new TestEntity(), AssertEnum.NULL_PARAM);
+                .process((testEntity, self) -> {
+                    self.isNull(new Object(), AssertEnum.NULL_PARAM);
+                    self.isEmpty(new TestEntity(), AssertEnum.NULL_PARAM);
                 })
         ;
         Object transitionResult = apiAssert.process(() -> {

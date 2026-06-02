@@ -1,6 +1,5 @@
 package io.github.min1854.apiAssert.check;
 
-import io.github.min1854.apiAssert.api.StandardApiAssert;
 import io.github.min1854.apiAssert.check.abstractAssert.AbstractOperationApiAssert;
 
 import java.util.function.BiFunction;
@@ -50,7 +49,7 @@ public class OperateApiAssert<ELEMENT> extends AbstractOperationApiAssert<ELEMEN
         return new OperateApiAssert<>(element.apply(this.obj), this.exceptionGenerator);
     }
 
-    public <RESULT> OperateApiAssert<RESULT> then(BiFunction<ELEMENT, StandardApiAssert<Object, OperateApiAssert<ELEMENT>, String>, RESULT> element) {
-        return new OperateApiAssert<>(element.apply(this.obj, this), this.exceptionGenerator);
+    public <RESULT> OperateApiAssert<RESULT> then(BiFunction<ELEMENT, OperateApiAssert<ELEMENT>, RESULT> element) {
+        return new OperateApiAssert<>(element.apply(this.obj, self()), this.exceptionGenerator);
     }
 }
