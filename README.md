@@ -14,7 +14,7 @@ api-assert 是一个轻量级的框架，用于提供在日常开发中，经常
 - io.github.min1854.apiAssert.check.EnumOperateApiAssert 与 OperateApiAssert 功能相同，其消息内容为 Enum 类型
 
 
-接口断言的目标是将**业务代码执行流程抽象为一个assert对象**，通过对代码执行流程的划分实现，保证代码质量的下限，提高维护性。
+接口断言的最终目标是将**业务代码执行流程抽象为一个assert对象**，通过对代码执行流程的划分实现，保证代码质量的下限，提高维护性。
 
 ## 简单介绍
 在日常使用中，常用的是`OperateApiAssert`与`FunctionApiAssert`，`FunctionApiAssert` 可以作为常量使用，指定一个异常，声明一个常量进行使用，避免重复创建对象的浪费。
@@ -70,6 +70,49 @@ api-assert 是一个轻量级的框架，用于提供在日常开发中，经常
   <version>2.0.5</version>
 </dependency>
 ```
+
+
+
+```java
+public class Demo {
+    
+    public void createOrder(createReq req) {
+        if (req == null) {
+            throw new RuntimeException("参数不可为空");
+        }
+        if (req.getId() == null) {
+            throw new RuntimeException("id 不可为空");
+        }
+        // 业务
+    }
+    
+}
+```
+
+
+
+**使用 api-assert 后**
+
+
+
+```java
+public class Demo {
+
+    FunctionApiAssert apiAssert =
+            FunctionApiAssert.create(RuntimeException::new);
+
+    public void createOrder(CreateReq req) {
+        apiAssert.isNull(req, "参数不可为空")
+                .isNull(req.getId, "id 不可为空");
+        // 业务
+    }
+
+}
+```
+
+
+
+
 
 
 
