@@ -1,243 +1,267 @@
-# Api-Assert 介绍
+# Api-Assert
 
-- [github地址](https://github.com/min1854/apiAssert)
-- [gitee地址](https://gitee.com/min1854/api-assert)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.min1854/apiAssert)](https://central.sonatype.com/artifact/io.github.min1854/apiAssert)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](./LICENSE)
 
+> 轻量级 Java 断言框架 —— 让条件校验更优雅，告别重复的 `if-throw` 代码
 
-api-assert 是一个轻量级的框架，用于提供在日常开发中，经常需要一些条件判断，如果条件成立需要抛出异常编写的重复，api-assert 提供了链式校验的方式，目前提供了几种检查器：
+- [GitHub 地址](https://github.com/min1854/apiAssert)
+- [Gitee 地址](https://gitee.com/min1854/api-assert)
 
-- io.github.min1854.apiAssert.check.FirstApiAssert 第一检查器，检查器可以提供链式编程，并且当第一个条件成立之后就不会再替换异常信息，并由调用者最终决定是否抛出异常
-- io.github.min1854.apiAssert.check.FunctionApiAssert 由调用者提供异常对象，当条件成立时会立刻抛出异常
-- io.github.min1854.apiAssert.check.OperateApiAssert 与 Optional 类的思想类似，用于提供对一个对象的校验与对象内部属性的校验，支持 Lambda，并支持 FunctionApiAssert 检查器的功能。
-- io.github.min1854.apiAssert.check.ReflectionApiAssert 调用者传入异常类型，检查器当条件成立之后会立刻抛出异常，区别在于，他是反射式的创建异常对象
-- io.github.min1854.apiAssert.check.EnumFunctionApiAssert 与 FunctionApiAssert 功能相同，其消息内容为 Enum 类型
-- io.github.min1854.apiAssert.check.EnumOperateApiAssert 与 OperateApiAssert 功能相同，其消息内容为 Enum 类型
+---
 
+## 📖 目录
 
-接口断言的最终目标是将**业务代码执行流程抽象为一个assert对象**，通过对代码执行流程的划分实现，保证代码质量的下限，提高维护性。
+- [简介](#简介)
+- [快速开始](#快速开始)
+- [检查器对比](#检查器对比)
+- [详细用法](#详细用法)
+- [版本说明](#版本说明)
+- [常见问题](#常见问题)
+- [相关链接](#相关链接)
 
-## 简单介绍
-在日常使用中，常用的是`OperateApiAssert`与`FunctionApiAssert`，`FunctionApiAssert` 可以作为常量使用，指定一个异常，声明一个常量进行使用，避免重复创建对象的浪费。
+---
 
-`OperateApiAssert` 支持`FunctionApiAssert`的功能，并提供与 mybatis-plus 的 lambdaWrapper 使用类似的方式，可以直接获取元素的内部属性进行判断。
+## 简介
 
-`EnumFunctionApiAssert`、`EnumOperateApiAssert`与原有检查器相同，但其消息类型为枚举类型。
+在日常开发中，我们经常需要编写这样的代码：
 
+```java
+if (req == null) {
+    throw new RuntimeException("参数不可为空");
+}
+if (req.getId() == null) {
+    throw new RuntimeException("id 不可为空");
+}
+```
 
+**Api-Assert** 将这些重复的条件判断封装为链式调用，让代码更加简洁、可读、易维护。
 
+```java
+FunctionApiAssert apiAssert = FunctionApiAssert.create(RuntimeException::new);
 
-# 注意
-2.0.0 版本与之前的版本不太兼容，使用需要注意。2.0 版本将框架进行了重写，使用了继承方式，抛弃了原有的复合方式。并重新抽取了父类与规范。
+apiAssert.isNull(req, "参数不可为空")
+        .isNull(req.getId(), "id 不可为空");
+```
 
+### 核心设计理念
 
-# 版本
+> 将业务代码的执行流程抽象为一个 `assert` 对象，通过流程划分保证代码质量的下限，提高可维护性。
 
-## 2.0.5
-将所有的 message 都只有条件成立后才会执行获取 message，不再是原有的在条件判断前就立刻获取 message
+---
 
-## 2.0.4 
-更改了包名，将包名更改为 group id 
+## 快速开始
 
-## 2.0.3
-该版本最大的更新是，重新调整了原有元组类，并新增了新的元组类。
+### 1. 添加依赖
 
-## 2.0.2
-- handler 默认方法，提升至 StandardApiAssert
-- AbstractOperationApiAssert 将原有返回空值触发异常，修改为抛出 ApiAssertException
+**Maven**
 
-
-## 2.0.1
-- OperationApiAssert 增加 handler 默认方法，默认为空实现，需要使用者重写实现真正逻辑
-- AbstractOperationApiAssert 将原有返回空值触发异常，修改为抛出 ApiAssertException
-
-
-## 2.0.0
-因 2.0 版本将框架进行了重构，所以版本号使用新的大版本号。2.0.0 相比之前的版本，扩展性更高，重复代码更少。并且提供了 Enum 作为消息内容的校验器。
-
-- 重构代码
-- 新增枚举校验器 EnumOperationApiAssert、EnumFunctionApiAssert
-- OperationApiAssert 增加 校验对象、标准校验器的 then 方法
-
-
-
-
-# 用例
-添加 maven 依赖
 ```xml
 <dependency>
-  <groupId>io.github.min1854</groupId>
-  <artifactId>apiAssert</artifactId>
-  <version>2.0.5</version>
+    <groupId>io.github.min1854</groupId>
+    <artifactId>apiAssert</artifactId>
+    <version>2.0.5</version>
 </dependency>
 ```
 
+**Gradle**
 
+```gradle
+implementation 'io.github.min1854:apiAssert:2.0.5'
+```
+
+### 2. 第一个示例
 
 ```java
-public class Demo {
+import io.github.min1854.apiAssert.check.FunctionApiAssert;
+
+public class OrderService {
+
+    // 将断言声明为常量，避免重复创建
+    private static final FunctionApiAssert ASSERT = 
+        FunctionApiAssert.create(IllegalArgumentException::new);
+
+    public void createOrder(CreateOrderRequest req) {
+        ASSERT.isNull(req, "请求参数不能为空")
+              .isNull(req.getUserId(), "用户 ID 不能为空")
+              .isTrue(req.getAmount() <= 0, "金额必须大于 0");
+        
+        // 业务逻辑...
+    }
+}
+```
+
+如果任一条件成立，会立即抛出 `IllegalArgumentException`，并携带对应的错误信息。
+
+---
+
+## 检查器对比
+
+| 检查器 | 异常创建方式 | 是否链式 | 是否立即抛出 | 适用场景 |
+| --- | --- | --- | --- | --- |
+| `FunctionApiAssert` | 函数式（由调用者提供） | ✅（多个条件校验） | ✅ | 常量定义、工具类、简单参数校验 |
+| `OperateApiAssert` | 函数式 | ✅（支持对象属性校验） | ✅ | 复杂对象校验、链式属性判断 |
+| `EnumFunctionApiAssert` | 枚举消息（函数式） | ✅ | ✅ | 国际化场景、统一错误码管理 |
+| `EnumOperateApiAssert` | 枚举消息 | ✅ | ✅ | 对象属性校验 + 国际化错误码 |
+| `FirstApiAssert` | 无（仅记录） | ✅ | ❌（需手动调用） | 收集多个校验结果，最后统一处理 |
+| `ReflectionApiAssert` | 反射 | ✅ | ✅ | 异常类型在运行时才能确定 |
+
+### 如何选择？
+
+- **简单参数校验** → `FunctionApiAssert`
+- **对象属性校验**（如 `req.getXxx()`） → `OperateApiAssert`
+- **需要国际化或错误码** → `EnumFunctionApiAssert` / `EnumOperateApiAssert`
+- **需要收集所有错误后统一处理** → `FirstApiAssert`
+
+---
+
+## 详细用法
+
+### 1. FunctionApiAssert —— 基础条件校验
+
+```java
+FunctionApiAssert assert = FunctionApiAssert.create(RuntimeException::new);
+
+assert.isNull(obj, "对象不能为空")
+      .nonNull(obj, "对象必须为空")
+      .isTrue(flag, "条件必须为 true")
+      .isFalse(flag, "条件必须为 false")
+      .isEmpty(collection, "集合不能为空");
+```
+
+### 2. OperateApiAssert —— 对象属性校验
+
+```java
+// 创建一个带有被测对象的校验器
+OperateApiAssert<User> assert = OperateApiAssert.create(user, RuntimeException::new);
+
+// Lambda 方式获取属性，类似 MyBatis-Plus 的 LambdaWrapper
+assert.nonNull(User::getName, "用户名不能为空")
+     .isTrue(User::getActive, "用户未激活")
+     .isEmpty(User::getOrders, "订单列表不为空");
+```
+
+### 3. then() —— 对象转换与继续校验
+
+```java
+OperateApiAssert<User> userAssert = OperateApiAssert.create(user, RuntimeException::new);
+
+// 获取用户的 ID 并继续校验
+OperateApiAssert<Integer> idAssert = userAssert.then(User::getId);
+idAssert.isTrue(id -> id > 0, "用户 ID 必须大于 0");
+```
+
+### 4. process() —— 校验前/后插入业务逻辑
+
+```java
+OperateApiAssert<User> assert = OperateApiAssert.create(user, RuntimeException::new);
+
+assert.process(() -> {
+        System.out.println("校验前置处理");
+    })
+    .process(userObj -> {
+        System.out.println("当前用户: " + userObj);
+    })
+    .process((userObj, self) -> {
+        self.isNull(userObj.getParent(), "父级用户不存在");
+    });
+```
+
+### 5. 完整示例
+
+```java
+public class DemoService {
+
+    private static final FunctionApiAssert ASSERT = 
+        FunctionApiAssert.create(IllegalArgumentException::new);
+
+    public void processOrder(OrderReq req) {
+        OperateApiAssert<OrderReq> assert = 
+            OperateApiAssert.create(req, IllegalArgumentException::new);
+        
+        assert.isNull(OrderReq::getOrderId, "订单 ID 不能为空")
+              .isTrue(OrderReq::getAmount > 0, "金额必须大于 0")
+              .process(() -> validateInventory(req))
+              .then(OrderReq::getOrderId)
+              .isTrue(id -> id.startsWith("ORD"), "订单 ID 格式错误");
+        
+        // 业务逻辑...
+    }
     
-    public void createOrder(createReq req) {
-        if (req == null) {
-            throw new RuntimeException("参数不可为空");
-        }
-        if (req.getId() == null) {
-            throw new RuntimeException("id 不可为空");
-        }
-        // 业务
+    private void validateInventory(OrderReq req) {
+        // 库存校验逻辑
     }
-    
 }
 ```
 
+---
 
+## 版本说明
 
-**使用 api-assert 后**
+### ⚠️ 2.0 破坏性变更
 
+2.0 版本进行了完全重构，与 1.x **不兼容**：
 
+- 包名变更（1.x 与 2.x 不同）
+- 继承体系重构
+- 部分 API 方法签名调整
 
-```java
-public class Demo {
+> 如果你正在使用 1.x 版本，建议阅读 [迁移指南](./MIGRATION.md)（待补充）
 
-    FunctionApiAssert apiAssert =
-            FunctionApiAssert.create(RuntimeException::new);
+### 最新版本：2.0.5
 
-    public void createOrder(CreateReq req) {
-        apiAssert.isNull(req, "参数不可为空")
-                .isNull(req.getId, "id 不可为空");
-        // 业务
-    }
+- **优化**：所有 `message` 仅在条件成立后执行，避免无意义的字符串拼接开销
 
-}
-```
+### 历史版本
 
+| 版本 | 主要变更 |
+| --- | --- |
+| 2.0.4 | 包名变更为 `io.github.min1854` |
+| 2.0.3 | 元组类重构，新增新的元组类 |
+| 2.0.2 | `handler` 默认方法提升至 `StandardApiAssert` |
+| 2.0.1 | `OperationApiAssert` 增加 `handler` 默认方法 |
+| 2.0.0 | 完全重构，新增枚举校验器 |
 
+> 完整版本日志请查看 [CHANGELOG.md](./CHANGELOG.md)
 
+---
 
+## 常见问题
 
+### Q1: 这些校验器是线程安全的吗？
 
+- `FunctionApiAssert` 是**无状态的**，可以作为常量在多个线程中共享
+- `OperateApiAssert` 持有具体对象实例，**不应跨线程共享**
 
-## 使用
+### Q2: 可以自定义异常类型吗？
 
+可以。`FunctionApiAssert.create(Supplier<? extends RuntimeException>)` 支持传入任何 `RuntimeException` 的子类。
 
+### Q3: 条件成立后才获取 message，如果 message 是动态生成的会有性能问题吗？
 
-![使用试例](./img/使用实例.jpeg)
+不会。框架保证 message 只在条件成立时执行，不会产生不必要的开销。
 
+### Q4: 与 Spring 的 Assert 工具类有什么区别？
 
+| 特性 | Spring Assert | Api-Assert |
+| --- | --- | --- |
+| 链式调用 | ❌ | ✅ |
+| Lambda 属性获取 | ❌ | ✅ |
+| 自定义异常 | 有限 | 完全支持 |
+| 对象转换继续校验 | ❌ | ✅（`then` 方法） |
 
+---
 
+## 相关链接
 
+- [GitHub 仓库](https://github.com/min1854/apiAssert)
+- [Gitee 镜像](https://gitee.com/min1854/api-assert)
+- [问题反馈](https://github.com/min1854/apiAssert/issues)
+- [更新日志](./CHANGELOG.md)
 
+---
 
+## License
 
+Apache 2.0
 
-
-
-
-```java
-public class Demo {
-
-    public OperateApiAssert<TestEntity> createAssert() {
-        TestEntity entity = new TestEntity();
-        entity.setId(1);
-        entity.setDeleteFlag(false);
-        return OperateApiAssert.create(entity, NoArgConstructorException::new);
-    }
-
-
-    @Test(expected = ApiAssertException.class)
-    public void testThen() {
-        OperateApiAssert<Object> apiAssert = createAssert()
-                .then((testEntity, standardApiAssert) -> {
-                    standardApiAssert.isNull(new Object(), "为空");
-                    return new Object();
-                });
-
-        OperateApiAssert<TestEntity> then = apiAssert.then(TestEntity::new);
-        then.isNull(TestEntity::getId, "新创建的实体 id 为空");
-    }
-
-
-    @Test
-    public void testCheckObjGenErrorMsg() {
-        OperateApiAssert<TestEntity> apiAssert = createAssert();
-        OperateApiAssert<Object> then = apiAssert
-                .nonNull(TestEntity::getName, "名称不为空")
-                .nonNull(TestEntity::getName, TestEntity::getName)
-                .isNull(TestEntity::getId, TestEntity::toString)
-                .isTrue(TestEntity::getDeleteFlag, TestEntity::getName)
-                .isFalse(testEntity -> {
-                    return !testEntity.getDeleteFlag();
-                }, TestEntity::getName)
-                .isEmpty(TestEntity::getId, TestEntity::getName)
-                .then(() -> {
-                    System.out.println("新增错误对象生成信息方法");
-                    return new Object();
-                });
-        then.isNull(Object::toString, Object::toString);
-    }
-
-
-    @Test
-    public void testOperateApiAssert() {
-        OperateApiAssert<TestEntity> apiAssert = createAssert();
-
-        apiAssert
-                .isEmpty(TestEntity::getId, "id 为空")
-                .isTrue(TestEntity::getDeleteFlag, "当前对象已删除")
-                .isNull(new Object(), "对象为空")
-                .isEmpty(apiAssert.getObj(), "这是空对象")
-                .isTrue(false, "条件成立")
-                .isFalse(true, "条件不成立")
-        ;
-
-
-        System.out.println(apiAssert.getClass());
-
-    }
-
-    @Test
-    public void process() {
-        OperateApiAssert<TestEntity> apiAssert = createAssert();
-
-        apiAssert.process(() -> {
-                    System.out.println("校验前，业务逻辑");
-                    System.out.println("实体类 id 值：" + apiAssert.getObj().getId());
-                })
-                .process(testEntity -> {
-                    System.out.println("实体信息：" + testEntity);
-                })
-                .process((testEntity, standardApiAssert) -> {
-                    standardApiAssert.isNull(new Object(), "为空");
-                    standardApiAssert.isEmpty(new TestEntity(), "新测试对象为空");
-                })
-        ;
-        Object transitionResult = apiAssert.process(() -> {
-            Object o = new Object();
-            System.out.println("返回对象: " + o);
-            return o;
-        });
-        apiAssert.isNull(transitionResult, "校验过程中出现为空的对象");
-    }
-
-    @Test
-    public void then() {
-        Object base = new Object();
-        OperateApiAssert<Object> then = createAssert().then(base);
-
-        then.isNull("该对象是否为空");
-
-        Object obj = then.getObj();
-        then.isFalse(obj.equals(base), "两者不相同");
-
-        OperateApiAssert<TestEntity> anAssert = then.then(new TestEntity());
-
-
-        anAssert.isNull("对象为空");
-
-
-        OperateApiAssert<Integer> idAssert = anAssert.then(TestEntity::getId);
-        idAssert.isTrue(id -> false, "条件为真");
-    }
-
-}
-```
