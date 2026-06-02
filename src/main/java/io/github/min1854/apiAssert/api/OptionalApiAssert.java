@@ -37,9 +37,9 @@ public interface OptionalApiAssert<ELEMENT extends ACTUAL, SELF extends Optional
 
     public <RESULT extends ACTUAL> OptionalApiAssert<RESULT, ?, MESSAGE, ACTUAL> then(Function<ELEMENT, RESULT> element);
 
-    public <RESULT extends ACTUAL> OptionalApiAssert<RESULT, ?, MESSAGE, ACTUAL> then(BiFunction<ELEMENT, StandardApiAssert<ACTUAL, SELF, MESSAGE>, RESULT> element);
+    public <RESULT extends ACTUAL> OptionalApiAssert<RESULT, ?, MESSAGE, ACTUAL> then(BiFunction<ELEMENT, SELF, RESULT> element);
 
     public SELF process(Consumer<ELEMENT> consumer);
 
-    public SELF process(BiConsumer<ELEMENT, StandardApiAssert<ACTUAL, SELF, MESSAGE>> consumer);
+    public SELF process(BiConsumer<ELEMENT, SELF> consumer);
 }
