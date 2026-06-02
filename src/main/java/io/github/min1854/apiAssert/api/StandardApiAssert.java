@@ -85,7 +85,7 @@ public interface StandardApiAssert<ACTUAL, SELF extends StandardApiAssert<ACTUAL
         return self();
     }
 
-    default public SELF suppose(boolean condition, Consumer<StandardApiAssert<ACTUAL, SELF, MESSAGE>> consumer) {
+    default public SELF suppose(boolean condition, Consumer<SELF> consumer) {
         if (condition) {
             consumer.accept(self());
         }
