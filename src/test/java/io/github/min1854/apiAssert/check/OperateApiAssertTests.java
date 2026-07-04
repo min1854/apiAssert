@@ -14,7 +14,7 @@ public class OperateApiAssertTests {
         return OperateApiAssert.create(entity, NoArgConstructorException::new);
     }
 
-    @Test
+    @Test(expected = ApiAssertException.class)
     public void handler() {
         createAssert().handler("123");
     }
@@ -23,8 +23,8 @@ public class OperateApiAssertTests {
     @Test(expected = ApiAssertException.class)
     public void testThen() {
         OperateApiAssert<Object> apiAssert = createAssert()
-                .then((testEntity, standardApiAssert) -> {
-                    standardApiAssert.isNull(new Object(), "为空");
+                .then((testEntity, self) -> {
+                    self.isNull(new Object(), "为空");
                     return new Object();
                 });
 
@@ -85,9 +85,9 @@ public class OperateApiAssertTests {
                 .process(testEntity -> {
                     System.out.println("实体信息：" + testEntity);
                 })
-                .process((testEntity, standardApiAssert) -> {
-                    standardApiAssert.isNull(new Object(), "为空");
-                    standardApiAssert.isEmpty(new TestEntity(), "新测试对象为空");
+                .process((testEntity, self) -> {
+                    self.isNull(new Object(), "为空");
+                    self.isEmpty(new TestEntity(), "新测试对象为空");
                 })
         ;
         Object transitionResult = apiAssert.process(() -> {

@@ -50,6 +50,6 @@ public class OperateApiAssert<ELEMENT> extends AbstractOperationApiAssert<ELEMEN
     }
 
     public <RESULT> OperateApiAssert<RESULT> then(BiFunction<ELEMENT, OperateApiAssert<ELEMENT>, RESULT> element) {
-        return new OperateApiAssert<>(element.apply(this.obj, self()), this.exceptionGenerator);
+        return new OperateApiAssert<>(element.apply(this.obj, this), this.exceptionGenerator);
     }
 }
