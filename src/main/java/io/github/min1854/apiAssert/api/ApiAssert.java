@@ -2,6 +2,7 @@ package io.github.min1854.apiAssert.api;
 
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -41,6 +42,30 @@ public interface ApiAssert<SELF extends ApiAssert<SELF>> {
     default void apply(Consumer<SELF> handler) {
         handler.accept(self());
     }
+
+
+    /**
+     * 需要调用自身，返回 self 是为了保持链式调用，并非返回一个新的检查器
+     *
+     * @param handler
+     * @return
+     */
+    default SELF then(Consumer<SELF> handler) {
+        handler.accept(self());
+        return self();
+    }
+
+
+    /**
+     * 传入自身，并需要返回一个新的检查器
+     *
+     * @param mapper
+     * @return
+     */
+    default SELF map(Function<SELF, SELF> mapper) {
+        return mapper.apply(self());
+    }
+
 
 
     SELF self();
