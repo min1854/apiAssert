@@ -3,6 +3,15 @@ package io.github.min1854.apiAssert.api;
 
 import java.util.function.Supplier;
 
+/**
+ * 参考 java.util.function 的命名方法，增加 data 参数，用于传递额外的数据
+ *
+ * @param <ACTUAL>
+ * @param <SELF>
+ * @param <MESSAGE>
+ * @author min1854
+ * @date 2026/07/04
+ */
 public interface BiStandardApiAssert<ACTUAL, SELF extends BiStandardApiAssert<ACTUAL, SELF, MESSAGE>, MESSAGE> extends StandardApiAssert<ACTUAL, SELF, MESSAGE> {
     default SELF isNull(ACTUAL obj, MESSAGE message, Object data) throws RuntimeException {
         return isNull(obj, () -> message, data);
