@@ -124,8 +124,12 @@ FunctionApiAssert assert = FunctionApiAssert.create(RuntimeException::new);
 
 assert.isNull(obj, "对象不能为空")
       .nonNull(obj, "对象必须为空")
-      .isTrue(flag, "条件必须为 true")
-      .isFalse(flag, "条件必须为 false")
+      .
+
+isTrue(flag, "flag 为 true，抛出异常")
+      .
+
+isFalse(flag, "flag 为 false，抛出异常")
       .isEmpty(collection, "集合不能为空");
 ```
 
@@ -136,8 +140,12 @@ assert.isNull(obj, "对象不能为空")
 OperateApiAssert<User> assert = OperateApiAssert.create(user, RuntimeException::new);
 
 // Lambda 方式获取属性，类似 MyBatis-Plus 的 LambdaWrapper
-assert.nonNull(User::getName, "用户名不能为空")
-     .isTrue(User::getActive, "用户未激活")
+assert.
+
+isNull(User::getName, "用户名不能为空")
+     .
+
+isFalse(User::getActive, "用户未激活")
      .isEmpty(User::getOrders, "订单列表不为空");
 ```
 
@@ -180,7 +188,7 @@ public class DemoService {
             OperateApiAssert.create(req, IllegalArgumentException::new);
         
         assert.isNull(OrderReq::getOrderId, "订单 ID 不能为空")
-              .isTrue(OrderReq::getAmount > 0, "金额必须大于 0")
+                .isFalse(OrderReq::getAmount > 0, "金额必须大于 0")
               .process(() -> validateInventory(req))
               .then(OrderReq::getOrderId)
               .isTrue(id -> id.startsWith("ORD"), "订单 ID 格式错误");
