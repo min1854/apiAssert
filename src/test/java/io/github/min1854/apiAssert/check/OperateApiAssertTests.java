@@ -129,8 +129,8 @@ public class OperateApiAssertTests {
 
 
         apiAssert = apiAssert.setExceptionGenerator(message -> {
-                    return new NoArgConstructorException(message);
-                }).isNull("出现空对象");
+            return new NoArgConstructorException(message);
+        }).isNull("出现空对象");
         System.out.println(apiAssert.getExceptionGenerator());
     }
 }

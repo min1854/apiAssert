@@ -15,13 +15,13 @@ public class EnumFunctionApiAssertTest {
         Object obj = new Object();
         EnumFunctionApiAssert<AssertEnum> apiAssert =
                 EnumFunctionApiAssert.create(EnumMessageException::new)
-                .isNull(obj, AssertEnum.NULL_PARAM)
-                .isEmpty(obj, AssertEnum.NULL_PARAM)
-                .isTrue(false, AssertEnum.CONDITION_IS_TRUE)
-                .process(() -> {
-                    System.out.println("校验对象信息：" + obj);
-                })
-                .isFalse(true, AssertEnum.CONDITION_IS_FALSE);
+                        .isNull(obj, AssertEnum.NULL_PARAM)
+                        .isEmpty(obj, AssertEnum.NULL_PARAM)
+                        .isTrue(false, AssertEnum.CONDITION_IS_TRUE)
+                        .process(() -> {
+                            System.out.println("校验对象信息：" + obj);
+                        })
+                        .isFalse(true, AssertEnum.CONDITION_IS_FALSE);
         Object transitionResult = apiAssert.process(() -> {
             Object o = new Object();
             System.out.println("返回对象: " + o);

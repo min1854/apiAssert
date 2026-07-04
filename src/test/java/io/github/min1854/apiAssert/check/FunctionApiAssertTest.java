@@ -14,13 +14,13 @@ public class FunctionApiAssertTest {
         Object obj = new Object();
         FunctionApiAssert apiAssert =
                 FunctionApiAssert.create(ApiAssertException::new)
-                .isNull(obj, "当前对象为空")
-                .isEmpty(obj, "当前对象为空对象")
-                .isTrue(false, "条件是否成立")
-                .process(() -> {
-                    System.out.println("校验对象信息：" + obj);
-                })
-                .isFalse(true, "条件是否不成立");
+                        .isNull(obj, "当前对象为空")
+                        .isEmpty(obj, "当前对象为空对象")
+                        .isTrue(false, "条件是否成立")
+                        .process(() -> {
+                            System.out.println("校验对象信息：" + obj);
+                        })
+                        .isFalse(true, "条件是否不成立");
         Object transitionResult = apiAssert.process(() -> {
             Object o = new Object();
             System.out.println("返回对象: " + o);

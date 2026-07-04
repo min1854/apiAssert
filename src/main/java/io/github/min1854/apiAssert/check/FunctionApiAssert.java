@@ -11,7 +11,7 @@ import java.util.function.Supplier;
  */
 public class FunctionApiAssert extends DefaultApiAssert<FunctionApiAssert> {
 
-    private Function<String, RuntimeException> function;
+    private final Function<String, RuntimeException> function;
 
 
     public FunctionApiAssert(Function<String, RuntimeException> function) {

@@ -13,8 +13,8 @@ public enum AssertEnum {
     TEST_ENTITY_REMOVE(5004, "实体已被删除"),
     TEST_ENTITY_NOT_REMOVE(5005, "实体未删除"),
 
-    CONDITION_IS_TRUE(5006,"条件为真"),
-    CONDITION_IS_FALSE(5007,"条件不成立"),
+    CONDITION_IS_TRUE(5006, "条件为真"),
+    CONDITION_IS_FALSE(5007, "条件不成立"),
 
 
     ;

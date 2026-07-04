@@ -13,13 +13,16 @@ import java.util.function.Supplier;
  */
 public class ReflectionApiAssert<E extends RuntimeException> extends DefaultApiAssert<ReflectionApiAssert<E>> {
 
-    private Class<E> exception;
+    private final Class<E> exception;
 
 
     public ReflectionApiAssert(Class<E> exception) {
         this.exception = exception;
     }
 
+    public static <E extends RuntimeException> ReflectionApiAssert<E> create(Class<E> exception) {
+        return new ReflectionApiAssert<E>(exception);
+    }
 
     private RuntimeException createException(String msg) {
         try {
@@ -44,7 +47,6 @@ public class ReflectionApiAssert<E extends RuntimeException> extends DefaultApiA
         throw createException(msg.get());
     }
 
-
     public Class<E> getException() {
         return exception;
     }
@@ -64,10 +66,6 @@ public class ReflectionApiAssert<E extends RuntimeException> extends DefaultApiA
         } catch (NoSuchMethodException e) {
             throw new CreateFailException("无法创建指定异常", e);
         }
-    }
-
-    public static <E extends RuntimeException> ReflectionApiAssert<E> create(Class<E> exception) {
-        return new ReflectionApiAssert<E>(exception);
     }
 
     private static class CreateFailException extends ApiAssertException {

@@ -14,13 +14,13 @@ public class ReflectionApiAssertTest {
     public void testReflectionApiAssert() {
         ReflectionApiAssert<NoArgConstructorException> apiAssert =
                 ReflectionApiAssert.create(NoArgConstructorException.class)
-                .isNull(new Object(), "对象为空")
-                .isEmpty(new Object(), "传入了空对象")
-                .isTrue(false, "条件成立，抛出异常")
-                .process(() -> {
-                    System.out.println("经过了 null、空、是否为值 三种校验");
-                })
-                .isFalse(true, "条件不成立，抛出异常");
+                        .isNull(new Object(), "对象为空")
+                        .isEmpty(new Object(), "传入了空对象")
+                        .isTrue(false, "条件成立，抛出异常")
+                        .process(() -> {
+                            System.out.println("经过了 null、空、是否为值 三种校验");
+                        })
+                        .isFalse(true, "条件不成立，抛出异常");
         Object transitionResult = apiAssert.process(() -> {
             Object o = new Object();
             System.out.println("返回对象: " + o);

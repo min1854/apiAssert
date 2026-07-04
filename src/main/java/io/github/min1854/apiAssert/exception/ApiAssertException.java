@@ -4,6 +4,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * api-assert 框架的顶级异常父类，
+ *
  * @author min
  */
 @NoArgsConstructor

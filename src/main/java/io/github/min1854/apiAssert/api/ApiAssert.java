@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 /**
  * 所有检查器的顶级接口
  *
- * @param <SELF>    实现类
+ * @param <SELF> 实现类
  * @author min
  */
 public interface ApiAssert<SELF extends ApiAssert<SELF>> {
@@ -55,7 +55,6 @@ public interface ApiAssert<SELF extends ApiAssert<SELF>> {
     default SELF map(Function<SELF, SELF> mapper) {
         return mapper.apply(self());
     }
-
 
 
     SELF self();

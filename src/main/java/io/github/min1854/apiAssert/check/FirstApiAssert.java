@@ -17,11 +17,11 @@ public class FirstApiAssert extends DefaultApiAssert<FirstApiAssert> {
     private String errorMsg;
 
 
-    public static FirstApiAssert create() {
-        return new FirstApiAssert();
+    public FirstApiAssert() {
     }
 
-    public FirstApiAssert() {
+    public static FirstApiAssert create() {
+        return new FirstApiAssert();
     }
 
     @Override

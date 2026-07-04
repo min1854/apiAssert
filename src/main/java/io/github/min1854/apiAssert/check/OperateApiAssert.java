@@ -18,10 +18,6 @@ public class OperateApiAssert<ELEMENT> extends AbstractOperationApiAssert<ELEMEN
         super(obj, exceptionGenerator);
     }
 
-    protected <THENRESULT, THENSELF extends AbstractOperationApiAssert<THENRESULT, THENSELF, String, Object>> THENSELF of(THENRESULT thenResult) {
-        return null;
-    }
-
     public static <ELEMENT> OperateApiAssert<ELEMENT> create(ELEMENT obj, Function<String, RuntimeException> exceptionFunction) {
         return new OperateApiAssert<ELEMENT>(obj, exceptionFunction);
     }
@@ -30,6 +26,12 @@ public class OperateApiAssert<ELEMENT> extends AbstractOperationApiAssert<ELEMEN
         return create(obj, msg -> {
             throw exceptionSupplier.get();
         });
+    }
+
+
+    protected <THENRESULT, THENSELF extends AbstractOperationApiAssert<THENRESULT, THENSELF, String, Object>> THENSELF of(THENRESULT thenResult) {
+        // TODO 返回 null需要解决
+        return null;
     }
 
     @Override

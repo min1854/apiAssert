@@ -18,7 +18,7 @@ public interface StandardApiAssert<ACTUAL, SELF extends StandardApiAssert<ACTUAL
         return isNull(obj, () -> message);
     }
 
-     SELF isNull(ACTUAL obj, Supplier<MESSAGE> message) throws RuntimeException;
+    SELF isNull(ACTUAL obj, Supplier<MESSAGE> message) throws RuntimeException;
 
     /**
      * 不为空，则抛出异常
@@ -28,7 +28,7 @@ public interface StandardApiAssert<ACTUAL, SELF extends StandardApiAssert<ACTUAL
      * @return
      */
     default SELF nonNull(ACTUAL obj, MESSAGE message) {
-        return nonNull(obj,() -> message);
+        return nonNull(obj, () -> message);
     }
 
     SELF nonNull(ACTUAL obj, Supplier<MESSAGE> message) throws RuntimeException;
@@ -78,6 +78,7 @@ public interface StandardApiAssert<ACTUAL, SELF extends StandardApiAssert<ACTUAL
 
     /**
      * 默认空实现，由子类实现，可以理解为默认失败的方法
+     *
      * @param message
      * @return
      */

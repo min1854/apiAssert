@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 public class EnumFunctionApiAssert<MESSAGE extends Enum<?>> extends AbstractObjectApiAssert<EnumFunctionApiAssert<MESSAGE>, MESSAGE> {
 
 
-    private Function<MESSAGE, RuntimeException> exceptionGeneration;
+    private final Function<MESSAGE, RuntimeException> exceptionGeneration;
 
     public EnumFunctionApiAssert(Function<MESSAGE, RuntimeException> exceptionGeneration) {
         this.exceptionGeneration = exceptionGeneration;
