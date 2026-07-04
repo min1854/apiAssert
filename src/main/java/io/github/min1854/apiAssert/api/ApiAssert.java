@@ -1,6 +1,7 @@
 package io.github.min1854.apiAssert.api;
 
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -30,6 +31,15 @@ public interface ApiAssert<SELF extends ApiAssert<SELF>> {
      */
     default <V> V process(Supplier<V> handler) {
         return handler.get();
+    }
+
+
+    /**
+     * 需要调用自身，
+     * @param handler
+     */
+    default void apply(Consumer<SELF> handler) {
+        handler.accept(self());
     }
 
 
