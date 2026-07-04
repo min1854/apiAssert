@@ -1,3 +1,11 @@
+# 2.0.6 暂定
+
+- 新增 BiStandardApiAssert 接口，与 StandardApiAssert 相同，参考 java.util.function 的命名方法，增加 data 参数，用于传递额外的数据。
+- io.github.min1854.apiAssert.api.StandardApiAssert.handler 定义为默认实现的方法，传入了 message 就会调用成立方法
+- ApiAssert：新增 apply、map 方法，需要调用自身时会传递自身作为参数，并且可以链式调用
+- OptionalApiAssert：将 then 方法、process 方法，传入自身的参数改为泛型 self。
+- OptionalApiAssert 增 Supplier<MESSAGE> 的方法参数，更方便与日常的代码编写中的调用
+
 # 2.0.5
 将所有的 message 都只有条件成立后才会执行获取 message，不再是原有的在条件判断前就立刻获取 message
 
