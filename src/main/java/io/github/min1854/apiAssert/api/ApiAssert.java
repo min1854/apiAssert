@@ -34,23 +34,13 @@ public interface ApiAssert<SELF extends ApiAssert<SELF>> {
         return handler.get();
     }
 
-
-    /**
-     * 需要调用自身，
-     * @param handler
-     */
-    default void apply(Consumer<SELF> handler) {
-        handler.accept(self());
-    }
-
-
     /**
      * 需要调用自身，返回 self 是为了保持链式调用，并非返回一个新的检查器
      *
      * @param handler
      * @return
      */
-    default SELF then(Consumer<SELF> handler) {
+    default SELF apply(Consumer<SELF> handler) {
         handler.accept(self());
         return self();
     }
