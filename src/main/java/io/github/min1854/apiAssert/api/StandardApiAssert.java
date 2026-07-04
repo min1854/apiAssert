@@ -77,15 +77,15 @@ public interface StandardApiAssert<ACTUAL, SELF extends StandardApiAssert<ACTUAL
     SELF isFalse(boolean condition, Supplier<MESSAGE> message) throws RuntimeException;
 
     /**
-     * 默认空实现
+     * 默认空实现，由子类实现，可以理解为默认失败的方法
      * @param message
      * @return
      */
-    default public SELF handler(MESSAGE message) {
+    default SELF handler(MESSAGE message) {
         return self();
     }
 
-    default public SELF suppose(boolean condition, Consumer<SELF> consumer) {
+    default SELF suppose(boolean condition, Consumer<SELF> consumer) {
         if (condition) {
             consumer.accept(self());
         }
