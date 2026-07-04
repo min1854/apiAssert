@@ -68,6 +68,11 @@ public abstract class AbstractApiAssert<T, SELF extends AbstractApiAssert<T, SEL
         }
     }
 
+    public SELF handler(M message) {
+        established(() -> message);
+        return self();
+    }
+
     /**
      * 条件成立处理方法 由子类实现
      *
