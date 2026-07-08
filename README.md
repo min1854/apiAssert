@@ -83,7 +83,7 @@ public class OrderService {
 
     public void createOrder(CreateOrderRequest req) {
         ASSERT.isNull(req, "请求参数不能为空")
-              .isNull(req.getUserId(), "用户 ID 不能为空")
+              .nonNull(req.getId(), "不可手动提交 ID")
               .isTrue(req.getAmount() <= 0, "金额必须大于 0");
         
         // 业务逻辑...
@@ -120,16 +120,12 @@ public class OrderService {
 ### 1. FunctionApiAssert —— 基础条件校验
 
 ```java
-FunctionApiAssert assert = FunctionApiAssert.create(RuntimeException::new);
+FunctionApiAssert apiAssert = FunctionApiAssert.create(RuntimeException::new);
 
-assert.isNull(obj, "对象不能为空")
+apiAssert.isNull(obj, "对象不能为空")
       .nonNull(obj, "对象必须为空")
-      .
-
-isTrue(flag, "flag 为 true，抛出异常")
-      .
-
-isFalse(flag, "flag 为 false，抛出异常")
+      .isTrue(flag, "flag 为 true，抛出异常")
+      .isFalse(flag, "flag 为 false，抛出异常")
       .isEmpty(collection, "集合不能为空");
 ```
 
@@ -137,15 +133,11 @@ isFalse(flag, "flag 为 false，抛出异常")
 
 ```java
 // 创建一个带有被测对象的校验器
-OperateApiAssert<User> assert = OperateApiAssert.create(user, RuntimeException::new);
+OperateApiAssert<User> apiAssert = OperateApiAssert.create(user, RuntimeException::new);
 
 // Lambda 方式获取属性，类似 MyBatis-Plus 的 LambdaWrapper
-assert.
-
-isNull(User::getName, "用户名不能为空")
-     .
-
-isFalse(User::getActive, "用户未激活")
+apiAssert.isNull(User::getName, "用户名不能为空")
+     .isFalse(User::getActive, "用户未激活")
      .isEmpty(User::getOrders, "订单列表不为空");
 ```
 
@@ -162,9 +154,9 @@ idAssert.isTrue(id -> id > 0, "用户 ID 必须大于 0");
 ### 4. process() —— 校验前/后插入业务逻辑
 
 ```java
-OperateApiAssert<User> assert = OperateApiAssert.create(user, RuntimeException::new);
+OperateApiAssert<User> apiAssert = OperateApiAssert.create(user, RuntimeException::new);
 
-assert.process(() -> {
+apiAssert.process(() -> {
         System.out.println("校验前置处理");
     })
     .process(userObj -> {
@@ -184,10 +176,10 @@ public class DemoService {
         FunctionApiAssert.create(IllegalArgumentException::new);
 
     public void processOrder(OrderReq req) {
-        OperateApiAssert<OrderReq> assert = 
+        OperateApiAssert<OrderReq> apiAssert = 
             OperateApiAssert.create(req, IllegalArgumentException::new);
-        
-        assert.isNull(OrderReq::getOrderId, "订单 ID 不能为空")
+
+        apiAssert.isNull(OrderReq::getOrderId, "订单 ID 不能为空")
                 .isFalse(OrderReq::getAmount > 0, "金额必须大于 0")
               .process(() -> validateInventory(req))
               .then(OrderReq::getOrderId)
