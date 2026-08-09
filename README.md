@@ -5,6 +5,8 @@
 
 > 轻量级 Java 断言框架 —— 让条件校验更优雅，告别重复的 `if-throw` 代码
 
+[中文](./README.md) | [English](./README_EN.md)
+
 - [GitHub 地址](https://github.com/min1854/apiAssert)
 - [Gitee 地址](https://gitee.com/min1854/api-assert)
 
@@ -19,6 +21,8 @@
 - [版本说明](#版本说明)
 - [常见问题](#常见问题)
 - [相关链接](#相关链接)
+
+📖 [English Documentation](./README_EN.md) · [English Changelog](./CHANGELOG_EN.md)
 
 ---
 
@@ -182,6 +186,36 @@ public enum IMEnum implements IM {
     FAIL(500, "%s"),
     ;
     // ... 实现 IM 接口的 format 等方法
+    @Override
+    public IM format(Object... arguments) {
+        // 就算是已经转换为接口，这里的 getMessage 仍然是枚举中的 getMessage
+        String message = String.format(this.getMessage(), arguments);
+        return new IM() {
+            @Override
+            public int getCode() {
+                return IMEnum.this.getCode();
+            }
+
+            @Override
+            public String getMessage() {
+                return message;
+            }
+
+            @Override
+            public IM format(Object... arguments) {
+                return IMEnum.this.format(arguments);
+            }
+
+
+            @Override
+            public String toString() {
+                return "IM{" +
+                        "code=" + getCode() +
+                        ", message='" + getMessage() + '\'' +
+                        '}';
+            }
+        };
+    }
 }
 
 // 使用 IMApiAssert
@@ -205,6 +239,81 @@ public enum IREnum implements IR {
     FAIL(500, "%s"),
     ;
     // ... 实现 IR 接口的 format、toIR 等方法
+
+    @Override
+    public IR format(Object... arguments) {
+        String message = String.format(getMessage(), arguments);
+        return new IR() {
+            @Override
+            public int getCode() {
+                return IREnum.this.getCode();
+            }
+
+            @Override
+            public String getMessage() {
+                return message;
+            }
+
+            @Override
+            public IR format(Object... arguments) {
+                return IREnum.this.format(arguments);
+            }
+
+            @Override
+            public <T> IR toIR(T data, Object... arguments) {
+                return IREnum.this.toIR(data, arguments);
+            }
+
+            @Override
+            public String toString() {
+                return "IR{" +
+                        "code=" + getCode() +
+                        ", message='" + getMessage() + '\'' +
+                        ", data=" + getData() +
+                        '}';
+            }
+        };
+    }
+
+    @Override
+    public <T> IR toIR(T data, Object... arguments) {
+        String message = String.format(getMessage(), arguments);
+        return new IR() {
+            @Override
+            public int getCode() {
+                return IREnum.this.getCode();
+            }
+
+            @Override
+            public String getMessage() {
+                return message;
+            }
+
+            @Override
+            public <T> T getData() {
+                return (T) data;
+            }
+
+            @Override
+            public IR format(Object... arguments) {
+                return IREnum.this.toIR(data, arguments);
+            }
+
+            @Override
+            public <T> IR toIR(T data, Object... arguments) {
+                return IREnum.this.toIR(data, arguments);
+            }
+
+            @Override
+            public String toString() {
+                return "IR{" +
+                        "code=" + getCode() +
+                        ", message='" + getMessage() + '\'' +
+                        ", data=" + getData() +
+                        '}';
+            }
+        };
+    }
 }
 
 // 使用 IRApiAssert
@@ -279,7 +388,7 @@ public class DemoService {
 | 2.0.1 | `OperationApiAssert` 增加 `handler` 默认方法 |
 | 2.0.0 | 完全重构，新增枚举校验器 |
 
-> 完整版本日志请查看 [CHANGELOG.md](./CHANGELOG.md)
+> 完整版本日志请查看 [CHANGELOG.md](./CHANGELOG.md) | [English Version](./CHANGELOG_EN.md)
 
 ---
 
@@ -315,6 +424,8 @@ public class DemoService {
 - [Gitee 镜像](https://gitee.com/min1854/api-assert)
 - [问题反馈](https://github.com/min1854/apiAssert/issues)
 - [更新日志](./CHANGELOG.md)
+- [English Documentation](./README_EN.md)
+- [English Changelog](./CHANGELOG_EN.md)
 
 ---
 
