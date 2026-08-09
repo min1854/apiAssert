@@ -30,7 +30,7 @@ public class OperateApiAssert<ELEMENT> extends AbstractOperationApiAssert<ELEMEN
 
 
     protected <THENRESULT, THENSELF extends AbstractOperationApiAssert<THENRESULT, THENSELF, String, Object>> THENSELF of(THENRESULT thenResult) {
-        // TODO 返回 null需要解决
+        // TODO 未完成
         return null;
     }
 

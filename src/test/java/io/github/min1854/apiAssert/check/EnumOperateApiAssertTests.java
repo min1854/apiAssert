@@ -66,7 +66,7 @@ public class EnumOperateApiAssertTests {
         then.isNull(Object::toString, obj -> {
             return AssertEnum.NULL_PARAM;
         });
-        then.throwRuntime(new NoArgConstructorException("最终抛出"));
+        then.failWith(new NoArgConstructorException("最终抛出"));
 
     }
 

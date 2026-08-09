@@ -81,6 +81,11 @@ public abstract class AbstractApiAssert<T, SELF extends AbstractApiAssert<T, SEL
      */
     protected abstract void established(Supplier<M> message) throws RuntimeException;
 
+    /**
+     * 条件不成立处理方法 默认无操作
+     *
+     * @param message
+     */
     protected void invalid(Supplier<M> message) {
 
     }

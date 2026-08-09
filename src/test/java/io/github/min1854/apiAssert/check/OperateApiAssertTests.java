@@ -50,7 +50,7 @@ public class OperateApiAssertTests {
                     return new Object();
                 });
         then.isNull(Object::toString, Object::toString);
-        then.throwRuntime(new NoArgConstructorException("最终抛出"));
+        then.failWith(new NoArgConstructorException("最终抛出"));
 
     }
 
