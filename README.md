@@ -105,6 +105,8 @@ public class OrderService {
 | `EnumOperateApiAssert` | 枚举消息 | ✅ | ✅ | 对象属性校验 + 国际化错误码 |
 | `FirstApiAssert` | 无（仅记录） | ✅ | ❌（需手动调用） | 收集多个校验结果，最后统一处理 |
 | `ReflectionApiAssert` | 反射 | ✅ | ✅ | 异常类型在运行时才能确定 |
+| `IMApiAssert` | IM 接口消息 | ✅ | ✅ | 统一错误码 + 结果描述，轻量级消息接口 |
+| `IRApiAssert` | IR 接口消息 | ✅ | ✅ | 统一错误码 + 结果描述 + 结果数据 |
 
 ### 如何选择？
 
@@ -112,6 +114,8 @@ public class OrderService {
 - **对象属性校验**（如 `req.getXxx()`） → `OperateApiAssert`
 - **需要国际化或错误码** → `EnumFunctionApiAssert` / `EnumOperateApiAssert`
 - **需要收集所有错误后统一处理** → `FirstApiAssert`
+- **需要统一错误码 + 结果描述** → `IMApiAssert`
+- **需要统一错误码 + 结果描述 + 结果数据** → `IRApiAssert`
 
 ---
 
@@ -167,7 +171,55 @@ apiAssert.process(() -> {
     });
 ```
 
-### 5. 完整示例
+### 5. IMApiAssert —— IM 接口消息校验
+
+`IMApiAssert` 以 `IM` 接口作为消息载体，支持自定义结果码和结果描述，适用于需要统一错误码管理的场景。
+
+```java
+// 定义实现 IM 接口的枚举
+public enum IMEnum implements IM {
+    SUCCESS(200, "success"),
+    FAIL(500, "%s"),
+    ;
+    // ... 实现 IM 接口的 format 等方法
+}
+
+// 使用 IMApiAssert
+IMApiAssert apiAssert = IMApiAssert.create(IMException::new);
+
+apiAssert.isNull(obj, IMEnum.FAIL.format("对象不能为空"))
+      .nonNull(obj, IMEnum.FAIL.format("对象必须为空"))
+      .isTrue(flag, IMEnum.FAIL.format("flag 为 true，抛出异常"))
+      .isFalse(flag, IMEnum.FAIL.format("flag 为 false，抛出异常"))
+      .isEmpty(collection, IMEnum.FAIL.format("集合不能为空"));
+```
+
+### 6. IRApiAssert —— IR 接口消息校验（带结果数据）
+
+`IRApiAssert` 以 `IR` 接口作为消息载体，在 `IM` 的基础上额外支持结果数据，适用于需要统一错误码且携带业务数据的场景。
+
+```java
+// 定义实现 IR 接口的枚举
+public enum IREnum implements IR {
+    SUCCESS(200, "success"),
+    FAIL(500, "%s"),
+    ;
+    // ... 实现 IR 接口的 format、toIR 等方法
+}
+
+// 使用 IRApiAssert
+IRApiAssert apiAssert = IRApiAssert.create(IRException::new);
+
+apiAssert.isNull(obj, IREnum.FAIL.format("对象不能为空"))
+      .nonNull(obj, IREnum.FAIL.format("对象必须为空"))
+      .isTrue(flag, IREnum.FAIL.format("flag 为 true，抛出异常"))
+      .handler(IREnum.FAIL.format("直接抛出异常"));
+
+// StandardApiAssert 均支持携带 cause 异常链
+apiAssert.handler(IREnum.FAIL.toIR("此次异常数据", "传入了为空的对象"), new RuntimeException("真实异常"));
+```
+
+### 7. 完整示例
 
 ```java
 public class DemoService {
@@ -211,6 +263,11 @@ public class DemoService {
 ### 最新版本：2.0.5
 
 - **优化**：所有 `message` 仅在条件成立后执行，避免无意义的字符串拼接开销
+
+### 即将发布：2.0.6
+
+- **新增**：`IMApiAssert` —— 以 `IM` 接口作为消息载体的断言检查器
+- **新增**：`IRApiAssert` —— 以 `IR` 接口作为消息载体的断言检查器（支持结果数据）
 
 ### 历史版本
 
