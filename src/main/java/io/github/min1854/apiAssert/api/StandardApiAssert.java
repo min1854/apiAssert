@@ -1,6 +1,8 @@
 package io.github.min1854.apiAssert.api;
 
 
+import io.github.min1854.apiAssert.check.abstractAssert.AbstractApiAssert;
+
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -77,7 +79,7 @@ public interface StandardApiAssert<ACTUAL, SELF extends StandardApiAssert<ACTUAL
     SELF isFalse(boolean condition, Supplier<MESSAGE> message) throws RuntimeException;
 
     /**
-     * 默认空实现，由子类实现，可以理解为默认失败的方法
+     * 默认空实现，由子类实现，可以理解为默认失败的方法，框架中该方法实现为{@link AbstractApiAssert#handler(Object)}
      *
      * @param message
      * @return
@@ -86,6 +88,25 @@ public interface StandardApiAssert<ACTUAL, SELF extends StandardApiAssert<ACTUAL
         return self();
     }
 
+
+    /**
+     * 默认空实现，由子类实现，可以理解为默认失败的方法，由使用者实现
+     *
+     * @param message
+     * @param cause
+     * @return
+     */
+    default SELF handler(MESSAGE message, Throwable cause) {
+        return self();
+    }
+
+    /**
+     * 只有当条件为真时，才进行断言
+     *
+     * @param condition
+     * @param consumer
+     * @return
+     */
     default SELF suppose(boolean condition, Consumer<SELF> consumer) {
         if (condition) {
             consumer.accept(self());
