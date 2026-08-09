@@ -40,3 +40,4 @@ logs/
 *.iml
 **/target/*
 maven-single-module-package.bat
+.lingma/
