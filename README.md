@@ -64,14 +64,14 @@ apiAssert.isNull(req, "参数不可为空")
 <dependency>
     <groupId>io.github.min1854</groupId>
     <artifactId>apiAssert</artifactId>
-    <version>2.0.5</version>
+    <version>2.0.6</version>
 </dependency>
 ```
 
 **Gradle**
 
 ```gradle
-implementation 'io.github.min1854:apiAssert:2.0.5'
+implementation 'io.github.min1854:apiAssert:2.0.6'
 ```
 
 ### 2. 第一个示例
@@ -369,24 +369,21 @@ public class DemoService {
 
 > 如果你正在使用 1.x 版本，建议阅读 [迁移指南](./MIGRATION.md)（待补充）
 
-### 最新版本：2.0.5
-
-- **优化**：所有 `message` 仅在条件成立后执行，避免无意义的字符串拼接开销
-
-### 即将发布：2.0.6
+### 最新版本：2.0.6
 
 - **新增**：`IMApiAssert` —— 以 `IM` 接口作为消息载体的断言检查器
 - **新增**：`IRApiAssert` —— 以 `IR` 接口作为消息载体的断言检查器（支持结果数据）
 
 ### 历史版本
 
-| 版本 | 主要变更 |
-| --- | --- |
-| 2.0.4 | 包名变更为 `io.github.min1854` |
-| 2.0.3 | 元组类重构，新增新的元组类 |
-| 2.0.2 | `handler` 默认方法提升至 `StandardApiAssert` |
+| 版本    | 主要变更                                   |
+|-------|----------------------------------------|
+| 2.0.5 | 所有 `message` 仅在条件成立后执行，避免无意义的字符串拼接开销   |
+| 2.0.4 | 包名变更为 `io.github.min1854`              |
+| 2.0.3 | 元组类重构，新增新的元组类                          |
+| 2.0.2 | `handler` 默认方法提升至 `StandardApiAssert`  |
 | 2.0.1 | `OperationApiAssert` 增加 `handler` 默认方法 |
-| 2.0.0 | 完全重构，新增枚举校验器 |
+| 2.0.0 | 完全重构，新增枚举校验器                           |
 
 > 完整版本日志请查看 [CHANGELOG.md](./CHANGELOG.md) | [English Version](./CHANGELOG_EN.md)
 

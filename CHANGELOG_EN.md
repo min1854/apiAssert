@@ -1,6 +1,6 @@
 # CHANGELOG
 
-# 2.0.6 (Pending)
+# 2.0.6
 
 - ~~Added `BiStandardApiAssert` interface, similar to `StandardApiAssert` but with an additional `data` parameter for
   passing extra data, following the naming conventions of `java.util.function`.~~ Replaced by the new IM and IR

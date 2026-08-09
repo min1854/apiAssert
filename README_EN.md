@@ -63,14 +63,14 @@ apiAssert.isNull(req, "Request parameter must not be null")
 <dependency>
     <groupId>io.github.min1854</groupId>
     <artifactId>apiAssert</artifactId>
-    <version>2.0.5</version>
+    <version>2.0.6</version>
 </dependency>
 ```
 
 **Gradle**
 
 ```gradle
-implementation 'io.github.min1854:apiAssert:2.0.5'
+implementation 'io.github.min1854:apiAssert:2.0.6'
 ```
 
 ### 2. First Example
@@ -369,25 +369,22 @@ Version 2.0 is a complete rewrite and is **not backward compatible** with 1.x:
 
 > If you are using the 1.x version, please refer to the [Migration Guide](./MIGRATION.md) (to be added).
 
-### Latest Version: 2.0.5
-
-- **Optimization**: All `message` expressions are now evaluated only when the condition holds, avoiding unnecessary
-  string concatenation overhead.
-
-### Upcoming: 2.0.6
+### Latest Version: 2.0.6
 
 - **New**: `IMApiAssert` — an assertion checker using the `IM` interface as the message carrier.
 - **New**: `IRApiAssert` — an assertion checker using the `IR` interface as the message carrier (supports result data).
 
 ### Version History
 
-| Version | Major Changes                                            |
-|---------|----------------------------------------------------------|
-| 2.0.4   | Package name changed to `io.github.min1854`              |
-| 2.0.3   | Tuple classes refactored, new tuple classes added        |
-| 2.0.2   | `handler` default method promoted to `StandardApiAssert` |
-| 2.0.1   | `OperationApiAssert` added `handler` default method      |
-| 2.0.0   | Complete rewrite, added enum-based validators            |
+| Version                        | Major Changes                                                                                   |
+|--------------------------------|-------------------------------------------------------------------------------------------------|
+| 2.0.5                          | All `message` expressions are now evaluated only when the condition holds, avoiding unnecessary 
+ string concatenation overhead. |
+| 2.0.4                          | Package name changed to `io.github.min1854`                                                     |
+| 2.0.3                          | Tuple classes refactored, new tuple classes added                                               |
+| 2.0.2                          | `handler` default method promoted to `StandardApiAssert`                                        |
+| 2.0.1                          | `OperationApiAssert` added `handler` default method                                             |
+| 2.0.0                          | Complete rewrite, added enum-based validators                                                   |
 
 > For the full changelog, see [CHANGELOG.md](./CHANGELOG.md)
 

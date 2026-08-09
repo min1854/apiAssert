@@ -1,4 +1,4 @@
-# 2.0.6 暂定
+# 2.0.6
 
 - ~~新增 BiStandardApiAssert 接口，与 StandardApiAssert 相同，参考 java.util.function 的命名方法，增加 data 参数，用于传递额外的数据。~~ 新增了 IM、IR 检查器，可以替代 Bi 相关方式
 - 新增 IMApiAssert、IRApiAssert 检查器，以接口作为消息
