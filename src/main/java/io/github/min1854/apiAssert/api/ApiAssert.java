@@ -59,19 +59,27 @@ public interface ApiAssert<SELF extends ApiAssert<SELF>> {
 
     SELF self();
 
-    default void throwThrowable(Supplier<Throwable> throwable) throws Throwable {
-        throw throwable.get();
+    /**
+     * 校验失败，抛出指定的运行时异常
+     *
+     * @param exceptionSupplier 异常提供者
+     */
+    default void failWith(Supplier<? extends RuntimeException> exceptionSupplier) {
+        throw exceptionSupplier.get();
     }
 
-    default void throwThrowable(Throwable throwable) throws Throwable {
-        throw throwable;
+    /**
+     * 校验失败，抛出指定的异常（支持受检异常）
+     *
+     * @param exceptionSupplier 异常提供者
+     * @throws Throwable 调用者需自行处理
+     */
+    default void failWithThrows(Supplier<? extends Throwable> exceptionSupplier) throws Throwable {
+        throw exceptionSupplier.get();
     }
 
-    default void throwRuntime(Supplier<RuntimeException> exception) throws RuntimeException {
-        throw exception.get();
-    }
-
-    default void throwRuntime(RuntimeException exception) throws RuntimeException {
+    // 如果你希望保留立即抛出的便捷方法，也可以提供重载
+    default void failWith(RuntimeException exception) {
         throw exception;
     }
 }
