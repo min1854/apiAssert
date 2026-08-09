@@ -18,6 +18,8 @@ public enum IMEnum implements IM {
 
     @Override
     public IM format(Object... arguments) {
+        // 就算是已经转换为接口，这里的 getMessage 仍然是枚举中的 getMessage
+        String message = String.format(this.getMessage(), arguments);
         return new IM() {
             @Override
             public int getCode() {
@@ -26,12 +28,21 @@ public enum IMEnum implements IM {
 
             @Override
             public String getMessage() {
-                return String.format(IMEnum.this.getMessage(), arguments);
+                return message;
             }
 
             @Override
             public IM format(Object... arguments) {
                 return IMEnum.this.format(arguments);
+            }
+
+
+            @Override
+            public String toString() {
+                return "IM{" +
+                        "code=" + getCode() +
+                        ", message='" + getMessage() + '\'' +
+                        '}';
             }
         };
     }

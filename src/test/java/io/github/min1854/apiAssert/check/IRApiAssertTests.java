@@ -10,16 +10,18 @@ import java.util.function.Consumer;
 public class IRApiAssertTests {
 
     @Test(expected = IRException.class)
-    public void testIMApiAssert() {
+    public void testIRApiAssert() {
 
         Consumer<Runnable> consumer = (Runnable runnable) -> {
             try {
                 runnable.run();
-            } catch (Exception e) {
-                System.out.println("异常信息：" + e.getMessage());
+            } catch (IRException e) {
+                System.out.println();
+                System.out.println("数据：" + e.getIr().getData() + "，消息：" + e.getMessage());
                 if (e.getCause() != null) {
                     System.out.println("原因：" + e.getCause());
                 }
+                System.out.println();
             }
         };
 
@@ -48,9 +50,57 @@ public class IRApiAssertTests {
         apiAssert.isNull(transitionResult, IREnum.FAIL.format("校验过程中出现为空的对象"));
         System.out.println(apiAssert.getClass());
         consumer.accept(() -> apiAssert.handler(IREnum.FAIL.format("传入了为空的对象"), new RuntimeException("真实异常")));
+        consumer.accept(() -> apiAssert.handler(IREnum.FAIL.toIR("此次异常数据", "传入了为空的对象"), new RuntimeException("真实异常")));
+
         System.out.println("校验结束");
 
         apiAssert.handler(IREnum.FAIL.format("结束校验，测试异常抛出"));
+    }
+
+    @Test
+    public void testEnum() {
+        IR ir = IREnum.FAIL.format("测试");
+
+        System.out.println();
+        System.out.println("第一次测试");
+        // 测试是否会出现类型转换错误
+        String data = ir.getData();
+        System.out.println((String) ir.getData());
+        System.out.println(ir);
+
+        ir = IREnum.FAIL.toIR("数据", "测试2");
+
+        System.out.println();
+        System.out.println("第二次测试");
+        // 测试是否会出现类型转换错误
+        data = ir.getData();
+        System.out.println((String) ir.getData());
+        System.out.println(ir);
+
+        System.out.println();
+        System.out.println("第三次测试");
+        System.out.println(IREnum.SUCCESS);
+
+
+        System.out.println();
+        System.out.println("第四次测试");
+        ir = IREnum.FAIL.format("第一次转换");
+        System.out.println(ir);
+
+        System.out.println(ir.format("第二次转换"));
+
+
+        System.out.println();
+        System.out.println("第四次测试");
+        ir = IREnum.FAIL.toIR("第一次数据", "第一次转换");
+        System.out.println(ir);
+
+        ir = ir.toIR("第二次数据", "第二次转换");
+        System.out.println(ir);
+
+        System.out.println(ir.format("第三次转换"));
+
+
     }
 
 

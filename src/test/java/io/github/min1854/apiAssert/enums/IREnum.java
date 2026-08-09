@@ -2,8 +2,10 @@ package io.github.min1854.apiAssert.enums;
 
 import io.github.min1854.apiAssert.contracts.IR;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public enum IREnum implements IR {
     SUCCESS(200, "success"),
     FAIL(500, "%s"),
@@ -18,7 +20,7 @@ public enum IREnum implements IR {
 
     @Override
     public IR format(Object... arguments) {
-
+        String message = String.format(getMessage(), arguments);
         return new IR() {
             @Override
             public int getCode() {
@@ -27,7 +29,7 @@ public enum IREnum implements IR {
 
             @Override
             public String getMessage() {
-                return String.format(IREnum.this.getMessage(), arguments);
+                return message;
             }
 
             @Override
@@ -39,12 +41,21 @@ public enum IREnum implements IR {
             public <T> IR toIR(T data, Object... arguments) {
                 return IREnum.this.toIR(data, arguments);
             }
+
+            @Override
+            public String toString() {
+                return "IR{" +
+                        "code=" + getCode() +
+                        ", message='" + getMessage() + '\'' +
+                        ", data=" + getData() +
+                        '}';
+            }
         };
     }
 
     @Override
     public <T> IR toIR(T data, Object... arguments) {
-
+        String message = String.format(getMessage(), arguments);
         return new IR() {
             @Override
             public int getCode() {
@@ -53,7 +64,7 @@ public enum IREnum implements IR {
 
             @Override
             public String getMessage() {
-                return String.format(IREnum.this.getMessage(), arguments);
+                return message;
             }
 
             @Override
@@ -69,6 +80,15 @@ public enum IREnum implements IR {
             @Override
             public <T> IR toIR(T data, Object... arguments) {
                 return IREnum.this.toIR(data, arguments);
+            }
+
+            @Override
+            public String toString() {
+                return "IR{" +
+                        "code=" + getCode() +
+                        ", message='" + getMessage() + '\'' +
+                        ", data=" + getData() +
+                        '}';
             }
         };
     }

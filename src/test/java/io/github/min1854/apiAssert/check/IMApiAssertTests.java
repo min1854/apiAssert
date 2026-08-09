@@ -1,5 +1,6 @@
 package io.github.min1854.apiAssert.check;
 
+import io.github.min1854.apiAssert.contracts.IM;
 import io.github.min1854.apiAssert.enums.IMEnum;
 import io.github.min1854.apiAssert.exception.IMException;
 import org.junit.Test;
@@ -42,6 +43,35 @@ public class IMApiAssertTests {
         System.out.println(apiAssert.getClass());
         System.out.println("校验结束");
         apiAssert.handler(IMEnum.FAIL.format("传入了为空的对象"));
+    }
+
+
+    @Test
+    public void testEnum() {
+        IM im = IMEnum.FAIL.format("测试");
+
+        System.out.println();
+        System.out.println("第一次测试");
+        System.out.println(im);
+
+
+        System.out.println();
+        System.out.println("第二次测试");
+        System.out.println(im.format("测试转换"));
+
+        System.out.println();
+        System.out.println("第三次测试");
+        System.out.println(IMEnum.SUCCESS);
+
+
+        System.out.println();
+        System.out.println("第四次测试");
+        im = IMEnum.FAIL.format("第一次转换");
+        System.out.println(im);
+
+        System.out.println(im.format("第二次转换"));
+
+
     }
 
 
